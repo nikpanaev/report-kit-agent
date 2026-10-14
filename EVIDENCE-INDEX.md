@@ -1,6 +1,6 @@
 # Evidence Index — report-agent
 
-Current state2026-10-14: VERSION0.1.0-dev.13, prototype/development, no stable release, no remote. Authorized result: device-independent local source preparation only. Existing client agents/installed skills unchanged by this task; preservation receipt outside public package. Publication/installation/service access not performed.
+Current state2026-10-14: VERSION0.1.0-dev.14, prototype/development, no stable release, no remote. Authorized result: device-independent local source preparation only. Existing client agents/installed skills unchanged by this task; preservation receipt outside public package. Publication/installation/service access not performed.
 
 Process Profile and authority: [CHANGE-SPEC](CHANGE-SPEC.md). Baseline and scoped branch actual Git; package content identity/private exact run records retained locally. [Offline checks](evidence/offline-checks.json) contain only sanitized source/test identities, no donor paths or private data. [Source provenance](SOURCE-PROVENANCE.json), [selection](OPEN-SOURCE-SELECTION.md) and [license status](LICENSE-STATUS.md).
 
@@ -113,3 +113,8 @@ Direct owner answer accepted the [separate source/artifact route](evidence/packa
 ## User-facing prose revision — 2026-10-14
 
 Owner rejected the user-facing language as translated prompt prose. USER-GUIDE and HELP rewritten as office-user instructions; internal onboarding reference is for the agent. Before/after content review preserves host/access, source, separate approvals, update/pause/recovery and cleanup constraints. Executable/skill files and entire selected source unchanged. User readability and independent/runtime/release acceptance remain pending; document review is not a behavior test.
+
+
+## Selected private-output source — 0.1.0-dev.14
+
+Agent executable/SKILL bytes preserved; dependency selects exact source 0.1.0-dev.10 with scoped private-output repair. Source evidence remains in its evidence/private-output-checks.json and private raw receipts; existing failures, independent/non-AI/employee/runtime/license/release controls retained. No installer, client migration, source routing change or publication.
