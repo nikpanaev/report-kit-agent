@@ -2,6 +2,14 @@
 
 Этот workflow готовит проверяемый локальный черновик. Он не создаёт GitHub Release, remote, tag, расписание, установку или сообщение сотруднику. Для этих действий требуется отдельное полномочие. Release source должен быть утверждённым; не использовать произвольный main или изменённую installed copy.
 
+## Принятый маршрут проверки пакетов
+
+14.10.2026 владелец принял отдельную проверку готовой пары Report Kit по точным коммитам, архивам и применимым QA/security/licensing evidence. Сотруднику не нужны файлы и инструменты каркаса разработки. Сначала проверить source identities, VERSION/mirrors и dependency hash; затем весь PUBLIC-FILES и применимые tests/прежние FAIL; после clean task commits — полный состав и bytes двух архивов, LICENSE, SHA256SUMS и build-record. Каждая новая сборка выбирает собственные exact identities.
+
+Документ о маршруте, source scanner и LOCAL_DRAFT_NOT_APPROVED не являются независимой приёмкой или разрешением выпуска. Сохраняются отдельные QA/security/licensing решения, фактическая packaged/employee проверка по scope, actual host approvals и owner release authority. Не подставлять временные управляющие файлы/версии ради зелёной проверки, не принимать старые claim failures автоматически и не выдавать родительский проект за проверку публичной пары. Старые результаты developer tools сохранять с их исходными identities; их структурная неприменимость не закрывает product failures.
+
+[Решение о маршруте](../evidence/package-route-decision.json) действует для данной архитектуры; пересмотреть при изменении архитектуры, состава поставки/bundling, обязательных release controls или принятии подходящего нового developer checker. Публикация, установка и независимая приёмка этим решением не разрешены.
+
 ## Порядок
 
 1. Выбрать согласованные изменения и exact pair report-kit-agent/report-kit-skills. Прочитать весь diff, provenance и применимые прежние FAIL. Обновить VERSION, plugin/contracts/catalog mirrors, dependency hash, CHANGELOG, руководство/помощь и affected tests. Версии и совместимость проверять до упаковки.

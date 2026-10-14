@@ -32,6 +32,8 @@
     "evidence/license-decision.json",
     "evidence/maintenance-checks.json",
     "evidence/offline-checks.json",
+    "evidence/package-route-checks.json",
+    "evidence/package-route-decision.json",
     "evidence/release-prep-checks.json",
     "evidence/report-kit-checks.json",
     "evidence/update-help-checks.json",

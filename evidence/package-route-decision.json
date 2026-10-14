@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-14",
+  "status": "OWNER_ACCEPTED_PROCESS_ROUTE",
+  "scope": "Standalone exact two-package source/artifact route for portable Report Kit",
+  "source": "Direct repository-owner answer accepting separate package route",
+  "controls": [
+    "Exact clean commits and VERSION/manifest/contracts mirrors",
+    "Exact agent-to-source dependency identity",
+    "Full public inventory/history hygiene and applicable regression",
+    "Complete archive-byte verification, LICENSE, SHA256SUMS and build record",
+    "Separate independent QA/security/licensing and actual packaged/employee acceptance as applicable",
+    "Separate owner release/publication/install authority"
+  ],
+  "publication_authorized": false,
+  "installation_authorized": false,
+  "independent_qa_security_license_accepted": false,
+  "historical_failures_rewritten": false,
+  "revisit_triggers": [
+    "Architecture changes",
+    "Distribution/bundling changes",
+    "Mandatory release control changes",
+    "Suitable developer checker newly accepted"
+  ],
+  "limitations": "Process route only; no tested or approved employee installation, live reporting, independent review or release."
+}

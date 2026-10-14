@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "package_version": "0.1.0-dev.12",
+  "status": "PASS_LIMITED",
+  "process_route": "OWNER_ACCEPTED_PROCESS_ROUTE",
+  "selected_source_version": "0.1.0-dev.9",
+  "source_files_preserved": 98,
+  "agent_executable_and_skill_files_preserved": 19,
+  "native_package_check_exit": 0,
+  "packaging_unit_test_exit": 0,
+  "packaging_unit_cases": 7,
+  "tests_sha256": "3b534843166174eb903970f4f816064fb505a25ab2becc96641683e0ff243f84",
+  "test_output_sha256": "cbcf288bcc2262294b577b4d05c0f627abaddc766de3cd9d82915081112cfc5a",
+  "independent_qa_security_license_accepted": false,
+  "publication_authorized": false,
+  "installation_authorized": false,
+  "limits": "Docs/process decision and existing native package/7 packaging checks only. No employee install/report, independent acceptance, historical failure waiver or release authority."
+}
