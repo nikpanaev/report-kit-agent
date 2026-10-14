@@ -1,0 +1,31 @@
+{
+  "status": "PASS_LIMITED",
+  "date": "2026-10-15",
+  "candidate_version": "0.1.0-dev.16",
+  "full_agent_suite": {
+    "exit_code": 0,
+    "methods": 78,
+    "raw_sha256": "5d6b29f7f0f6832f816840d2fc3bbd28fade6c931c19a814f5543d1146e4b09c"
+  },
+  "focused_methods": 5,
+  "new_methods": 3,
+  "baseline_failures": 2,
+  "baseline_raw_sha256": "42d393a7e06ab2835d9d0b914c56d708ac3844f441b0428e5e501f562e888711",
+  "focused_green_raw_sha256": "9e169d0d75c2af46e9b13ca6c156502034d4ad2f16110314426cb622bc44495a",
+  "source_files": {
+    "scripts/updates.py": "9fc5caf837008c08f6f4e312fe48be27c70a8ae1861dd1ab11504309e8e9f1f3",
+    "scripts/test_update_interfaces.py": "5aef1946ed6f6e2bf413839a40db0e8b4b61368931bb928cbc7ef088c882b619",
+    "scripts/test_updates.py": "5537168b036bf30d2c73d45924de43e2040fe2926bacf5f732f805206754959a",
+    "scripts/check_report_templates.py": "9f790c6a5e8662701e369e045cf63d9ada12b584f6de7c1403fa16c35e3fce1d",
+    "scripts/check_report_templates_selftest.py": "dbde613895c5360ece334f61e8d3cae3386d3d3bd5651c641f1ebb4c6393b480"
+  },
+  "cleanup": {
+    "new_test_fixture_files": 207,
+    "remaining": 0
+  },
+  "limits": [
+    "Synthetic declaration/record validation only; not authentic service/host or installed compatibility",
+    "Native Google bounded-read route and supplemental Sheets assets remain incomplete; probe scope pending",
+    "No independent/non-AI review, release acceptance, installation/publication or client work; previous failures retained"
+  ]
+}

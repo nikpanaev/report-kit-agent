@@ -160,6 +160,8 @@ def preflight(workspace, current_agent, current_skills, candidate_agent, candida
     catalog = read_json(candidate_skills / "capabilities.json")
     require(catalog["package_version"] == candidate["report-kit-skills"]["version"], "catalog_identity")
     require(set(skills["permissions"]) == {item["name"] for item in catalog["capabilities"]}, "permission_contract_inventory")
+    require(all(agent["interfaces"][key] == skills["interfaces"][key]
+                for key in agent["interfaces"].keys() & skills["interfaces"].keys()), "interface_contract_conflict")
     interfaces = {**agent["interfaces"], **skills["interfaces"]}
     for client, record in data["clients"].items():
         fields(record, {"binding", "profile_path", "profile_sha256", "profile_revision", "protected_files", "required_skills",

@@ -18,9 +18,9 @@ class OptionalInterfaces(unittest.TestCase):
                                               for p in sorted(self.fixture.base.rglob("*")) if p.is_file()]}))
         self.fixture.doCleanups()
 
-    def candidate_interface(self, name, version):
+    def candidate_interface(self, name, version, root=None):
         f = self.fixture
-        path = f.candidate_agent / "contracts.json"
+        path = (f.candidate_agent if root is None else root) / "contracts.json"
         data = json.loads(path.read_text()); data["interfaces"][name] = version
         path.write_text(json.dumps(data))
         f.new = f.pair(f.candidate_agent, f.candidate_skills)
@@ -46,6 +46,23 @@ class OptionalInterfaces(unittest.TestCase):
                 f.compatibility["clients"]["second"]["interfaces"]["template_registry_sheets"] = value
                 with self.assertRaisesRegex(ValueError, "interface_incompatible"):
                     f.preflight()
+
+    def test_conflicting_core_versions_cannot_hide_behind_skill_contract(self):
+        f = self.fixture
+        self.candidate_interface("workspace", 3, f.candidate_skills)
+        for record in f.compatibility["clients"].values():
+            record["interfaces"]["workspace"] = 3
+        with self.assertRaisesRegex(ValueError, "interface_contract_conflict"):
+            f.preflight()
+
+    def test_conflicting_source_versions_cannot_hide_behind_skill_contract(self):
+        self.candidate_interface("source:vk-comment-screenshot", 2)
+        with self.assertRaisesRegex(ValueError, "interface_contract_conflict"):
+            self.fixture.preflight()
+
+    def test_same_version_overlap_is_not_a_conflict(self):
+        self.candidate_interface("workspace", 2, self.fixture.candidate_skills)
+        self.assertEqual(self.fixture.preflight()["clients_checked"], 2)
 
 
 if __name__ == "__main__":

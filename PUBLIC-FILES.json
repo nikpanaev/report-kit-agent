@@ -29,6 +29,7 @@
     "docs/USER-GUIDE.md",
     "evidence/guided-setup-checks.json",
     "evidence/interface-checks.json",
+    "evidence/interface-conflict-checks.json",
     "evidence/license-decision.json",
     "evidence/maintenance-checks.json",
     "evidence/offline-checks.json",

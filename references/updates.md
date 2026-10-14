@@ -26,6 +26,8 @@ Candidate contracts.json — versioned declarations. report-kit-agent CORE: work
 
 Проверяются также все дополнительные интерфейсы, заявленные клиентом. Для основ Google Таблиц обязательно `template_registry_sheets: 1`; отсутствие или другая версия в кандидате блокирует общее обновление, даже если остальные клиенты совместимы. Полноту требований сверить с настоящим клиентским профилем и реестром основ; не удалять требование из записи ради успешной проверки.
 
+Если оба пакета объявляют один интерфейс, его версия должна совпадать. Противоречие блокируется `interface_contract_conflict` до проверки клиентов; нельзя молча предпочесть значение из второго пакета. Совпадающие объявления допустимы, но сами по себе не доказывают совместимость исполнения.
+
 preflight принимает external workspace и четыре реально прочитанных package roots (current/candidate agent+skills), release record и private compatibility JSON. Package identities пересчитываются по полному PUBLIC-FILES; candidate должен совпасть с published/nonrevoked exact pair. Полный package/history hygiene scan выполнять отдельно до использования. Current settings packages должны совпасть с реально выбранным текущим комплектом.
 
 Compatibility JSON schema1: checked_at (aware ISO timestamp, возраст<24ч), host_capabilities и clients keyed by exact workspace client IDs. Набор клиентов должен совпасть с settings.clients и clients/*/AGENT.md. Для каждого:

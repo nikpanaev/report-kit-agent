@@ -1,6 +1,6 @@
 # Evidence Index — report-agent
 
-Current state2026-10-15: VERSION0.1.0-dev.15, prototype/development, no stable release, no remote. Authorized result: device-independent local source preparation only. Existing client agents/installed skills unchanged by this task; preservation receipt outside public package. Publication/installation/service access not performed.
+Current state2026-10-15: VERSION0.1.0-dev.16, prototype/development, no stable release, no remote. Authorized result: device-independent local source preparation only. Existing client agents/installed skills unchanged by this task; preservation receipt outside public package. Publication/installation/service access not performed.
 
 Process Profile and authority: [CHANGE-SPEC](CHANGE-SPEC.md). Baseline and scoped branch actual Git; package content identity/private exact run records retained locally. [Offline checks](evidence/offline-checks.json) contain only sanitized source/test identities, no donor paths or private data. [Source provenance](SOURCE-PROVENANCE.json), [selection](OPEN-SOURCE-SELECTION.md) and [license status](LICENSE-STATUS.md).
 
@@ -127,3 +127,10 @@ Agent executable/SKILL bytes preserved; dependency selects exact source 0.1.0-de
 Supplemental drawings/over-grid images and external/image/import cells remain an unfinished BLOCKED route. Supplied timestamps/coverage/hashes/approval records do not prove authentic Google reads or correct formulas. Actual connected export/copy, employee install/update/rollback, independent/non-AI review and release approval remain NOT_RUN/PENDING. Existing source-skills exact dev.10, installed/client files and past failures unchanged. 135 new synthetic fixture files recorded with hashes before cleanup and verified absent. No publication, service or client work.
 
 Agent14 source-only AI security scan is a historical observation at its exact commit, not approval of these changed15 bytes or independent non-AI review. LICENSE text review and original cold VK cause remain incomplete. The accepted employee-facing guide and accepted client pilots do not need repeat acceptance for this bounded local repair.
+
+
+## Conflicting interface declarations — 0.1.0-dev.16
+
+[Scoped results](evidence/interface-conflict-checks.json): two negative cases reproduced false acceptance of conflicting candidate versions before the fix, then all5 interface methods and78 agent unittest methods passed. Added three cases for core conflict, source conflict and valid equal overlap. Shared preflight rejects disagreements before merging candidate contracts, retaining complete registered-client/optional-interface/version/permission/history checks. Original28 update tests, native guard/oracle and source-skills exact dev.10 unchanged. No interface/schema migration, source/installed/client changes, Google or external service work, publication or installation.
+
+Native Google connector route remains incomplete: current Google Drive0.1.20 tool schema requires bounded CellData ranges; the dev.15 guard's full-read-only branch cannot by itself prove operation through that tool. A small read-only technical shape probe has been prepared and separately requested; until owner answers, no Google call. Do not infer host support from synthetic native JSON or fabricate missing native fields. Supplemental Sheets assets, original cold VK cause, remaining license/applicability/independent review and employee/release controls stay open. Older source-only AI scan and old PASS/FAIL receipts retain their exact versions, not dev.16 acceptance.
