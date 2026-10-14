@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "agent_repository": null,
+  "skills_repository": null,
+  "channel": "working",
+  "interval_hours": 24
+}

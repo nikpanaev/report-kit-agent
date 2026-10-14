@@ -11,3 +11,41 @@
 - При несовместимости или missing receipt результат BLOCKED/PARTIAL. Не ослаблять checks, не менять dependency pin ради green; сохранить failed attempt и исправить причину в разрешённом scope.
 
 Distribution URLs, release signing/hosting и live update/rollback на новом устройстве ещё не проверены. После отдельного решения о публикации проверить настоящий install/update path, а не только file hashes.
+
+## Обнаружение версии
+
+Читай approved source через доступный native GitHub/HTTP tool. assets/update-source.example.json не настроен: null URLs означают CONFIGURE_SOURCE, не догадку об upstream. Выбранные сотрудником настоящие URLs и канал сохраняются только в private workspace. Общий release index в report-agent содержит exact pair обоих packages; assets/release-index.example.json пустой. Пока публикации нет, локальные synthetic fixtures не считать published release.
+
+Проверка перед работой: scripts/updates.py due с локальными source/checked_at, не чаще24ч. USE_CACHE/отсутствие новой версии — без сообщения; KEEP_CURRENT_OFFLINE сохраняет текущий комплект. При отозванном текущем релизе, нарушенной identity или необходимом действии сообщить конкретную проблему. Нет daemon/фоновой проверки при закрытом приложении. Helper не загружает сеть, не запускает downloaded code и не записывает время: native результат проверки и timestamp сохраняет исполнитель приватно.
+
+У GitHub latest исключены prerelease/draft: для согласованного рабочего dev-канала читать весь approved index/list, не latest и не main. [GitHub Releases API](https://docs.github.com/en/rest/releases/releases) и [SemVer](https://semver.org/). select отвергает draft/revoked/другой канал, ambiguous pair и same-version drift; ниже текущей версии автоматически не переходит. Skills-only изменение требует нового agent release с новым exact dependency pair. Проверить original repository/tag/assets и provenance штатным tool, независимо от согласованности JSON. Hash не подпись автора. Отозванный release не использовать для обычного отката без отдельного решения владельца.
+
+## Полный compatibility snapshot
+
+Candidate contracts.json — versioned declarations. report-agent CORE: workspace1, maintenance1, template_registry3, profile1. report-skills: source:<skill>1 и shared helpers1. Изменение схемы/семантики интерфейса требует reviewed новой версии, не перенумерации для PASS. Per-skill permissions позволяют подключать только нужные источники. Native host capabilities и permission labels требуют реального mapping/проверки в setup; строки сами не дают доступ.
+
+preflight принимает external workspace и четыре реально прочитанных package roots (current/candidate agent+skills), release record и private compatibility JSON. Package identities пересчитываются по полному PUBLIC-FILES; candidate должен совпасть с published/nonrevoked exact pair. Полный package/history hygiene scan выполнять отдельно до использования. Current settings packages должны совпасть с реально выбранным текущим комплектом.
+
+Compatibility JSON schema1: checked_at (aware ISO timestamp, возраст<24ч), host_capabilities и clients keyed by exact workspace client IDs. Набор клиентов должен совпасть с settings.clients и clients/*/AGENT.md. Для каждого:
+
+- binding: thread_id/host_id/project_id, проверенные original native source;
+- profile_path: clients/<id>/AGENT.md, actual profile_sha256 и положительный profile_revision;
+- protected_files: exact private paths/hashes, включая профиль, принятые history/template receipts и override данные; полный scope инвентаризирует исполнитель, helper не знает пропущенный файл;
+- required_skills, interfaces, permission_scopes и active_run:false;
+- regression_receipt/regression_sha256: сохранённый native результат для этого candidate pair и текущего профиля, checks client_overrides/protected_history/affected_components.
+
+Источник regression receipt сверять с raw native result: kind compatibility, source_kind native_tool_result, source_locator, client_id, candidate, profile_sha256, result PASS и checks. JSON fields/hash не доказывают правду, отсутствие active run или полномочие на установку. Required skills расширяются транзитивно из catalog; неизвестная/cyclic dependency, missing host, changed permission/interface, protected edit, stale/incomplete inventory или старый candidate receipt блокируют замену для всех клиентов. READY_FOR_REVIEW всегда install_authorized:false.
+
+## Применение и подтверждения
+
+Native install только после отдельного разрешения на exact pair, между runs, с preserved old package и protected snapshot. Не менять global/shared компонент ради одного клиента, если другой несовместим. Coexistence нескольких версий не обещать без actual host isolation test. После активации прочитать реально loaded identities; source-folder identity не равно загруженный plugin cache. Если host требует restart/reload, объяснить действие сотруднику.
+
+rollout принимает preflight plan, тот же compatibility snapshot, refresh receipts и actual loaded pair. Canonical snapshot hash+полный список+count закреплены в plan: нельзя между этапами убрать клиента и получить полный успех. Каждый refresh receipt: kind context_refresh, source_kind native_tool_result, source_locator, client_id, exact binding, packages, profile_sha256, result, blockers, loaded_identity_verified. Native ответы должны подтверждать актуальное состояние, не AI promise. Их source/evidence/hash сохранять до разбора; route grant проверяется maintenance отдельно. Missing/failed ACK даёт PARTIAL. APPLIED_LIMITED подтверждает только согласованность полных record inputs, не actual deployment/release acceptance. Update не снимает paused report.
+
+## Возврат
+
+rollback snapshot schema1: old/new exact pair, clients и protected_files. Сохранить перед native изменением; все профили и применимые settings/template/history защищены в inventory. rollback helper проверяет выбранный old/current-new pair и отсутствие subsequent owner edits, ничего не пишет. READY_FOR_ROLLBACK_REVIEW не разрешение установки. Старый package выбирать только из сохранённых проверенных bytes; native activation и full refresh подтверждать вновь. Новые правки/клиенты после snapshot требуют отдельного решения; не восстанавливать старую workspace целиком. Private schema migration/recovery — отдельный approved dry run/backup/restore, не package rollback.
+
+## Проверки и документация
+
+scripts/test_updates.py проверяет synthetic selection/preflight/partial refresh/rollback. Это не live native tool, messaging, GitHub publication или устройство сотрудника. К CLI нельзя подставлять secrets/raw corpus; private paths и результаты не коммитить. User-facing explanation — [руководство](../docs/USER-GUIDE.md) и [помощь](../docs/HELP.md); актуализировать их вместе с поведением и release notes.

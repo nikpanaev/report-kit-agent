@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "scope": "Offline readonly update/compatibility contracts and employee docs/help; no network/install/messaging/report",
+  "version": "0.1.0-dev.2",
+  "unit_runs": [
+    {
+      "script": "scripts/test_updates.py",
+      "exit": 0,
+      "cases": 20,
+      "script_sha256": "4fc5746848b6b85dccc536e237c5763f542282a4efe3b5e8e66de075a59d92b0",
+      "implementation_sha256": "95ac88ccce2e7d6c51e00e76aba8033e4b09a029ce1738550e258b971c276247",
+      "result": "20 tests OK; captured native exec output"
+    },
+    {
+      "script": "scripts/test_maintenance.py",
+      "exit": 0,
+      "cases": 22,
+      "result": "22 tests OK; same contract code unchanged"
+    },
+    {
+      "script": "scripts/test_package_boundaries.py",
+      "exit": 0,
+      "cases": 4,
+      "result": "4 tests OK"
+    },
+    {
+      "script": "scripts/check_report_templates_selftest.py",
+      "exit": 0,
+      "result": "PASS; full existing native template selftest"
+    }
+  ],
+  "documentation": {
+    "official_skill_validations": 12,
+    "local_markdown_links_checked": 82,
+    "status": "PASS_LIMITED",
+    "documents": {
+      "docs/USER-GUIDE.md": "727b5ebb6cf618cbb6b6a23bb3864951095823545da38d3a1a82a0e92d9de850",
+      "docs/HELP.md": "d35d4483dea9019f68ec9be40a65df3b77670e40516860c103537f59254656a8",
+      "skills/report-help/SKILL.md": "4b6966ae5d5371eb993f7cdcf7d972e62aef4b6928247a2f2bf3f3faeb41b483"
+    }
+  },
+  "baseline": "Initial missing updates module retained privately; test fixture NameError/import correction preserved separately",
+  "limitations": [
+    "Synthetic JSON/local contract checks; not actual source/auth/release/native installed-state proof",
+    "No employee comprehension/invocation/device test",
+    "No publication/install/client-agent edits; independent QA/security/license still pending",
+    "Existing cold VK rate-limit fixture failure not reclassified"
+  ]
+}

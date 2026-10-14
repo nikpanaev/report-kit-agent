@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "package": "report-agent",
+  "package_version": "0.1.0-dev.2",
+  "interfaces": {
+    "workspace": 1,
+    "maintenance": 1,
+    "template_registry": 3,
+    "profile": 1
+  },
+  "host_capabilities": [
+    "native-plugin-update",
+    "native-thread-read"
+  ],
+  "permissions": []
+}
