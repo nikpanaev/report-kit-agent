@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "package": "report-kit-agent",
+  "version": "0.1.0-dev.8",
+  "status": "PASS_LIMITED",
+  "checks": [
+    {
+      "package": "report-kit-agent",
+      "path": "skills/report-kit-agent-update/agents/openai.yaml",
+      "sha256": "a7aa8d51fca0ee23a3b9355a948a7385efcc4108f7a8b21a73740b1815393904",
+      "display_name": "Report Kit / Обновление агентов",
+      "description": "Обновление общих правил с сохранением правил клиентов",
+      "unrelated_yaml_and_skill_body_preserved": true,
+      "official_skill_validation_exit": 0
+    },
+    {
+      "package": "report-kit-agent",
+      "path": "skills/report-kit-client-onboarding/agents/openai.yaml",
+      "sha256": "aad8b1156d50505e90f92ba669ee6d28495b3ceb3ee7f743a4a4599fef054b86",
+      "display_name": "Report Kit / Новый клиент",
+      "description": "Изучение образца и подготовка первого отчёта клиента",
+      "unrelated_yaml_and_skill_body_preserved": true,
+      "official_skill_validation_exit": 0
+    },
+    {
+      "package": "report-kit-agent",
+      "path": "skills/report-kit-help/agents/openai.yaml",
+      "sha256": "40a9036872f44f9d195ac4b470c7cc74d652bcb9755fc74e0a966948c4425ff3",
+      "display_name": "Report Kit / Помощь",
+      "description": "Начало работы, отчёты, обновления и решение проблем",
+      "unrelated_yaml_and_skill_body_preserved": true,
+      "official_skill_validation_exit": 0
+    },
+    {
+      "package": "report-kit-agent",
+      "path": "skills/report-kit-maintenance/agents/openai.yaml",
+      "sha256": "195e5d0f8522c22759cae449e31ffc2151c96036ad897f3964a35e92f46f2dd4",
+      "display_name": "Report Kit / Исправление ошибок",
+      "description": "Разбор ошибки, исправление и проверка исходного шага",
+      "unrelated_yaml_and_skill_body_preserved": true,
+      "official_skill_validation_exit": 0
+    },
+    {
+      "package": "report-kit-agent",
+      "path": "skills/report-kit-monthly/agents/openai.yaml",
+      "sha256": "5f69d67a4282049272c8b297bf1f85210b1e7356ae14d7f3cdde05f6a9ec3710",
+      "display_name": "Report Kit / Отчёт за месяц",
+      "description": "Отчёт за выбранный период по сохранённым правилам",
+      "unrelated_yaml_and_skill_body_preserved": true,
+      "official_skill_validation_exit": 0
+    },
+    {
+      "package": "report-kit-agent",
+      "path": "skills/report-kit-quality-check/agents/openai.yaml",
+      "sha256": "184e54f591d1487e41c7260977a3faf54e425a7e1578c70f63d87b2b18bf7baa",
+      "display_name": "Report Kit / Проверка отчёта",
+      "description": "Проверка данных, оформления и ссылок перед приёмкой",
+      "unrelated_yaml_and_skill_body_preserved": true,
+      "official_skill_validation_exit": 0
+    },
+    {
+      "package": "report-kit-agent",
+      "path": "skills/report-kit-release-prep/agents/openai.yaml",
+      "sha256": "e3bc5b461d74f74c5fc5d0130a031f142ba7750a5201a0f279a0c59ac60ee0d3",
+      "display_name": "Report Kit / Подготовка выпуска",
+      "description": "Проверенный архив и описание изменений перед выпуском",
+      "unrelated_yaml_and_skill_body_preserved": true,
+      "official_skill_validation_exit": 0
+    },
+    {
+      "package": "report-kit-agent",
+      "path": "skills/report-kit-setup/agents/openai.yaml",
+      "sha256": "0b83b68ec3ad88a8e2b2dac006eb4d55a874a4c7e4269e1076be558d3bc093c3",
+      "display_name": "Report Kit / Настройка",
+      "description": "Пошаговое начало работы и подключение нужных сервисов",
+      "unrelated_yaml_and_skill_body_preserved": true,
+      "official_skill_validation_exit": 0
+    }
+  ],
+  "execution_code_unchanged": true,
+  "limits": "Readable declared labels only; no model/user understanding, native installed UI, permissions or release proof."
+}

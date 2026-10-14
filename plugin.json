@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "report-kit-agent",
-  "version": "0.1.0-dev.7",
-  "description": "Portable reporting orchestration and guided setup",
+  "version": "0.1.0-dev.8",
+  "description": "Подготовка клиентских отчётов с пошаговой настройкой",
   "extensions": {
     "com.openai": {
       "onboardingSkill": "./skills/report-kit-setup/SKILL.md"

@@ -1,3 +1,3 @@
 interface:
-  display_name: "report-kit-quality-check"
-  short_description: "Проверка native отчёта перед приёмкой"
+  display_name: "Report Kit / Проверка отчёта"
+  short_description: "Проверка данных, оформления и ссылок перед приёмкой"

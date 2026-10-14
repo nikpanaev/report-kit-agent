@@ -66,3 +66,7 @@ Owner14Oct2026 renewed the requirement for ordinary office employees without tec
 ## Update preflight version guard — dev.7
 
 Continued local preparation exposed a direct preflight route that could return READY_FOR_REVIEW for the same or older agent version, despite select_release excluding it. Minimal repair: reuse existing SemVer comparator at the shared preflight boundary; retain independent rollback and all client/profile/authority checks. Two new regression methods cover equal/build-only/older direct calls and actual CLI block/no-write; original26 cases remain. No new dependency, permission, installer, interface/schema migration, source-skill/client/installed mutation, service or publication. Current source dependency remains exact skills dev.5. Evidence/legacy human approval and developer/package lifecycle limitations remain open.
+
+## Office-user interface metadata — 0.1.0-dev.8
+
+Owner novice requirement applies to visible commands too. Change display_name/short_description and plugin description only; preserve IDs, policy/dependencies/default prompts and every SKILL body/executable. Existing validator and YAML/source preservation observations; no new tests mirroring wording, dependency or GUI. Source DATA-BOUNDARY default corrected to existing report-skills store; no second queue/default migration. Source provenance output hashes reflect five copied YAML adaptations; origins unchanged. Target employee/native installation/usability and independent release controls remain open.

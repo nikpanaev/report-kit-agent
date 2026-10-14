@@ -1,3 +1,3 @@
 interface:
-  display_name: "report-kit-monthly"
-  short_description: "Переносимый процесс клиентских отчётов"
+  display_name: "Report Kit / Отчёт за месяц"
+  short_description: "Отчёт за выбранный период по сохранённым правилам"
