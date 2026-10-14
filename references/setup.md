@@ -12,3 +12,5 @@
 8. Сохранить setup receipt: package identities, selected workspace (private only), capability discovery vs actual invocation, checks PASS/FAIL/NOT_RUN/NOT_APPLICABLE, actions, blockers и next state. Offline package PASS не означает Google permissions или действующую сессию.
 
 Если настраиваемую часть можно отложить до запроса, отложи её. Не требуй всех аккаунтов или всех соцсетей сразу. Никакой отчёт не собирается только из поручения на настройку.
+
+Служебные чаты и maintenance registry настраиваются по [отдельному контракту](maintenance.md): сначала direct human creation/messaging authority, затем actual bindings и оригинальные human/tool locators в private workspace. Предложить координатора и сопровождающих только выбранных скиллов. Caller клиентского чата получает только свой profile/scope, coordinator контролирует полный client inventory. Наличие native thread tools проверять на выбранном Codex surface; при отсутствии не обещать автоматическую поддержку. Внешнее обращение разработчику через GitHub — отдельное разрешение, не продолжение локального grant.

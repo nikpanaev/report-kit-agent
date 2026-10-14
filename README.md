@@ -8,7 +8,7 @@
 
 Начать с [передачи сотруднику](HANDOVER.md), затем [setup skill](skills/report-setup/SKILL.md). Пакет подготавливает будущих клиентов; существующие runtime/chats/profiles не импортируются. Источники отчётных данных и настройки сотрудника — отдельная private workspace вне обеих package folders.
 
-Пять workflows: setup, подключение клиента, сборка периода, QA, update/context refresh. [Общий процесс](references/workflow.md); [принятый scope и ограничения](CHANGE-SPEC.md); [проверки/оставшиеся gates](EVIDENCE-INDEX.md). Пример workspace не рабочая конфигурация.
+Шесть workflows: setup, подключение клиента, сборка периода, QA, update/context refresh, [сопровождение](skills/report-maintenance/SKILL.md). [Общий процесс](references/workflow.md); [принятый scope и ограничения](CHANGE-SPEC.md); [проверки/оставшиеся gates](EVIDENCE-INDEX.md). Пример workspace не рабочая конфигурация.
 
 Local manifest `plugin.json` и `.agents/plugins/marketplace.json` подготовлены, но не установлены и не проверены actual host install. Вторая зависимость — exact pair в dependencies.json; source skills отдельно. Native connected Google/Docs/Sheets/Slides capabilities подключаются сотрудником, third-party plugin code не поставляется.
 

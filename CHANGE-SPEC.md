@@ -12,6 +12,8 @@ Open discovery inputs: target OS/Codex surface/account plan, initial client's so
 
 ## Architecture / Engineering decision
 
+Continuation authority 2026-10-14: owner instructed work by the complete HANDOVER plan. First implementation slice: reusable maintenance instructions, private role/grant/incident contracts and a read-only stdlib validator with synthetic cases. Reuse native thread tools for messaging/ACK; no dispatcher, installer, daemon or credential adapter. Only these new package sources and task-private receipts are writable; source/client/installed packages and external services remain excluded. Local implementation does not grant new chat, live replay, publication or install authority. Test oracle covers wrong role, absent/revoked authority, duplicate/loop, paused replay, callback without successful origin replay, missing report assets and preserved append-only history. Host/human-source verification is mandatory outside the document validator: JSON is untrusted evidence, not an executable grant.
+
 Accepted two-repository design is the architecture for this bounded preparation. report-agent owns orchestration, setup, reporting checks and common workflow. report-skills owns reusable source capabilities. Reuse native Codex plugins/skills, connected Google tools and existing capture implementations; Python stdlib checks only. No custom installer, updater daemon, credential bridge or screenshot engine. A local marketplace is a prepared discovery artifact, not an installed plugin.
 
 Public package files are read-only during report work. The employee chooses an external private workspace with clients/<id>/ and runs/<run-id>/. New thread IDs, account links and provider IDs are recorded only there. Relative dependency paths are resolved from the package containing the file, not from cwd. Setup can locate a sibling local package; a future distribution URL must be real and owner-approved.
@@ -26,7 +28,7 @@ Execution: writes limited to the two new repositories, their task-owned local ev
 
 ## Version / maturity / delivery
 
-VERSION is the sole source: 0.1.0-dev.0, prototype/development. plugin.json mirrors it and package check must reject drift. There is no stable release, remote or compatibility promise for another device. Future 1.0.0 requires target-device/account end-to-end check, human acceptance, independent privacy/security and license/packaged release review. Keep private workspace data schema1 separate from package version; update must preserve workspace bytes and pin both package identities. No automatic migration or update from main.
+VERSION is the sole source: 0.1.0-dev.1, prototype/development. plugin.json mirrors it and package check must reject drift. There is no stable release, remote or compatibility promise for another device. Future 1.0.0 requires target-device/account end-to-end check, human acceptance, independent privacy/security and license/packaged release review. Keep private workspace data schema1 separate from package version; update must preserve workspace bytes and pin both package identities. No automatic migration or update from main.
 
 ## Risks, recovery and gates
 

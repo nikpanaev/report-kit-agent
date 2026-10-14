@@ -1,6 +1,6 @@
 # Evidence Index — report-agent
 
-Current state2026-10-14: VERSION0.1.0-dev.0, prototype/development, no stable release, no remote. Authorized result: device-independent local source preparation only. Existing client agents/installed skills unchanged by this task; preservation receipt outside public package. Publication/installation/service access not performed.
+Current state2026-10-14: VERSION0.1.0-dev.1, prototype/development, no stable release, no remote. Authorized result: device-independent local source preparation only. Existing client agents/installed skills unchanged by this task; preservation receipt outside public package. Publication/installation/service access not performed.
 
 Process Profile and authority: [CHANGE-SPEC](CHANGE-SPEC.md). Baseline and scoped branch actual Git; package content identity/private exact run records retained locally. [Offline checks](evidence/offline-checks.json) contain only sanitized source/test identities, no donor paths or private data. [Source provenance](SOURCE-PROVENANCE.json), [selection](OPEN-SOURCE-SELECTION.md) and [license status](LICENSE-STATUS.md).
 
@@ -34,3 +34,17 @@ Actual exact-tag lifecycle: IN_DEVELOPMENT, exit0/issues[]. Initial VERSION_POLI
 ## Maintenance transfer plan — 2026-10-14
 
 [HANDOVER](HANDOVER.md) now proposes the complete maintenance/release/compatibility/employee path. Bounded source review of the existing LiveDune maintenance contract and reporting refresh rules, plus recent comment/message maintainer turns, informed the plan. This is not a full audit of all skill chats, an accepted operational permission, an implemented incident router or tested cross-account messaging. The portable LiveDune entrypoint currently lacks the full maintenance cycle. Existing local bindings are not exported; all employee bindings/permissions must be private and configured afresh. Existing sources, installed skills and client agents remain outside this document-only change. VERSION unchanged; no updater, schedule, chat or publication was activated. Prior executable checks remain observations of their original commits; changed document payload requires a new identity check, not relabelling old evidence.
+
+## Maintenance contract implementation — 2026-10-14
+
+Owner continuation authorized local implementation of HANDOVER. Candidate0.1.0-dev.1: six agent workflows, shared source maintenance entrypoints, external private registry/grants, sealed incident case/events and readonly state/route guard. [Recorded checks](evidence/maintenance-checks.json):22 synthetic maintenance scenarios,4 package boundary tests and unchanged full native template selftest passed;11 official SKILL validations passed. Native actual source verification remains mandatory: declared role/authority/result fields and hashes are not truth proof or permission. No report, chat, messaging, installation or service access occurred. Initial module-absent baseline and oracle extension history retained privately.
+
+| Plan block | Current evidence / remaining condition |
+|---|---|
+| Roles/routing/incident/callback/replay/asset custody | Local instruction/contracts + synthetic checks; employee native binding/permission/live replay NOT_RUN |
+| Regular GitHub drafts/releases | NOT_IMPLEMENTED; no public source/remote or publication authority |
+| Update discovery/all-client compatibility | NOT_IMPLEMENTED; next local slice |
+| Native install/refresh/rollback | NOT_RUN; no target device/account/approval |
+| Whole independent QA/security/license | PENDING; unchanged gates |
+
+No accepted client pilot repeated. Original external source/installed/client repositories remain read-only. Version/hash/content changes require a newly reviewed package pair; old evidence continues to identify its original run, not current release approval.
