@@ -22,6 +22,9 @@ class Boundaries(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
             (root / "safe.md").write_text("Synthetic public example")
+            (root / ".DS_Store").write_bytes(b"\x80\xff")
+            (root / "nested").mkdir()
+            (root / "nested/.DS_Store").write_bytes(b"\x80\xff")
             self.assertEqual(set(files(root)), {"safe.md"})
             for name in [".auth/credentials.json", "local/settings.json", "preview.png", "settings.json"]:
                 path = root / name
@@ -77,14 +80,22 @@ class Boundaries(unittest.TestCase):
             workspace = parent / "workspace"
             package.mkdir()
             workspace.mkdir()
-            settings = {"schema_version": 1, "timezone": "Europe/Moscow",
-                        "packages": {"report-agent": None, "report-skills": None},
+            settings = {"schema_version": 2, "timezone": "Europe/Moscow",
+                        "packages": {"report-kit-agent": None, "report-kit-skills": None},
                         "capabilities": {}, "clients": []}
             (workspace / "settings.json").write_text(json.dumps(settings))
             self.assertEqual(check(workspace, [package])["status"], "PASS_LIMITED")
             for path in [package, package / "nested", parent]:
                 with self.assertRaises(ValueError):
                     check(path, [package])
+            legacy = dict(settings, schema_version=1)
+            (workspace / "settings.json").write_text(json.dumps(legacy))
+            with self.assertRaisesRegex(ValueError, "settings_schema_or_timezone"):
+                check(workspace, [package])
+            legacy = dict(settings, packages={"report-agent": None, "report-skills": None})
+            (workspace / "settings.json").write_text(json.dumps(legacy))
+            with self.assertRaisesRegex(ValueError, "package_capability_inventory"):
+                check(workspace, [package])
             settings["api_key"] = "synthetic-canary"
             (workspace / "settings.json").write_text(json.dumps(settings))
             with self.assertRaises(ValueError):

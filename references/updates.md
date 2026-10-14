@@ -2,7 +2,7 @@
 
 Обновляются package инструкции и код, не клиентские данные/отчёты. Проверка наличия новых версий не разрешает установка, выполнение downloaded hooks или переход на main.
 
-- Между отчётами проверить утверждённый source/release, exact agent version и совместимую report-skills identity. Пока public source не задан, использовать явно выбранные локальные копии; не придумывать URL, release signature или signer trust.
+- Между отчётами проверить утверждённый source/release, exact agent version и совместимую report-kit-skills identity. Пока public source не задан, использовать явно выбранные локальные копии; не придумывать URL, release signature или signer trust.
 - Показать diff, changed capabilities/permissions, известные ограничения, проверенные license/provenance и связанные версии. Secrets/auth/provider/updater изменения требуют отдельного review. Hash доказывает совпадение, не доверенность автора.
 - Получить разрешение на exact обновление, сохранить old package identities и локальную возможность отката. Native plugin installation route предпочтительнее собственного updater. Не запускать update посередине активного run.
 - Package read-only; workspace path отделён. Не делать массовый search/replace профилей. Новый общий процесс не отменяет принятые клиентские правила и не мигрирует workspace schema автоматически.
@@ -14,7 +14,7 @@ Distribution URLs, release signing/hosting и live update/rollback на ново
 
 ## Обнаружение версии
 
-Читай approved source через доступный native GitHub/HTTP tool. assets/update-source.example.json не настроен: null URLs означают CONFIGURE_SOURCE, не догадку об upstream. Выбранные сотрудником настоящие URLs и канал сохраняются только в private workspace. Общий release index в report-agent содержит exact pair обоих packages; assets/release-index.example.json пустой. Пока публикации нет, локальные synthetic fixtures не считать published release.
+Читай approved source через доступный native GitHub/HTTP tool. assets/update-source.example.json не настроен: null URLs означают CONFIGURE_SOURCE, не догадку об upstream. Выбранные сотрудником настоящие URLs и канал сохраняются только в private workspace. Общий release index в report-kit-agent содержит exact pair обоих packages; assets/release-index.example.json пустой. Пока публикации нет, локальные synthetic fixtures не считать published release.
 
 Проверка перед работой: scripts/updates.py due с локальными source/checked_at, не чаще24ч. USE_CACHE/отсутствие новой версии — без сообщения; KEEP_CURRENT_OFFLINE сохраняет текущий комплект. При отозванном текущем релизе, нарушенной identity или необходимом действии сообщить конкретную проблему. Нет daemon/фоновой проверки при закрытом приложении. Helper не загружает сеть, не запускает downloaded code и не записывает время: native результат проверки и timestamp сохраняет исполнитель приватно.
 
@@ -22,7 +22,7 @@ Distribution URLs, release signing/hosting и live update/rollback на ново
 
 ## Полный compatibility snapshot
 
-Candidate contracts.json — versioned declarations. report-agent CORE: workspace1, maintenance1, template_registry3, profile1. report-skills: source:<skill>1 и shared helpers1. Изменение схемы/семантики интерфейса требует reviewed новой версии, не перенумерации для PASS. Per-skill permissions позволяют подключать только нужные источники. Native host capabilities и permission labels требуют реального mapping/проверки в setup; строки сами не дают доступ.
+Candidate contracts.json — versioned declarations. report-kit-agent CORE: workspace2, maintenance1, template_registry3, profile1. report-kit-skills: source:<skill>1 и shared helpers1. workspace2 вводит новые package keys; legacy settings отклоняются, автоматическая миграция отсутствует. Изменение схемы/семантики интерфейса требует reviewed новой версии, не перенумерации для PASS. Per-skill permissions позволяют подключать только нужные источники. Native host capabilities и permission labels требуют реального mapping/проверки в setup; строки сами не дают доступ.
 
 preflight принимает external workspace и четыре реально прочитанных package roots (current/candidate agent+skills), release record и private compatibility JSON. Package identities пересчитываются по полному PUBLIC-FILES; candidate должен совпасть с published/nonrevoked exact pair. Полный package/history hygiene scan выполнять отдельно до использования. Current settings packages должны совпасть с реально выбранным текущим комплектом.
 
@@ -50,4 +50,4 @@ rollback snapshot schema1: old/new exact pair, clients и protected_files. Со�
 
 scripts/test_updates.py проверяет synthetic selection/preflight/partial refresh/rollback. Это не live native tool, messaging, GitHub publication или устройство сотрудника. К CLI нельзя подставлять secrets/raw corpus; private paths и результаты не коммитить. User-facing explanation — [руководство](../docs/USER-GUIDE.md) и [помощь](../docs/HELP.md); актуализировать их вместе с поведением и release notes.
 
-Runtime/dependency review входит в affected compatibility: читать текущий report-skills/dependencies/REVIEW.json и actual host results. Например, frozen LiveDune chain требует Node>=20, хотя root metadata says18; при required LiveDune нельзя принять root version alone. Metadata inventory не заменяет candidate-specific native regression. Helper не измеряет реальный Node/Python/browser: их проверка и source/raw evidence обязательны исполнителю, unknown означает BLOCKED.
+Runtime/dependency review входит в affected compatibility: читать текущий report-kit-skills/dependencies/REVIEW.json и actual host results. Например, frozen LiveDune chain требует Node>=20, хотя root metadata says18; при required LiveDune нельзя принять root version alone. Metadata inventory не заменяет candidate-specific native regression. Helper не измеряет реальный Node/Python/browser: их проверка и source/raw evidence обязательны исполнителю, unknown означает BLOCKED.

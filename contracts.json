@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "package": "report-agent",
-  "package_version": "0.1.0-dev.4",
+  "package": "report-kit-agent",
+  "package_version": "0.1.0-dev.5",
   "interfaces": {
-    "workspace": 1,
+    "workspace": 2,
     "maintenance": 1,
     "template_registry": 3,
     "profile": 1

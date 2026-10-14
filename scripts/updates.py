@@ -11,7 +11,7 @@ from check_workspace import check as check_workspace
 from maintenance import ContractError, require, fields, private_path, read_json, sealed_json, SHA
 
 ROOT = Path(__file__).resolve().parents[1]
-PACKAGES = {"report-agent", "report-skills"}
+PACKAGES = {"report-kit-agent", "report-kit-skills"}
 CORE = {"workspace", "maintenance", "template_registry", "profile"}
 LIMIT = "Contract/identity/local-file checks only. Verify original human/native sources, release provenance, current runs, actual host/installed identities and permissions before action; no install or authority proof."
 
@@ -78,31 +78,31 @@ def select_release(index, source, current):
     require(type(index["schema_version"]) is int and index["schema_version"] == 1 and isinstance(index["releases"], list), "release_index")
     versions, ids, selected = {}, set(), None
     for release in index["releases"]:
-        release_check(release); key = (release["channel"], version(release["packages"]["report-agent"]["version"]))
+        release_check(release); key = (release["channel"], version(release["packages"]["report-kit-agent"]["version"]))
         require(release["release_id"] not in ids, "ambiguous_release_identity"); ids.add(release["release_id"])
         require(key not in versions or versions[key] == release["packages"], "ambiguous_release_identity")
         versions[key] = release["packages"]
         if release["packages"] == current and release["revoked"]: raise ContractError("current_release_revoked")
         if release["channel"] != source["channel"] or not release["published"] or release["revoked"]: continue
-        if version(release["packages"]["report-agent"]["version"]) == version(current["report-agent"]["version"]):
+        if version(release["packages"]["report-kit-agent"]["version"]) == version(current["report-kit-agent"]["version"]):
             require(release["packages"] == current, "same_version_content_drift")
-        if version(release["packages"]["report-agent"]["version"]) <= version(current["report-agent"]["version"]): continue
-        if selected is None or version(release["packages"]["report-agent"]["version"]) > version(selected["packages"]["report-agent"]["version"]): selected = release
+        if version(release["packages"]["report-kit-agent"]["version"]) <= version(current["report-kit-agent"]["version"]): continue
+        if selected is None or version(release["packages"]["report-kit-agent"]["version"]) > version(selected["packages"]["report-kit-agent"]["version"]): selected = release
     return selected
 
 
 def actual_pair(agent, skills):
     pair = {name: {"version": (root / "VERSION").read_text().strip(), "package_sha256": identity(root)}
-            for name, root in [("report-agent", agent), ("report-skills", skills)]}
+            for name, root in [("report-kit-agent", agent), ("report-kit-skills", skills)]}
     pair_check(pair)
-    for name, root in [("report-agent", agent), ("report-skills", skills)]:
+    for name, root in [("report-kit-agent", agent), ("report-kit-skills", skills)]:
         manifest = read_json(root / "plugin.json")
         require(manifest["name"] == name and manifest["version"] == pair[name]["version"], "package_manifest")
     dependency = agent / "dependencies.json"
     if dependency.exists():
-        needed = read_json(dependency)["report-skills"]
-        require(needed["version"] == pair["report-skills"]["version"]
-                and needed["package_sha256"] == pair["report-skills"]["package_sha256"], "dependency_identity")
+        needed = read_json(dependency)["report-kit-skills"]
+        require(needed["version"] == pair["report-kit-skills"]["version"]
+                and needed["package_sha256"] == pair["report-kit-skills"]["package_sha256"], "dependency_identity")
     return pair
 
 
@@ -113,7 +113,7 @@ def contracts(root, name, package_version):
             and data["package"] == name and data["package_version"] == package_version, "contracts_identity")
     require(isinstance(data["interfaces"], dict) and all(isinstance(k, str) and type(v) is int and v > 0 for k, v in data["interfaces"].items()), "contracts_interfaces")
     require(isinstance(data["host_capabilities"], list) and all(isinstance(v, str) for v in data["host_capabilities"]), "host_contract")
-    if name == "report-agent": require(isinstance(data["permissions"], list) and all(isinstance(v, str) for v in data["permissions"]), "permission_contract")
+    if name == "report-kit-agent": require(isinstance(data["permissions"], list) and all(isinstance(v, str) for v in data["permissions"]), "permission_contract")
     else: require(isinstance(data["permissions"], dict) and all(isinstance(v, list) and all(isinstance(x, str) for x in v) for v in data["permissions"].values()), "permission_contract")
     return data
 
@@ -150,13 +150,13 @@ def preflight(workspace, current_agent, current_skills, candidate_agent, candida
     require(isinstance(data["clients"], dict) and set(data["clients"]) == set(settings["clients"]), "client_inventory")
     on_disk = {p.parent.name for p in (workspace / "clients").glob("*/AGENT.md")}
     require(on_disk == set(settings["clients"]), "client_inventory")
-    agent = contracts(candidate_agent, "report-agent", candidate["report-agent"]["version"])
-    skills = contracts(candidate_skills, "report-skills", candidate["report-skills"]["version"])
+    agent = contracts(candidate_agent, "report-kit-agent", candidate["report-kit-agent"]["version"])
+    skills = contracts(candidate_skills, "report-kit-skills", candidate["report-kit-skills"]["version"])
     require(CORE <= set(agent["interfaces"]), "core_contract")
     require(isinstance(data["host_capabilities"], list) and all(isinstance(v, str) for v in data["host_capabilities"])
             and set(agent["host_capabilities"] + skills["host_capabilities"]) <= set(data["host_capabilities"]), "missing_host_capability")
     catalog = read_json(candidate_skills / "capabilities.json")
-    require(catalog["package_version"] == candidate["report-skills"]["version"], "catalog_identity")
+    require(catalog["package_version"] == candidate["report-kit-skills"]["version"], "catalog_identity")
     require(set(skills["permissions"]) == {item["name"] for item in catalog["capabilities"]}, "permission_contract_inventory")
     interfaces = {**agent["interfaces"], **skills["interfaces"]}
     for client, record in data["clients"].items():

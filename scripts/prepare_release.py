@@ -43,12 +43,12 @@ def verify_archive(raw, inventory):
 
 def prepare(agent, skills, output, commits, channel):
     agent=Path(agent).resolve();skills=Path(skills).resolve();output=Path(output).resolve()
-    roots={"report-agent":agent,"report-skills":skills}
+    roots={"report-kit-agent":agent,"report-kit-skills":skills}
     if set(commits)!=set(roots) or channel not in {"working","preview"}:raise ValueError("release_inputs")
     if any(output.is_relative_to(root) or root.is_relative_to(output) for root in roots.values()):raise ValueError("output_boundary")
     if output.exists():raise ValueError("output_exists")
     inventories={name:committed(root,commits[name]) for name,root in roots.items()}
-    checks={"report-skills":package_check(skills),"report-agent":package_check(agent,skills)}
+    checks={"report-kit-skills":package_check(skills),"report-kit-agent":package_check(agent,skills)}
     pair=actual_pair(agent,skills)
     payloads={}
     for name,root in roots.items():
@@ -58,7 +58,7 @@ def prepare(agent, skills, output, commits, channel):
     # Recheck both after assembly; never export uncommitted bytes or a moved head.
     for name,root in roots.items():
         if committed(root,commits[name])!=inventories[name]:raise ValueError("source_changed")
-    release={"release_id":"prepared-"+pair["report-agent"]["version"],"channel":channel,"published":False,"revoked":False,"packages":pair}
+    release={"release_id":"prepared-"+pair["report-kit-agent"]["version"],"channel":channel,"published":False,"revoked":False,"packages":pair}
     release_check(release)
     payloads["draft-release.json"]=(json.dumps(release,indent=2)+"\n").encode()
     notes="# Local draft — publication not approved\n\n"
@@ -97,7 +97,7 @@ if __name__=="__main__":
     args=parser.parse_args()
     try:
         result=prepare(args.agent_root,args.skills_root,args.output,
-            {"report-agent":args.agent_commit,"report-skills":args.skills_commit},args.channel)
+            {"report-kit-agent":args.agent_commit,"report-kit-skills":args.skills_commit},args.channel)
         result={"status":result["status"],"artifacts":result["artifacts"],"publication_authorized":False,"blockers":result["blockers"]}
     except (ValueError,AssertionError,OSError,KeyError,subprocess.CalledProcessError):
         result={"status":"BLOCKED","issue":"invalid_or_changed_package_or_output","publication_authorized":False}

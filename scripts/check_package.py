@@ -6,7 +6,7 @@ from pathlib import Path
 import re
 import subprocess
 
-IGNORED = {".git", ".token-optimizer", "__pycache__", ".pytest_cache"}
+IGNORED = {".git", ".token-optimizer", "__pycache__", ".pytest_cache", ".DS_Store"}
 PRIVATE = {".auth", ".env", ".venv", "node_modules", "local", "work", "private"}
 RULES = {
     "personal_home": re.compile(r"(?:/Users|/home)/[A-Za-z0-9._-]+/"),
@@ -77,14 +77,14 @@ def check(root, skills_root=None):
     marketplace = json.loads((root / ".agents/plugins/marketplace.json").read_text())
     entry, = marketplace["plugins"]
     assert entry["name"] == manifest["name"] and entry["source"] == {"source": "local", "path": "./"}, "local_marketplace"
-    if manifest["name"] == "report-skills":
+    if manifest["name"] == "report-kit-skills":
         catalog = json.loads((root / "capabilities.json").read_text())
         names = {item["name"] for item in catalog["capabilities"]}
         assert names == {p.parent.name for p in (root / "skills").glob("*/SKILL.md")}, "capability_inventory"
         assert all(set(item["requires"]) <= names for item in catalog["capabilities"]), "missing_transitive_skill"
         assert catalog["package_version"] == manifest["version"], "catalog_version"
     elif skills_root is not None:
-        required = json.loads((root / "dependencies.json").read_text())["report-skills"]
+        required = json.loads((root / "dependencies.json").read_text())["report-kit-skills"]
         assert (skills_root / "VERSION").read_text().strip() == required["version"], "dependency_version"
         assert identity(skills_root) == required["package_sha256"], "dependency_content_drift"
     # Scan reachable commit contents and author/committer metadata, not just the working tree.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Помощь по отчётам"
+  short_description: "Начало работы, отчёты, обновления и решение проблем"
+  default_prompt: "Используй $report-kit-help и объясни, как начать работу с отчётным агентом."

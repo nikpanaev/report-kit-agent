@@ -9,7 +9,7 @@
 | Template pre-copy/history checks | Existing offline check_report_templates.py | Reused complete schema3 guard and its synthetic suite; no weakened role/history/approval tests |
 | Basic package/workspace checks | Python standard library | Minimal own project-specific inventory/path/dependency checks; not installer, security scanner or permission sandbox |
 | Maintenance routing / incident evidence | Native Codex thread tools plus readonly stdlib contract guard | No custom dispatcher/server; exact role/authority and append-only receipt consistency are domain-specific. Human/native source verification remains separate |
-| Source capabilities | Separate report-skills package | One canonical public-pair source; exact version/content pin, not main |
+| Source capabilities | Separate report-kit-skills package | One canonical public-pair source; exact version/content pin, not main |
 
 Official plugin package reference: https://developers.openai.com/plugins/build/plugins . Documentation checked2026-10-14. Native host/schema loading and distribution integration remain unverified until target runtime tests.
 

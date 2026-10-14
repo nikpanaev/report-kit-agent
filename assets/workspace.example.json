@@ -1,7 +1,10 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "timezone": "Europe/Moscow",
-  "packages": {"report-agent": null, "report-skills": null},
+  "packages": {
+    "report-kit-agent": null,
+    "report-kit-skills": null
+  },
   "capabilities": {},
   "clients": []
 }

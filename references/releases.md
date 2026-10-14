@@ -4,14 +4,14 @@
 
 ## Порядок
 
-1. Выбрать согласованные изменения и exact pair report-agent/report-skills. Прочитать весь diff, provenance и применимые прежние FAIL. Обновить VERSION, plugin/contracts/catalog mirrors, dependency hash, CHANGELOG, руководство/помощь и affected tests. Версии и совместимость проверять до упаковки.
+1. Выбрать согласованные изменения и exact pair report-kit-agent/report-kit-skills. Прочитать весь diff, provenance и применимые прежние FAIL. Обновить VERSION, plugin/contracts/catalog mirrors, dependency hash, CHANGELOG, руководство/помощь и affected tests. Версии и совместимость проверять до упаковки.
 2. Пройти public inventory/history hygiene, source/dependency/license review и применимые проверки. Source scanner не независимая privacy приёмка. Unknown/unreviewed материалы не объявлять безопасными; не копировать client workspace, keys, sessions или installed cache в пакет.
 3. Сохранить изменения локальными task-owned коммитами, подтвердить clean roots. Получить полные40-symbol commit IDs каждого repo. scripts/prepare_release.py упаковывает именно их штатным Git archive. Выбрать новый external private output вне обоих пакетов: существующая папка не перезаписывается.
 4. Helper проверяет clean HEAD/committed PUBLIC-FILES, оба package/history checks и dependency pair, затем сверяет каждый tar entry/байты с inventory. Имена/пути, links, изменённые bytes, export-ignore/subst или moved source выявляются проверкой. Read-only ignored caches и .git не экспортируются. После assembly повторная проверка HEAD/working tree; существующие чужие данные не удаляются.
 5. Результат: два .tar, draft-release.json (published:false), RELEASE-NOTES.md, SHA256SUMS и build-record.json. LOCAL_DRAFT_NOT_APPROVED значит local byte preparation, не право публикации, установка, совместимость каждого клиента или independent release pass. Не выполнять downloaded scripts ради чтения пакета. При ошибке частичные собственные outputs сохранить по точному inventory до разбора.
 6. Разобрать blockers по текущему EVIDENCE-INDEX и реальным решениям reviewers: license/rights, independent QA/security, original rate-limit failure, packaged/host/update/rollback checks, privacy/employee account, real repository URLs. Static helper reminders не подменяют актуальное состояние gate. Review самого поставляемого архива обязателен; исходные tests его не заменяют.
 7. После отдельного разрешения на exact публикацию использовать native GitHub tools/CLI, не собственный uploader. Сначала skills release с точным архивом, затем agent release с exact pair. Передавать только approved публичные notes/artifacts. Дождаться actual native readback tag/assets/digest/channel: отправка запроса не успех. Если исход неизвестен, readback исходного handle до повтора. Не публиковать частично совместимую пару как рабочую.
-8. Approved общий release index хранить в report-agent, append-only release records по согласованному каналу. Не считать latest полным списком prereleases и не менять старые versions/bytes. Recall/revocation фиксировать отдельно; клиент не устанавливает revoked package. Установка и complete client compatibility/refresh — [отдельный workflow](updates.md).
+8. Approved общий release index хранить в report-kit-agent, append-only release records по согласованному каналу. Не считать latest полным списком prereleases и не менять старые versions/bytes. Recall/revocation фиксировать отдельно; клиент не устанавливает revoked package. Установка и complete client compatibility/refresh — [отдельный workflow](updates.md).
 
 ## CLI для сопровождающего
 
@@ -27,4 +27,4 @@ Release notes простым языком: что стало доступно, �
 
 [Git archive](https://git-scm.com/docs/git-archive), [GitHub Releases](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository), [native CLI draft option](https://cli.github.com/manual/gh_release_create).
 
-Source/dependency review preparation: report-skills/THIRD-PARTY-DEPENDENCIES.md и dependencies/REVIEW.json содержат declared labels/integrity/engines, не автоматический license PASS. При изменении frozen dependency graph/поставки повторить проверку; current Node20/transitive Python/esbuild/platform ограничения не скрывать в release notes.
+Source/dependency review preparation: report-kit-skills/THIRD-PARTY-DEPENDENCIES.md и dependencies/REVIEW.json содержат declared labels/integrity/engines, не автоматический license PASS. При изменении frozen dependency graph/поставки повторить проверку; current Node20/transitive Python/esbuild/platform ограничения не скрывать в release notes.

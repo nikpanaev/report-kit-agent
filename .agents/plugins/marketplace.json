@@ -1,8 +1,8 @@
 {
-  "name": "report-agent-local",
+  "name": "report-kit-agent-local",
   "plugins": [
     {
-      "name": "report-agent",
+      "name": "report-kit-agent",
       "source": {
         "source": "local",
         "path": "./"

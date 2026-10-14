@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "report-skills": {
-    "version": "0.1.0-dev.4",
-    "package_sha256": "5f8dd1cad061e9d7be89ccc414b616cf24185fdf459c8bddddf06cf2c352aeb9",
+  "report-kit-skills": {
+    "version": "0.1.0-dev.5",
+    "package_sha256": "2d3cb4c6e25fda579e5777f42734132ce8e7ea090ccf80dbc98a11b6775fe319",
     "source": {
       "kind": "local-sibling",
-      "path": "../report-skills",
+      "path": "../report-kit-skills",
       "public_url": null
     },
     "status": "LOCAL_PREPARATION_NOT_INSTALLED",

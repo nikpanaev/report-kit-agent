@@ -3,11 +3,11 @@
 - client_id: not selected
 - profile_revision: 1
 - updated_at: not selected
-- package_version_source: chosen report-agent/VERSION
+- package_version_source: chosen report-kit-agent/VERSION
 
 ## Паспорт
 
-Название, владельцы решений и приёмки, заданные даты/timezone, разрешённая рабочая область и реальный chat binding после отдельного создания. Общий процесс: выбранный report-agent/references/workflow.md.
+Название, владельцы решений и приёмки, заданные даты/timezone, разрешённая рабочая область и реальный chat binding после отдельного создания. Общий процесс: выбранный report-kit-agent/references/workflow.md.
 
 ## Источники
 

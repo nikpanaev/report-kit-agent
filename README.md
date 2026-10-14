@@ -1,4 +1,4 @@
-# report-agent
+# report-kit-agent
 
 Локальная подготовка переносимого комплекта для будущих отчётов. Версия: [VERSION](VERSION). Maturity: prototype; channel: development; stable release отсутствует.
 
@@ -6,13 +6,13 @@
 
 ## Использование
 
-Для сотрудника: [краткое руководство](docs/USER-GUIDE.md) и [помощь](docs/HELP.md). Начать можно сообщением «Помоги настроить отчётного агента». Технический план — [передача сотруднику](HANDOVER.md), настройка — [setup skill](skills/report-setup/SKILL.md). Пакет подготавливает будущих клиентов; существующие runtime/chats/profiles не импортируются. Источники отчётных данных и настройки сотрудника — отдельная private workspace вне обеих package folders.
+Для сотрудника: [краткое руководство](docs/USER-GUIDE.md) и [помощь](docs/HELP.md). Начать можно сообщением «Помоги настроить отчётного агента». Технический план — [передача сотруднику](HANDOVER.md), настройка — [setup skill](skills/report-kit-setup/SKILL.md). Пакет подготавливает будущих клиентов; существующие runtime/chats/profiles не импортируются. Источники отчётных данных и настройки сотрудника — отдельная private workspace вне обеих package folders.
 
-Восемь workflows: локальный черновик выпуска, помощь, setup, подключение клиента, сборка периода, QA, update/context refresh, [сопровождение](skills/report-maintenance/SKILL.md). [Общий процесс](references/workflow.md); [принятый scope и ограничения](CHANGE-SPEC.md); [проверки/оставшиеся gates](EVIDENCE-INDEX.md). Пример workspace не рабочая конфигурация.
+Восемь workflows: локальный черновик выпуска, помощь, setup, подключение клиента, сборка периода, QA, update/context refresh, [сопровождение](skills/report-kit-maintenance/SKILL.md). [Общий процесс](references/workflow.md); [принятый scope и ограничения](CHANGE-SPEC.md); [проверки/оставшиеся gates](EVIDENCE-INDEX.md). Пример workspace не рабочая конфигурация.
 
 Local manifest `plugin.json` и `.agents/plugins/marketplace.json` подготовлены, но не установлены и не проверены actual host install. Вторая зависимость — exact pair в dependencies.json; source skills отдельно. Native connected Google/Docs/Sheets/Slides capabilities подключаются сотрудником, third-party plugin code не поставляется.
 
-Проверка: `python3 scripts/check_package.py . --skills-root ../report-skills`, `python3 scripts/test_package_boundaries.py`, `python3 scripts/check_report_templates_selftest.py`. Source checks only; no accounts/keys/Google writes. Для workspace отдельный check_workspace.py.
+Проверка: `python3 scripts/check_package.py . --skills-root ../report-kit-skills`, `python3 scripts/test_package_boundaries.py`, `python3 scripts/check_report_templates_selftest.py`. Source checks only; no accounts/keys/Google writes. Для workspace отдельный check_workspace.py.
 
 Privacy: никаких реальных API keys, сессий, cookies, браузерных профилей, личных аккаунтов, клиентских IDs или сырой истории. Проверяются candidate files и reachable Git history; ignored tool caches не часть distribution. Pattern scan не полная независимая security проверка.
 
@@ -29,3 +29,8 @@ Privacy: никаких реальных API keys, сессий, cookies, бра
 VERSION is the sole development-version source; plugin manifest is a checked mirror. Package content identity and private workspace schema are separate. Public GitHub release/URLs require later explicit authority.
 
 Подготовка локального черновика: [release workflow](references/releases.md). [Изменения для пользователя](CHANGELOG.md). Публикация и расписание не активированы.
+
+
+## Report Kit naming and legacy compatibility
+
+New client chat: `Report Kit / <client name>`; new portable reporting agent identifier: `report-kit-<client_id>`. Workflow IDs also use report-kit-. Package IDs are report-kit-agent/report-kit-skills; workspace schema2 is required. Legacy configurations and installed copies are not silently switched by a display rename. VK/LiveDune source skill IDs, REPORT_SKILLS_STATE_DIR and existing queue/state path names remain stable; their old report-skills label does not identify a second package or store. Setup must check the actual selected bytes and one UI queue before installation.

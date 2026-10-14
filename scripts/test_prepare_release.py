@@ -23,10 +23,10 @@ class Releases(unittest.TestCase):
                         print(json.dumps({"temporary_path":str(path),"sha256":hashlib.sha256(path.read_bytes()).hexdigest(),
                             "test":self.id(),"result":"Synthetic fixture inspected by assertions; cleanup follows"}))
         self.addCleanup(receipt_before_cleanup)
-        self.skills = self.package("report-skills")
-        self.agent = self.package("report-agent", self.skills)
+        self.skills = self.package("report-kit-skills")
+        self.agent = self.package("report-kit-agent", self.skills)
         self.heads = {name: self.git(root, "rev-parse", "HEAD").stdout.strip()
-            for name, root in [("report-agent", self.agent), ("report-skills", self.skills)]}
+            for name, root in [("report-kit-agent", self.agent), ("report-kit-skills", self.skills)]}
         self.output = self.base / "artifact"
 
     def git(self, root, *args):
@@ -42,7 +42,7 @@ class Releases(unittest.TestCase):
             "skills/livedune/SKILL.md": '---\nname: livedune\ndescription: "Synthetic fixture only"\n---\n',
             ".gitignore": ".token-optimizer/\n", "CHANGELOG.md": "# Synthetic changes\nTested fixture only\n"}
         if skills:
-            files["dependencies.json"] = json.dumps({"report-skills":{"version":"0.1.0-dev.0","package_sha256":identity(skills)}})
+            files["dependencies.json"] = json.dumps({"report-kit-skills":{"version":"0.1.0-dev.0","package_sha256":identity(skills)}})
         else:
             files["capabilities.json"] = json.dumps({"schema_version":1,"package_version":"0.1.0-dev.0","capabilities":[{"name":"livedune","requires":[]}]})
         files["PUBLIC-FILES.json"] = json.dumps({"schema_version":1,"files":sorted([*files,"PUBLIC-FILES.json"])})
@@ -55,14 +55,14 @@ class Releases(unittest.TestCase):
         return prepare(self.agent, self.skills, self.output, self.heads, "working")
 
     def test_exact_archives_and_draft_only(self):
-        before = {name: identity(root) for name,root in [("report-agent",self.agent),("report-skills",self.skills)]}
+        before = {name: identity(root) for name,root in [("report-kit-agent",self.agent),("report-kit-skills",self.skills)]}
         result = self.build()
         self.assertEqual(result["status"], "LOCAL_DRAFT_NOT_APPROVED")
         release=json.loads((self.output/"draft-release.json").read_text())
         self.assertFalse(release["published"])
         self.assertFalse(result["publication_authorized"])
         self.assertTrue(result["blockers"])
-        for name,root in [("report-agent",self.agent),("report-skills",self.skills)]:
+        for name,root in [("report-kit-agent",self.agent),("report-kit-skills",self.skills)]:
             tar=self.output/f"{name}-0.1.0-dev.0.tar"
             with tarfile.open(tar) as archive:
                 paths={m.name for m in archive.getmembers() if m.isfile()}
@@ -73,7 +73,7 @@ class Releases(unittest.TestCase):
 
     def test_reproducible_committed_archive_bytes(self):
         first=self.build();self.output=self.base/"second";second=self.build()
-        for name in ["report-agent","report-skills"]:
+        for name in ["report-kit-agent","report-kit-skills"]:
             filename=f"{name}-0.1.0-dev.0.tar"
             self.assertEqual(first["artifacts"][filename],second["artifacts"][filename])
 
@@ -85,7 +85,7 @@ class Releases(unittest.TestCase):
         (self.agent/"untracked.txt").write_text("extra")
         with self.assertRaisesRegex(ValueError,"dirty_package"):self.build()
         (self.agent/"untracked.txt").unlink()
-        self.heads["report-agent"]="0"*40
+        self.heads["report-kit-agent"]="0"*40
         with self.assertRaisesRegex(ValueError,"commit_changed"):self.build()
 
     def test_existing_output_and_package_output_preserved(self):
@@ -99,7 +99,7 @@ class Releases(unittest.TestCase):
     def test_ignored_caches_not_exported(self):
         cache=self.agent/".token-optimizer";cache.mkdir();(cache/"ignored.txt").write_text("private synthetic cache")
         self.build()
-        with tarfile.open(self.output/"report-agent-0.1.0-dev.0.tar") as archive:
+        with tarfile.open(self.output/"report-kit-agent-0.1.0-dev.0.tar") as archive:
             self.assertFalse(any(".token-optimizer" in m.name for m in archive.getmembers()))
 
     def test_git_export_attribute_cannot_hide_public_file(self):
@@ -108,7 +108,7 @@ class Releases(unittest.TestCase):
         data["files"].append(".gitattributes");path.write_text(json.dumps(data))
         self.git(self.agent,"add","--",".gitattributes","PUBLIC-FILES.json")
         self.git(self.agent,"commit","-m","Synthetic export exclusion")
-        self.heads["report-agent"]=self.git(self.agent,"rev-parse","HEAD").stdout.strip()
+        self.heads["report-kit-agent"]=self.git(self.agent,"rev-parse","HEAD").stdout.strip()
         with self.assertRaisesRegex(ValueError,"archive_content"):self.build()
         self.assertFalse(self.output.exists())
 

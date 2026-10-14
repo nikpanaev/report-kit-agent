@@ -15,17 +15,17 @@ class Updates(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix="updates-fixture-"); self.addCleanup(self.temp.cleanup)
         self.base = Path(self.temp.name); self.workspace = self.base / "workspace"; self.workspace.mkdir()
-        self.current_agent = self.package("current-agent", "report-agent", "0.1.0-dev.1")
-        self.current_skills = self.package("current-skills", "report-skills", "0.1.0-dev.1")
-        self.candidate_agent = self.package("candidate-agent", "report-agent", "0.1.0-dev.2")
-        self.candidate_skills = self.package("candidate-skills", "report-skills", "0.1.0-dev.2")
+        self.current_agent = self.package("current-agent", "report-kit-agent", "0.1.0-dev.1")
+        self.current_skills = self.package("current-skills", "report-kit-skills", "0.1.0-dev.1")
+        self.candidate_agent = self.package("candidate-agent", "report-kit-agent", "0.1.0-dev.2")
+        self.candidate_skills = self.package("candidate-skills", "report-kit-skills", "0.1.0-dev.2")
         self.old = self.pair(self.current_agent, self.current_skills)
         self.new = self.pair(self.candidate_agent, self.candidate_skills)
         self.release = {"release_id": "fixture-dev2", "channel": "working", "published": True,
             "revoked": False, "packages": self.new}
-        self.source = {"schema_version": 1, "agent_repository": "https://github.com/example/report-agent",
-            "skills_repository": "https://github.com/example/report-skills", "channel": "working", "interval_hours": 24}
-        self.write("settings.json", {"schema_version": 1, "timezone": "UTC", "packages": self.old,
+        self.source = {"schema_version": 1, "agent_repository": "https://github.com/example/report-kit-agent",
+            "skills_repository": "https://github.com/example/report-kit-skills", "channel": "working", "interval_hours": 24}
+        self.write("settings.json", {"schema_version": 2, "timezone": "UTC", "packages": self.old,
             "capabilities": {}, "clients": ["first", "second"]})
         profile = {}
         for client in ["first", "second"]:
@@ -39,7 +39,7 @@ class Updates(unittest.TestCase):
             profile[client] = {"binding": {"thread_id": "synthetic-" + client, "host_id": "local", "project_id": "synthetic-project"},
                 "profile_path": f"clients/{client}/AGENT.md", "profile_sha256": sha, "profile_revision": 1,
                 "protected_files": {f"clients/{client}/AGENT.md": sha}, "required_skills": ["vk-comment-screenshot"],
-                "interfaces": {"workspace": 1, "maintenance": 1, "template_registry": 3, "profile": 1,
+                "interfaces": {"workspace": 2, "maintenance": 1, "template_registry": 3, "profile": 1,
                     "source:vk-comment-screenshot": 1, "source:vk-post-screenshot": 1, "shared:ui_queue": 1},
                 "permission_scopes": ["vk.read"], "active_run": False,
                 "regression_receipt": path.relative_to(self.workspace).as_posix(), "regression_sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
@@ -56,9 +56,9 @@ class Updates(unittest.TestCase):
         (root / "VERSION").write_text(version + "\n")
         (root / "plugin.json").write_text(json.dumps({"name": name, "version": version}))
         contracts = {"schema_version": 1, "package": name, "package_version": version,
-            "interfaces": {"workspace": 1, "maintenance": 1, "template_registry": 3, "profile": 1},
+            "interfaces": {"workspace": 2, "maintenance": 1, "template_registry": 3, "profile": 1},
             "host_capabilities": ["native-plugin-update"], "permissions": []}
-        if name == "report-skills":
+        if name == "report-kit-skills":
             contracts["interfaces"] = {"source:vk-post-screenshot": 1, "source:vk-comment-screenshot": 1, "shared:ui_queue": 1}
             contracts["permissions"] = {"vk-post-screenshot": ["vk.read"], "vk-comment-screenshot": ["vk.read"]}
             catalog = {"schema_version": 1, "package_version": version, "capabilities": [
@@ -73,7 +73,7 @@ class Updates(unittest.TestCase):
     @staticmethod
     def pair(agent, skills):
         return {name: {"version": (root / "VERSION").read_text().strip(), "package_sha256": identity(root)}
-                for name, root in [("report-agent", agent), ("report-skills", skills)]}
+                for name, root in [("report-kit-agent", agent), ("report-kit-skills", skills)]}
 
     def preflight(self):
         self.write("compatibility.json", self.compatibility)
@@ -106,16 +106,16 @@ class Updates(unittest.TestCase):
 
     def test_working_channel_not_preview_draft_revoked_or_downgrade(self):
         preview = copy.deepcopy(self.release); preview.update(release_id="preview", channel="preview")
-        preview["packages"]["report-agent"]["version"] = "0.2.0"
+        preview["packages"]["report-kit-agent"]["version"] = "0.2.0"
         draft = copy.deepcopy(self.release); draft.update(release_id="draft", published=False)
         revoked = copy.deepcopy(self.release); revoked.update(release_id="revoked", revoked=True)
         self.assertEqual(select_release({"schema_version": 1, "releases": [preview, draft, revoked, self.release]}, self.source, self.old)["release_id"], "fixture-dev2")
         self.assertIsNone(select_release({"schema_version": 1, "releases": [self.release]}, self.source, self.new))
 
     def test_semver_numeric_not_lexical_and_ambiguous_identity_rejected(self):
-        newer = copy.deepcopy(self.release); newer["release_id"] = "dev10"; newer["packages"]["report-agent"]["version"] = "0.1.0-dev.10"
+        newer = copy.deepcopy(self.release); newer["release_id"] = "dev10"; newer["packages"]["report-kit-agent"]["version"] = "0.1.0-dev.10"
         self.assertEqual(select_release({"schema_version": 1, "releases": [self.release, newer]}, self.source, self.old)["release_id"], "dev10")
-        duplicate = copy.deepcopy(self.release); duplicate["packages"]["report-agent"]["package_sha256"] = "f" * 64
+        duplicate = copy.deepcopy(self.release); duplicate["packages"]["report-kit-agent"]["package_sha256"] = "f" * 64
         with self.assertRaises(ValueError): select_release({"schema_version": 1, "releases": [self.release, duplicate]}, self.source, self.old)
 
     def test_complete_clients_and_candidate_specific_regression(self):

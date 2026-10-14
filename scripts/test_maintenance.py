@@ -12,7 +12,7 @@ from maintenance import check_registry, check_incident, route
 
 
 AGENT = Path(__file__).resolve().parents[1]
-SKILLS = AGENT.parent / "report-skills"
+SKILLS = AGENT.parent / "report-kit-skills"
 
 
 class MaintenanceTests(unittest.TestCase):
@@ -20,8 +20,8 @@ class MaintenanceTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory(prefix="maintenance-fixture-")
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
-        self.write("settings.json", {"schema_version": 1, "timezone": "UTC",
-            "packages": {"report-agent": None, "report-skills": None},
+        self.write("settings.json", {"schema_version": 2, "timezone": "UTC",
+            "packages": {"report-kit-agent": None, "report-kit-skills": None},
             "capabilities": {}, "clients": ["sample"]})
         self.registry = {"schema_version": 1, "coordinator": self.binding("coordinator", 1),
             "maintainers": {"vk-comment-screenshot": self.binding("skill:vk-comment-screenshot", 2),

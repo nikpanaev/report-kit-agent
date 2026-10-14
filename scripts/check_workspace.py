@@ -13,11 +13,11 @@ def check(workspace, package_roots):
     settings = json.loads((workspace / "settings.json").read_text())
     if set(settings) != {"schema_version", "timezone", "packages", "capabilities", "clients"}:
         raise ValueError("unexpected_settings_field")
-    if settings["schema_version"] != 1 or not settings["timezone"]:
+    if settings["schema_version"] != 2 or not settings["timezone"]:
         raise ValueError("settings_schema_or_timezone")
     if not isinstance(settings["clients"], list) or len(settings["clients"]) != len(set(settings["clients"])):
         raise ValueError("client_inventory")
-    if not isinstance(settings["capabilities"], dict) or set(settings["packages"]) != {"report-agent", "report-skills"}:
+    if not isinstance(settings["capabilities"], dict) or set(settings["packages"]) != {"report-kit-agent", "report-kit-skills"}:
         raise ValueError("package_capability_inventory")
     return {"status": "PASS_LIMITED", "clients": len(settings["clients"]),
             "limitations": "Only workspace separation/schema; no ACL, access, identity, client/template or secret-store readiness proof."}
