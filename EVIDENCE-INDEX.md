@@ -1,6 +1,6 @@
 # Evidence Index — report-agent
 
-Current state2026-10-14: VERSION0.1.0-dev.10, prototype/development, no stable release, no remote. Authorized result: device-independent local source preparation only. Existing client agents/installed skills unchanged by this task; preservation receipt outside public package. Publication/installation/service access not performed.
+Current state2026-10-14: VERSION0.1.0-dev.11, prototype/development, no stable release, no remote. Authorized result: device-independent local source preparation only. Existing client agents/installed skills unchanged by this task; preservation receipt outside public package. Publication/installation/service access not performed.
 
 Process Profile and authority: [CHANGE-SPEC](CHANGE-SPEC.md). Baseline and scoped branch actual Git; package content identity/private exact run records retained locally. [Offline checks](evidence/offline-checks.json) contain only sanitized source/test identities, no donor paths or private data. [Source provenance](SOURCE-PROVENANCE.json), [selection](OPEN-SOURCE-SELECTION.md) and [license status](LICENSE-STATUS.md).
 
@@ -101,3 +101,7 @@ Exact source-skills dev.7 adds bounded retry stage/type diagnostics only. Five m
 ## MIT holder and material-level rate stop — 2026-10-14
 
 Owner selected **Report Kit** for the MIT copyright line; [LICENSE](LICENSE) now ships locally. Earlier dated pending/name observations describe their original state. This does not authorize publication or close third-party notices/compatibility or independent review. Exact source dependency is advanced to the tested material-level stop candidate; workspace/interface contracts remain unchanged. No client report, installation or publication performed.
+
+## External image runtime inventory — 2026-10-14
+
+Exact existing Pillow12.3.0/NumPy2.3.5 primary metadata and five local license files are inventoried in the selected source package dependencies/runtime-review.json. Pillow declares Python>=3.10 and MIT-CMU; NumPy declares Python>=3.11, a BSD classifier and composite component notices in the observed installed distribution. All44 current exported file hashes across the pair match provenance; this is identity, not new full semantic review. Runtime code and employee version selection unchanged. Qualified semantic/legal review of these five texts remains NOT_RUN; no binary bundle or license clearance implied.
