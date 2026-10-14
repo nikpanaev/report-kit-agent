@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "scope": "Offline native Git source archive preparation only; no publication/install/service",
+  "source_hashes": {
+    "scripts/prepare_release.py": "5495e89b0b915d3f00dd163a3121d7cafc0ee6f74fe88ac47e4b11971b0aacb2",
+    "scripts/test_prepare_release.py": "dc3808f85608de2f996fa0eafd4cd250f169f1c807103bb1b1b048f191b1cf5a"
+  },
+  "test_cases": 7,
+  "exit": 0,
+  "official_skill_validations": 13,
+  "local_markdown_links_checked": 89,
+  "prior_regressions": {
+    "update_cases": 20,
+    "maintenance_cases": 22,
+    "boundary_cases": 4,
+    "template_selftest": "PASS"
+  },
+  "baseline": "Missing prepare_release module; oracle retained privately. Cleanup receipt addition changed no assertions.",
+  "limitations": [
+    "Synthetic temporary Git repositories only; actual current committed archive check follows separately",
+    "No independent license/privacy/security/release or employee runtime acceptance",
+    "Original rate-limit finding remains open despite current successful diagnostic runs"
+  ]
+}

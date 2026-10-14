@@ -8,7 +8,7 @@
 
 Для сотрудника: [краткое руководство](docs/USER-GUIDE.md) и [помощь](docs/HELP.md). Начать можно сообщением «Помоги настроить отчётного агента». Технический план — [передача сотруднику](HANDOVER.md), настройка — [setup skill](skills/report-setup/SKILL.md). Пакет подготавливает будущих клиентов; существующие runtime/chats/profiles не импортируются. Источники отчётных данных и настройки сотрудника — отдельная private workspace вне обеих package folders.
 
-Семь workflows: помощь, setup, подключение клиента, сборка периода, QA, update/context refresh, [сопровождение](skills/report-maintenance/SKILL.md). [Общий процесс](references/workflow.md); [принятый scope и ограничения](CHANGE-SPEC.md); [проверки/оставшиеся gates](EVIDENCE-INDEX.md). Пример workspace не рабочая конфигурация.
+Восемь workflows: локальный черновик выпуска, помощь, setup, подключение клиента, сборка периода, QA, update/context refresh, [сопровождение](skills/report-maintenance/SKILL.md). [Общий процесс](references/workflow.md); [принятый scope и ограничения](CHANGE-SPEC.md); [проверки/оставшиеся gates](EVIDENCE-INDEX.md). Пример workspace не рабочая конфигурация.
 
 Local manifest `plugin.json` и `.agents/plugins/marketplace.json` подготовлены, но не установлены и не проверены actual host install. Вторая зависимость — exact pair в dependencies.json; source skills отдельно. Native connected Google/Docs/Sheets/Slides capabilities подключаются сотрудником, third-party plugin code не поставляется.
 
@@ -27,3 +27,5 @@ Privacy: никаких реальных API keys, сессий, cookies, бра
 - **External AI/model API:** not applicable; no new model API client or SDK/key provisioning; employee Codex provider/data-use terms must be checked before live work
 
 VERSION is the sole development-version source; plugin manifest is a checked mirror. Package content identity and private workspace schema are separate. Public GitHub release/URLs require later explicit authority.
+
+Подготовка локального черновика: [release workflow](references/releases.md). [Изменения для пользователя](CHANGELOG.md). Публикация и расписание не активированы.

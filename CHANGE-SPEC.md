@@ -43,3 +43,7 @@ G0/G1 and bounded architecture/preparation scope derive from direct owner decisi
 ## User documentation extension
 
 Owner requested user documentation/help. Add maintained Russian USER-GUIDE/HELP and a narrow report-help entrypoint; no new UI, site, external publishing or secret collection. Deliver with package and version behaviour/doc changes together. Acceptance: reachable links, consistent account/template/pause/privacy/update constraints, official skill validation; employee comprehension and actual installed behaviour NOT_RUN.
+
+## Local release preparation slice
+
+Continuation authorizes local release preparation under HANDOVER5. Reuse native Git archive and existing package/history/pair validators; minimum stdlib assembly only. Build from clean exact committed heads into a new external task-owned output, exclude .git/caches/untracked/runtime data, verify every tar entry and bytes against the checked public inventory. Create draft metadata and user release notes, never GitHub remote/draft/tag/push/publication or installer. Preserve partial failure evidence and caller-owned files; do not silently overwrite artifacts. No independent approval/published/working-channel gate inferred from source tests or hashes. Missing license/QA/security/host tests and original unresolved rate-limit finding remain blockers. Tests use synthetic temporary Git repos, no service/network/credentials.
