@@ -73,7 +73,7 @@ def prepare(agent, skills, output, commits, channel):
     record={"schema_version":1,"status":"LOCAL_DRAFT_NOT_APPROVED","commits":commits,"release":release,
         "package_checks":checks,"artifacts":artifacts,"publication_authorized":False,
         "blockers":["Original rate-limit failure requires diagnosis or owner risk decision",
-            "Distribution license and source/dependency rights review pending",
+            "Third-party license texts/notices and compatibility review pending",
             "Independent QA/security and packaged/employee host acceptance pending",
             "Real repository URLs and separate publication authority required"],
         "limitations":"Byte/inventory/history pattern checks and local archive only; no signature trust, live install/update or release approval. Git source archives do not contain client workspaces."}

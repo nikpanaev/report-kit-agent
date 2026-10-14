@@ -13,4 +13,4 @@
 
 Official plugin package reference: https://developers.openai.com/plugins/build/plugins . Documentation checked2026-10-14. Native host/schema loading and distribution integration remain unverified until target runtime tests.
 
-Tooling versions used are recorded in local evidence, not vendored. Distribution license for owner-maintained adaptations remains pending. No download/install authority implied by selection. All future third-party upgrades require canonical version/license/provenance, permission/data review and compatibility test; stars/popularity are not acceptance.
+Tooling versions used are recorded in local evidence, not vendored. Owner-maintained adaptations use MIT, copyright Report Kit; third-party notices/compatibility review remains pending. No download/install authority implied by selection. All future third-party upgrades require canonical version/license/provenance, permission/data review and compatibility test; stars/popularity are not acceptance.

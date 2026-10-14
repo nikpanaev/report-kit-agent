@@ -1,7 +1,7 @@
 {
   "snapshot_date": "2026-10-14",
   "origin": "Owner-maintained report workflow; existing offline native-template guard exported unchanged; source data and Git history excluded",
-  "license_status": "Owner distribution license pending",
+  "license_status": "Own code: MIT, copyright Report Kit; third-party notices/compatibility review pending; no upstream binaries vendored",
   "files": [
     {
       "sourceRelative": "scripts/check_report_templates.py",

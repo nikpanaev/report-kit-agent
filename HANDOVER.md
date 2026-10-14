@@ -32,7 +32,7 @@
 
 ## До публикации
 
-- Выбрать distribution license, подтвердить права на исходники и dependency notices.
+- MIT собственного кода и имя Report Kit согласованы; проверить сторонние лицензионные тексты и обязательные уведомления.
 - Разобрать нестабильную синтетическую проверку VK rate limit: cold full run failed, isolated pass не отменяет failure. Не ослаблять pacing/no-retry/partial-source oracle.
 - Independent QA/security, current plugin schema/host install, target-device/account/capability/permission checks, controlled update/rollback и cleanup drill.
 - Задать real public URLs/exact release identities; повторно проверить весь Git payload/history на личные данные, secrets и raw artifacts. Не публиковать эту preparation автоматически.
