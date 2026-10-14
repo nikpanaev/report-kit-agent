@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "package": "report-kit-agent",
+  "version": "0.1.0-dev.7",
+  "status": "PASS_LIMITED",
+  "reproduction": {
+    "original_implementation_sha256": "843354fce06e5cab1b432247008bdfb83eaa69af65c5392db3b6e42f65c15c5d",
+    "red_exit": 1,
+    "new_regression_failures": 4,
+    "case": "Direct preflight allowed equal/build-only/older candidate; raw reproduction retained privately"
+  },
+  "runs": [
+    {
+      "script": "scripts/test_updates.py",
+      "exit": 0,
+      "tests": 28,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "2c46df3ff7c6bef75368be1c6a37a396b8773d30aeb181467ad85386d7ff13a8"
+    },
+    {
+      "script": "scripts/test_prepare_release.py",
+      "exit": 0,
+      "tests": 7,
+      "stdout_sha256": "317201294e5e68c7e67db0d3109e18b782e645dd210b1c257e435193a80d185d",
+      "stderr_sha256": "332cb5740d62899a6588b88e9b9309a7a878620e4c98982f6c909939e4f1105f"
+    },
+    {
+      "script": "scripts/test_package_boundaries.py",
+      "exit": 0,
+      "tests": 4,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "571c1b9cab0aa798f39f1dbd4eb4186a2280aa6374b25821b203995c19ac2ff9"
+    },
+    {
+      "script": "scripts/test_maintenance.py",
+      "exit": 0,
+      "tests": 22,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "377fb419257a84031ccbb01c218fda8557612120403e1ba93659d012ada44b86"
+    }
+  ],
+  "source_hashes": {
+    "scripts/updates.py": "e258a55fad80a4556d7593bbc07563908b7afb2805bded7482bfb7b53ef77cbd",
+    "scripts/test_updates.py": "5537168b036bf30d2c73d45924de43e2040fe2926bacf5f732f805206754959a"
+  },
+  "old_test_methods_preserved": 34,
+  "limitations": "Synthetic and actual local CLI record checks only; install_authorized remains false. No native host install, source authority proof, independent review or release approval; historical findings remain open."
+}

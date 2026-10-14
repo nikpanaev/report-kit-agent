@@ -1,6 +1,6 @@
 # Evidence Index — report-agent
 
-Current state2026-10-14: VERSION0.1.0-dev.6, prototype/development, no stable release, no remote. Authorized result: device-independent local source preparation only. Existing client agents/installed skills unchanged by this task; preservation receipt outside public package. Publication/installation/service access not performed.
+Current state2026-10-14: VERSION0.1.0-dev.7, prototype/development, no stable release, no remote. Authorized result: device-independent local source preparation only. Existing client agents/installed skills unchanged by this task; preservation receipt outside public package. Publication/installation/service access not performed.
 
 Process Profile and authority: [CHANGE-SPEC](CHANGE-SPEC.md). Baseline and scoped branch actual Git; package content identity/private exact run records retained locally. [Offline checks](evidence/offline-checks.json) contain only sanitized source/test identities, no donor paths or private data. [Source provenance](SOURCE-PROVENANCE.json), [selection](OPEN-SOURCE-SELECTION.md) and [license status](LICENSE-STATUS.md).
 
@@ -85,3 +85,7 @@ Owner renewed novice setup/permission-aware autonomy, questionnaire and compatib
 [Recorded checks](evidence/guided-setup-checks.json):26 synthetic update cases passed, including revoked/default opt-in, source/channel drift, human-vs-agent declaration, full-client snapshot change, actual CLI unknown-host default and unchanged fixture bytes.22 maintenance,4 boundary,7 native package cases and native-template selftest passed.8 official skill validations and63 local links passed before adding this receipt. Source-skills package remains exact dev.5, unchanged. No installation, company-policy change, login, messaging, schedule, client report or publication performed. Compatible policy is a bounded preference with original human verification; helper install_authorized remains false and host approval is not bypassed.
 
 Target-device restricted-permission install, actual model/user comprehension, novice first-report/base/next-period flow and native auto-activation/approval/restart/rollback remain NOT_RUN. Real public source is unset. Earlier original rate-limit, developer/package lifecycle route, independent QA/security/license/copyright and release controls remain open; no gate accepted by these observations.
+
+## Direct update version check — dev.7
+
+[Recorded regression](evidence/update-version-checks.json): new equal/build-only/older direct preflight and CLI cases reproduced four assertion failures before the fix, then all28 update scenarios passed. Existing test methods preserved;7 packaging,4 boundary and22 maintenance cases passed. Shared preflight now reuses the same SemVer order as release selection. Independent rollback unchanged and preserves subsequent owner edits. Source package remains exact dev.5; no install, native permission or release approval inferred. Previous original VK fixture/lifecycle/license/independent/employee-runtime controls remain open.

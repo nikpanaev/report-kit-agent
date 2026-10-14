@@ -1,5 +1,6 @@
 """Protected synthetic update/compatibility/rollback cases, no network or installs."""
 import copy
+from datetime import datetime, timezone
 import hashlib
 import json
 import subprocess
@@ -124,6 +125,40 @@ class Updates(unittest.TestCase):
         result = self.preflight(); self.assertEqual(result["status"], "READY_FOR_REVIEW")
         self.assertEqual(result["clients_checked"], 2)
         self.assertFalse(result["install_authorized"])
+
+    def current_version(self, value):
+        (self.current_agent / "VERSION").write_text(value + "\n")
+        for name in ["plugin.json", "contracts.json"]:
+            path = self.current_agent / name; data = json.loads(path.read_text())
+            data["version" if name == "plugin.json" else "package_version"] = value
+            path.write_text(json.dumps(data))
+        self.old = self.pair(self.current_agent, self.current_skills)
+        settings = json.loads((self.workspace / "settings.json").read_text())
+        settings["packages"] = self.old; self.write("settings.json", settings)
+
+    def test_direct_preflight_rejects_equal_build_only_and_older_candidate(self):
+        for current in ["0.1.0-dev.2", "0.1.0-dev.2+rebuilt", "0.1.0-dev.3"]:
+            with self.subTest(current=current):
+                self.current_version(current)
+                with self.assertRaisesRegex(ValueError, "candidate_version_not_newer"):
+                    self.preflight()
+
+    def test_cli_preflight_cannot_bypass_version_selection_or_write_workspace(self):
+        self.current_version("0.1.0-dev.3")
+        self.compatibility["checked_at"] = datetime.now(timezone.utc).isoformat()
+        self.write("compatibility.json", self.compatibility)
+        release = self.write("release.json", self.release)
+        before = {p.relative_to(self.workspace).as_posix(): p.read_bytes() for p in self.workspace.rglob("*") if p.is_file()}
+        command = [sys.executable, "-B", str(Path(__file__).with_name("updates.py")), "preflight", str(self.workspace)]
+        for key, path in [("current-agent", self.current_agent), ("current-skills", self.current_skills),
+                          ("candidate-agent", self.candidate_agent), ("candidate-skills", self.candidate_skills),
+                          ("release", release), ("compatibility", self.compat)]:
+            command += ["--" + key, str(path)]
+        result = subprocess.run(command, capture_output=True, text=True)
+        self.assertEqual(result.returncode, 1)
+        self.assertEqual(json.loads(result.stdout)["issue"], "candidate_version_not_newer")
+        after = {p.relative_to(self.workspace).as_posix(): p.read_bytes() for p in self.workspace.rglob("*") if p.is_file()}
+        self.assertEqual(before, after)
 
     def test_one_incompatible_client_blocks_global_update(self):
         self.compatibility["clients"]["second"]["interfaces"]["source:vk-post-screenshot"] = 2

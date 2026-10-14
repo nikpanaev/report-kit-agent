@@ -138,6 +138,8 @@ def preflight(workspace, current_agent, current_skills, candidate_agent, candida
     current_agent, current_skills, candidate_agent, candidate_skills = roots
     settings = read_json(workspace / "settings.json")
     current = actual_pair(current_agent, current_skills); candidate = actual_pair(candidate_agent, candidate_skills)
+    require(version(candidate["report-kit-agent"]["version"]) > version(current["report-kit-agent"]["version"]),
+            "candidate_version_not_newer")
     release_check(release)
     require(settings["packages"] == current, "current_package_drift")
     require(release["packages"] == candidate and release["published"] is True and release["revoked"] is False, "candidate_identity")

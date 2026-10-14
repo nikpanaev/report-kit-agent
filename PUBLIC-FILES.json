@@ -32,6 +32,7 @@
     "evidence/release-prep-checks.json",
     "evidence/report-kit-checks.json",
     "evidence/update-help-checks.json",
+    "evidence/update-version-checks.json",
     "plugin.json",
     "references/maintenance.md",
     "references/onboarding.md",
