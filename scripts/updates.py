@@ -178,7 +178,9 @@ def preflight(workspace, current_agent, current_skills, candidate_agent, candida
         require(isinstance(record["required_skills"], list) and all(isinstance(v, str) for v in record["required_skills"]), "required_skills")
         required = skill_closure(catalog, record["required_skills"])
         needed = CORE | {"source:" + name for name in required} | {k for k in skills["interfaces"] if k.startswith("shared:")}
-        require(isinstance(record["interfaces"], dict) and all(type(record["interfaces"].get(k)) is int and record["interfaces"].get(k) == interfaces.get(k) for k in needed), "interface_incompatible")
+        require(isinstance(record["interfaces"], dict) and all(type(record["interfaces"].get(k)) is int
+                and record["interfaces"].get(k) == interfaces.get(k)
+                for k in needed | set(record["interfaces"])), "interface_incompatible")
         require(isinstance(record["permission_scopes"], list) and all(isinstance(v, str) for v in record["permission_scopes"]), "permission_inventory")
         permission = set(agent["permissions"])
         for name in required: permission.update(skills["permissions"].get(name, []))

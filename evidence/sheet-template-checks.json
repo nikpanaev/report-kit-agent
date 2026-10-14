@@ -1,0 +1,54 @@
+{
+  "status": "PASS_LIMITED",
+  "date": "2026-10-15",
+  "candidate_version": "0.1.0-dev.15",
+  "source_skills_version": "0.1.0-dev.10",
+  "full_agent_suite": {
+    "command": [
+      "python3",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "scripts",
+      "-p",
+      "test_*.py"
+    ],
+    "exit_code": 0,
+    "tests": 75,
+    "log_sha256": "fc01e1fbb2ec99159a26aa698de7d0482ab9dce3ba75ca007db58efb0c414f84"
+  },
+  "legacy_negative_cases": 60,
+  "protected_legacy_selftest_sha256": "dbde613895c5360ece334f61e8d3cae3386d3d3bd5651c641f1ebb4c6393b480",
+  "source_files": {
+    "scripts/check_report_templates.py": "9f790c6a5e8662701e369e045cf63d9ada12b584f6de7c1403fa16c35e3fce1d",
+    "scripts/test_sheet_templates.py": "8e03a32cf187acb9e7d07b058b94408a76be0966becc38cfaf2b86b70f2d3405",
+    "scripts/updates.py": "bf065737b667c92d5686b79c337a18113a77ab78023a51c2372189b110ebd66f",
+    "scripts/test_update_interfaces.py": "28fa223dbf0589b88b42f20da861ee9f5f67817ef682b634f11607ed6a5d0e50",
+    "scripts/test_updates.py": "5537168b036bf30d2c73d45924de43e2040fe2926bacf5f732f805206754959a"
+  },
+  "red_before_fix": {
+    "sheet_methods": 10,
+    "failures": 4,
+    "raw_sha256": "562f0e245fa1f0b25b26b1109985c83214c556700ea2eb0b6a11e9a585e0ee6b",
+    "optional_interface_methods": 2,
+    "interface_raw_sha256": "3d6839026e1cec19d6c900393aa4d626a6ea0b05f4d84ce3ff9d39d14921cdd4"
+  },
+  "limits": [
+    "Synthetic supplied-evidence structural tests only; not authenticated Google export or mathematical correctness of formulas",
+    "Supplemental drawings/images and external/import/image cells remain blocked and unimplemented",
+    "No live Google copying, employee install/update/rollback, publication, independent/non-AI QA/security or release approval",
+    "Old failed receipts and accepted client pilots preserved"
+  ],
+  "cleanup": {
+    "receipt_before_removal": true,
+    "task_fixture_files": 135,
+    "remaining": 0
+  },
+  "legacy_run": {
+    "exit_code": 0,
+    "raw_sha256": "c2f425951a468570a929058de8ab3e26b78dd6fba407e2debbf338aea78e42ba"
+  },
+  "oracle_correction": "Removed-hidden-tab negative still asserts BLOCKED; expected error text corrected to earlier coverage rejection. Original legacy and update test bytes unchanged."
+}

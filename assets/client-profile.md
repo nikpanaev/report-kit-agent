@@ -17,6 +17,8 @@
 
 Выбранные folder/account, required roles, registry schema3, exact owner-approved neutral templates/cumulative bases и copied backing Sheet policy. Pilot acceptance и template approval отдельны.
 
+Основы Google Таблиц: роли sheets_monthly/sheets_cumulative, требования совместимости template_registry_sheets1 и полный маршрут references/sheet-templates.md. Эти требования сохранять при проверке обновления; недоступные данные и дополнительные объекты не пропускать.
+
 ## Показатели и даты
 
 Формулы/denominator, posts vs clips/video, rounding, сравнение, неполный период, UI/API authority и approved budget. Missing source не ноль.

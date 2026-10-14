@@ -1,14 +1,16 @@
 {
-  "snapshot_date": "2026-10-14",
-  "origin": "Owner-maintained report workflow; existing offline native-template guard exported unchanged; source data and Git history excluded",
+  "snapshot_date": "2026-10-15",
+  "origin": "Owner-maintained report workflow; original native-template guard exported with bounded Sheets adaptation; source data and Git history excluded",
   "license_status": "Own code: MIT, copyright Report Kit; third-party notices/compatibility review pending; no upstream binaries vendored",
   "files": [
     {
       "sourceRelative": "scripts/check_report_templates.py",
       "sourceSHA256": "abc7e6807b49646e850e9989aec5a27ae75aee0ef3bce7d619f27b94c0d18652",
       "destination": "scripts/check_report_templates.py",
-      "outputSHA256": "abc7e6807b49646e850e9989aec5a27ae75aee0ef3bce7d619f27b94c0d18652",
-      "changes": []
+      "outputSHA256": "9f790c6a5e8662701e369e045cf63d9ada12b584f6de7c1403fa16c35e3fce1d",
+      "changes": [
+        "Add bounded native Sheets whole-read/Drive-version/typed-cell/chart/frozen-history guard; legacy Docs/Slides oracle unchanged"
+      ]
     },
     {
       "sourceRelative": "scripts/check_report_templates_selftest.py",

@@ -24,6 +24,8 @@ Distribution URLs, release signing/hosting и live update/rollback на ново
 
 Candidate contracts.json — versioned declarations. report-kit-agent CORE: workspace2, maintenance1, template_registry3, profile1. report-kit-skills: source:<skill>1 и shared helpers1. workspace2 вводит новые package keys; legacy settings отклоняются, автоматическая миграция отсутствует. Изменение схемы/семантики интерфейса требует reviewed новой версии, не перенумерации для PASS. Per-skill permissions позволяют подключать только нужные источники. Native host capabilities и permission labels требуют реального mapping/проверки в setup; строки сами не дают доступ.
 
+Проверяются также все дополнительные интерфейсы, заявленные клиентом. Для основ Google Таблиц обязательно `template_registry_sheets: 1`; отсутствие или другая версия в кандидате блокирует общее обновление, даже если остальные клиенты совместимы. Полноту требований сверить с настоящим клиентским профилем и реестром основ; не удалять требование из записи ради успешной проверки.
+
 preflight принимает external workspace и четыре реально прочитанных package roots (current/candidate agent+skills), release record и private compatibility JSON. Package identities пересчитываются по полному PUBLIC-FILES; candidate должен совпасть с published/nonrevoked exact pair. Полный package/history hygiene scan выполнять отдельно до использования. Current settings packages должны совпасть с реально выбранным текущим комплектом.
 
 Compatibility JSON schema1: checked_at (aware ISO timestamp, возраст<24ч), host_capabilities и clients keyed by exact workspace client IDs. Набор клиентов должен совпасть с settings.clients и clients/*/AGENT.md. Для каждого:

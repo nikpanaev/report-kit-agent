@@ -1,6 +1,6 @@
 # Evidence Index — report-agent
 
-Current state2026-10-14: VERSION0.1.0-dev.14, prototype/development, no stable release, no remote. Authorized result: device-independent local source preparation only. Existing client agents/installed skills unchanged by this task; preservation receipt outside public package. Publication/installation/service access not performed.
+Current state2026-10-15: VERSION0.1.0-dev.15, prototype/development, no stable release, no remote. Authorized result: device-independent local source preparation only. Existing client agents/installed skills unchanged by this task; preservation receipt outside public package. Publication/installation/service access not performed.
 
 Process Profile and authority: [CHANGE-SPEC](CHANGE-SPEC.md). Baseline and scoped branch actual Git; package content identity/private exact run records retained locally. [Offline checks](evidence/offline-checks.json) contain only sanitized source/test identities, no donor paths or private data. [Source provenance](SOURCE-PROVENANCE.json), [selection](OPEN-SOURCE-SELECTION.md) and [license status](LICENSE-STATUS.md).
 
@@ -118,3 +118,12 @@ Owner rejected the user-facing language as translated prompt prose. USER-GUIDE a
 ## Selected private-output source — 0.1.0-dev.14
 
 Agent executable/SKILL bytes preserved; dependency selects exact source 0.1.0-dev.10 with scoped private-output repair. Source evidence remains in its evidence/private-output-checks.json and private raw receipts; existing failures, independent/non-AI/employee/runtime/license/release controls retained. No installer, client migration, source routing change or publication.
+
+
+## Native Sheets and all client interfaces — 0.1.0-dev.15
+
+[Scoped evidence](evidence/sheet-template-checks.json): 75 local agent unittest methods and the unchanged legacy template selftest with60 negative cases passed. Added12 Sheets methods plus2 optional-interface methods; initial raw failures retained privately. Original Docs/Slides oracle and28 update-test methods/bytes preserved. Monthly/cumulative Sheets roles now use native spreadsheetId, same-run before/after Drive File.version, full grid coverage, stable IDs and typed whole CellData, complete chart/source maps and immutable accepted-month snapshots. No fake revisionId or loss of formula/type/format information. Optional format requirements participate in whole-client compatibility instead of being silently ignored; template_registry_sheets1 is additive for new Sheets clients, with no migration of existing clients.
+
+Supplemental drawings/over-grid images and external/image/import cells remain an unfinished BLOCKED route. Supplied timestamps/coverage/hashes/approval records do not prove authentic Google reads or correct formulas. Actual connected export/copy, employee install/update/rollback, independent/non-AI review and release approval remain NOT_RUN/PENDING. Existing source-skills exact dev.10, installed/client files and past failures unchanged. 135 new synthetic fixture files recorded with hashes before cleanup and verified absent. No publication, service or client work.
+
+Agent14 source-only AI security scan is a historical observation at its exact commit, not approval of these changed15 bytes or independent non-AI review. LICENSE text review and original cold VK cause remain incomplete. The accepted employee-facing guide and accepted client pilots do not need repeat acceptance for this bounded local repair.

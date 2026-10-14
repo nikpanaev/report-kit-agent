@@ -14,6 +14,8 @@ Local manifest `plugin.json` и `.agents/plugins/marketplace.json` подгот�
 
 Проверка: `python3 scripts/check_package.py . --skills-root ../report-kit-skills`, `python3 scripts/test_package_boundaries.py`, `python3 scripts/check_report_templates_selftest.py`. Source checks only; no accounts/keys/Google writes. Для workspace отдельный check_workspace.py.
 
+Для основ Google Таблиц: [маршрут проверки](references/sheet-templates.md), `python3 scripts/test_sheet_templates.py` и `python3 scripts/test_update_interfaces.py`. Это локальные примеры без доступа к Google; полнота источников, формулы на настоящих данных и устройство сотрудника проверяются отдельно.
+
 Privacy: никаких реальных API keys, сессий, cookies, браузерных профилей, личных аккаунтов, клиентских IDs или сырой истории. Проверяются candidate files и reachable Git history; ignored tool caches не часть distribution. Pattern scan не полная независимая security проверка.
 
 ## Product Versioning + Maturity/Channel Contract

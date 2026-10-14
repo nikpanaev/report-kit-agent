@@ -9,6 +9,11 @@ import re
 MIME = {"docs": "application/vnd.google-apps.document",
         "cumulative": "application/vnd.google-apps.presentation",
         "monthly": "application/vnd.google-apps.presentation"}
+SHEETS_MIME = {role: "application/vnd.google-apps.spreadsheet"
+               for role in ("sheets_monthly", "sheets_cumulative")}
+NATIVE_MIME = {**MIME, **SHEETS_MIME}
+CUMULATIVE_ROLES = {"cumulative", "sheets_cumulative"}
+
 
 
 def digest(value):
@@ -36,7 +41,8 @@ def stable_native(value, field=None):
 
 
 def native_digest(value):
-    return digest(stable_native(native_document(value)))
+    raw = native_document(value)
+    return digest(raw if isinstance(raw, dict) and "spreadsheetId" in raw else stable_native(raw))
 
 
 def neutral_slot(value):
@@ -48,8 +54,132 @@ def neutral_slot(value):
     return bool(tokens.search(value)) and not re.search(r"[{}]", tokens.sub("", value))
 
 
+def sheets_inventory(raw, allow_links):
+    """Typed cells and stable native IDs, including hidden tabs and grid offsets."""
+    texts = {"/properties/title": raw["properties"]["title"]}
+    links, ids, chart_ids = {}, set(), set()
+    sheets = raw["sheets"]
+    if not isinstance(sheets, list) or not sheets:
+        raise ValueError("Sheets read has no worksheets")
+    for sheet in sheets:
+        properties = sheet["properties"]
+        if not isinstance(properties, dict):
+            raise ValueError("Sheets properties must be an object")
+        ident = properties["sheetId"]
+        if type(ident) is not int or ident < 0 or ident in ids:
+            raise ValueError("Sheets duplicate/invalid sheetId")
+        ids.add(ident)
+        if properties.get("sheetType", "GRID") != "GRID" or not isinstance(sheet.get("data"), list):
+            raise ValueError("Sheets unsupported worksheet type or absent grid data")
+        base = f"/@sheetId/{ident}"
+        texts[base + "/properties/title"] = properties["title"]
+        grid_size = properties["gridProperties"]
+        if (not isinstance(grid_size, dict)
+                or any(type(grid_size.get(k)) is not int or grid_size[k] <= 0 for k in ("rowCount", "columnCount"))):
+            raise ValueError("Sheets invalid grid dimensions")
+        cells = set()
+        for grid in sheet["data"]:
+            if not isinstance(grid, dict) or not isinstance(grid.get("rowData", []), list):
+                raise ValueError("Sheets grid/rows must be native objects/lists")
+            row, col = grid.get("startRow", 0), grid.get("startColumn", 0)
+            if any(type(n) is not int or n < 0 for n in (row, col)):
+                raise ValueError("Sheets invalid grid offset")
+            for r, row_data in enumerate(grid.get("rowData", []), row):
+                if not isinstance(row_data, dict) or not isinstance(row_data.get("values", []), list):
+                    raise ValueError("Sheets row/cells must be native objects/lists")
+                for c, cell in enumerate(row_data.get("values", []), col):
+                    if r >= grid_size["rowCount"] or c >= grid_size["columnCount"] or (r, c) in cells:
+                        raise ValueError("Sheets overlapping/out-of-bounds cell")
+                    cells.add((r, c))
+                    if not isinstance(cell, dict):
+                        raise ValueError("Sheets CellData must be an object")
+                    entered = cell.get("userEnteredValue", {})
+                    if not isinstance(entered, dict) or not isinstance(entered.get("formulaValue", ""), str):
+                        raise ValueError("Sheets invalid userEnteredValue/formula")
+                    formula = entered.get("formulaValue", "")
+                    if ("dataSourceTable" in cell or "dataSourceFormula" in cell
+                            or re.search(r"\b(?:IMAGE|IMPORT\w*)\s*\(", formula, re.I)):
+                        raise ValueError("Sheets external/image cells need separate source/asset support")
+                    if cell:
+                        texts[f"{base}/cells/{r}/{c}"] = json.dumps(
+                            cell, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+        for chart in sheet.get("charts", []):
+            ident = chart["chartId"]
+            if type(ident) is not int or ident < 0 or ident in chart_ids:
+                raise ValueError("Sheets duplicate/invalid chartId")
+            chart_ids.add(ident)
+            if not allow_links:
+                raise ValueError("Sheets charts require complete chart/source inventory")
+            pointer = f"{base}/@chartId/{ident}/spec"
+            spec = chart["spec"]
+            if not isinstance(spec, dict):
+                raise ValueError("Sheets chart spec must be an object")
+            for key in ("title", "subtitle", "altText"):
+                if key in spec:
+                    texts[pointer + "/" + key] = spec[key]
+            links[pointer] = digest(spec)
+    if any(not isinstance(v, str) for v in texts.values()):
+        raise ValueError("Sheets title/cell inventory must use native strings")
+    return texts, {}, links
+
+
+def sheets_slot(pointer, value):
+    if "/cells/" not in pointer:
+        return neutral_slot(value)
+    cell = json.loads(value)
+    if not isinstance(cell, dict):
+        return False
+    entered = cell.get("userEnteredValue", {})
+    if set(entered) != {"stringValue"} or not neutral_slot(entered["stringValue"]):
+        return False
+    return (cell.get("effectiveValue", entered) == entered
+            and cell.get("formattedValue", entered["stringValue"]) == entered["stringValue"]
+            and not ({"note", "hyperlink", "textFormatRuns", "chipRuns", "pivotTable"} & cell.keys()))
+
+
+def sheets_placeholders(pointer, value):
+    def contains(item):
+        if isinstance(item, dict):
+            return any(contains(v) for v in item.values())
+        if isinstance(item, list):
+            return any(contains(v) for v in item)
+        return isinstance(item, str) and ("{{" in item or "}}" in item)
+    return contains(json.loads(value) if "/cells/" in pointer else value)
+
+
+def sheets_read_revision(raw, current, template, run, base):
+    """Sheets has no revisionId: bracket a complete read with native Drive File.version."""
+    read = current["sheets_read"]
+    if (read["request"] != {"includeGridData": True} or read["request"]["includeGridData"] is not True
+            or read["unreadable"] != [] or read["unsupported_objects"] != []
+            or not isinstance(read["supplemental_review_source"], str) or not read["supplemental_review_source"]):
+        raise ValueError("Sheets partial read or unreviewed/unsupported supplemental objects")
+    ids = [s["properties"]["sheetId"] for s in raw["sheets"]]
+    declared = read["sheet_ids"]
+    if (not isinstance(declared, list) or any(type(i) is not int for i in declared)
+            or len(set(ids)) != len(ids) or len(declared) != len(ids) or set(declared) != set(ids)):
+        raise ValueError("Sheets complete worksheet coverage missing")
+    before_at, after_at = (datetime.fromisoformat(read[k]) for k in ("before_at", "after_at"))
+    started, observed = (datetime.fromisoformat(run["started_at"]), datetime.fromisoformat(current["checked_at"]))
+    if (before_at.tzinfo is None or after_at.tzinfo is None
+            or not started <= before_at <= after_at <= observed):
+        raise ValueError("Sheets Drive reads do not bracket this run's native snapshot")
+    for name in ("drive_before_path", "drive_after_path"):
+        metadata = native_document(read_json(base, read[name]))
+        if (any(metadata[k] != current[k] for k in ("id", "mimeType", "trashed", "parents", "owners"))
+                or not isinstance(metadata["version"], str)
+                or not re.fullmatch(r"[0-9]+", metadata["version"])
+                or metadata["version"] != template["revision"]):
+            raise ValueError("Sheets Drive identity/version changed; reapproval required")
+    return template["revision"]
+
+
+
 def inventory(value, path="", allow_links=False, stable_images=False):
     """Native text/assets; Slides objectId locators stay stable when pages are inserted."""
+    if not path and isinstance(value, dict) and "spreadsheetId" in value:
+        return sheets_inventory(value, allow_links)
+
     texts, images, links = {}, {}, {}
     if isinstance(value, dict):
         if "objectId" in value:
@@ -147,7 +277,7 @@ def check(registry_path, preflight_path, required_roles):
         registry = json.loads(registry_path.read_text())
         run = json.loads(preflight_path.read_text())
         roles = set(required_roles)
-        if not roles or not roles <= MIME.keys() or len(roles) != len(required_roles):
+        if not roles or not roles <= NATIVE_MIME.keys() or len(roles) != len(required_roles):
             raise ValueError("required roles must be nonempty, unique and supported")
         if registry["schema_version"] != 3 or run["schema_version"] != 3:
             raise ValueError("unsupported schema")
@@ -185,7 +315,7 @@ def check(registry_path, preflight_path, required_roles):
                         or current["run_id"] != run["run_id"]
                         or current["link_id"] != run["link_id"]):
                     raise ValueError("cached read or wrong connection/run")
-                if current["mimeType"] != MIME[role] or current["trashed"] is not False:
+                if current["mimeType"] != NATIVE_MIME[role] or current["trashed"] is not False:
                     raise ValueError("wrong native MIME or deleted file")
                 if (registry["reports_folder_id"] not in current["parents"]
                         or registry["account_email"] not in
@@ -194,9 +324,11 @@ def check(registry_path, preflight_path, required_roles):
                 raw = native_document(read_json(preflight_path.parent, current["native_path"]))
                 if not isinstance(raw, dict):
                     raise ValueError("native read must be an object")
-                raw_id = raw.get("documentId") if role == "docs" else raw.get("presentationId")
+                sheets = role in SHEETS_MIME
+                raw_id = raw.get("spreadsheetId") if sheets else raw.get("documentId") if role == "docs" else raw.get("presentationId")
+                revision = sheets_read_revision(raw, current, template, run, preflight_path.parent) if sheets else raw["revisionId"]
                 if (raw_id != ident or not isinstance(template["revision"], str) or not template["revision"]
-                        or raw["revisionId"] != template["revision"]):
+                        or revision != template["revision"]):
                     raise ValueError("native ID/revision changed; reapproval required")
                 if native_digest(raw) != template["approved_sha256"]:
                     raise ValueError("native content differs from approved snapshot")
@@ -205,19 +337,20 @@ def check(registry_path, preflight_path, required_roles):
                         or (approval["id"], approval["revision"], approval["approved_sha256"])
                         != (ident, template["revision"], template["approved_sha256"])):
                     raise ValueError("missing exact template/base approval")
-                cumulative = role == "cumulative"
+                cumulative = role in CUMULATIVE_ROLES
                 expected_kind = "cumulative_base" if cumulative else "neutral_template"
                 if template["semantic_kind"] != expected_kind:
                     raise ValueError("wrong role semantics")
-                texts, images, links = inventory(raw, allow_links=cumulative)
+                texts, images, links = inventory(raw, allow_links=cumulative or sheets)
                 slots, static = template["text_slots"], template["static_text"]
                 if (not slots and not cumulative) or set(slots) & set(static):
                     raise ValueError("missing/overlapping text slot mapping")
                 if any(not isinstance(s, str) for s in static.values()):
                     raise ValueError("static text must be native text strings")
-                if any("{{" in s or "}}" in s for s in static.values()):
+                if any(sheets_placeholders(p, s) if sheets else "{{" in s or "}}" in s
+                       for p, s in static.items()):
                     raise ValueError("embedded placeholders must be mapped as text slots, not static")
-                if any(not neutral_slot(s) for s in slots.values()):
+                if any(not (sheets_slot(p, s) if sheets else neutral_slot(s)) for p, s in slots.items()):
                     raise ValueError("monthly value/date in a neutral slot")
                 actual_hashes = image_hashes(preflight_path.parent, current["image_paths"])
                 expected_images = {}
@@ -240,7 +373,7 @@ def check(registry_path, preflight_path, required_roles):
                     frozen_text, frozen_images, months = frozen_history(
                         template, registry_path.parent, raw, registry["client_id"],
                         run["new_month"], run["collection_months"],
-                        actual_hashes, append_month=run["selected_role"] == "cumulative")
+                        actual_hashes, append_month=run["selected_role"] in CUMULATIVE_ROLES)
                     mutable = template["mutable_text"]
                     if (expected_text.keys() & mutable.keys() or expected_text.keys() & frozen_text.keys()
                             or mutable.keys() & frozen_text.keys() or expected_images.keys() & frozen_images.keys()):
@@ -249,6 +382,7 @@ def check(registry_path, preflight_path, required_roles):
                         raise ValueError("missing mutable cumulative blocks")
                     expected_text = {**expected_text, **mutable, **frozen_text}
                     expected_images = {**expected_images, **frozen_images}
+                if cumulative or sheets:
                     if set(links) != set(template["linked_data"]) or set(links) != set(current["linked_data_paths"]):
                         raise ValueError("missing linked cumulative chart/source inventory")
                     for pointer, spec in template["linked_data"].items():
@@ -275,7 +409,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("registry", type=Path)
     parser.add_argument("preflight", type=Path)
-    parser.add_argument("--roles", nargs="+", required=True, choices=MIME)
+    parser.add_argument("--roles", nargs="+", required=True, choices=NATIVE_MIME)
     parser.add_argument("--output-native", type=Path,
                         help="Additionally compare filled cumulative output to accepted frozen zones")
     parser.add_argument("--output-image-manifest", type=Path,
@@ -285,11 +419,11 @@ if __name__ == "__main__":
     if not result["issues"] and args.output_native:
         try:
             registry = json.loads(args.registry.read_text()); run = json.loads(args.preflight.read_text())
-            if run["selected_role"] != "cumulative":
+            if run["selected_role"] not in CUMULATIVE_ROLES:
                 raise ValueError("output history check applies only to a cumulative report")
             if args.output_image_manifest is None:
                 raise ValueError("filled output needs its actual image manifest")
-            template = next(t for t in registry["templates"] if t["role"] == "cumulative")
+            template = next(t for t in registry["templates"] if t["role"] == run["selected_role"])
             frozen_history(template, args.registry.parent, json.loads(args.output_native.read_text()),
                            registry["client_id"], run["new_month"], run["collection_months"],
                            image_hashes(args.output_image_manifest.parent,
