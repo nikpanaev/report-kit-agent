@@ -1,6 +1,6 @@
 # Evidence Index — report-agent
 
-Current state2026-10-14: VERSION0.1.0-dev.8, prototype/development, no stable release, no remote. Authorized result: device-independent local source preparation only. Existing client agents/installed skills unchanged by this task; preservation receipt outside public package. Publication/installation/service access not performed.
+Current state2026-10-14: VERSION0.1.0-dev.9, prototype/development, no stable release, no remote. Authorized result: device-independent local source preparation only. Existing client agents/installed skills unchanged by this task; preservation receipt outside public package. Publication/installation/service access not performed.
 
 Process Profile and authority: [CHANGE-SPEC](CHANGE-SPEC.md). Baseline and scoped branch actual Git; package content identity/private exact run records retained locally. [Offline checks](evidence/offline-checks.json) contain only sanitized source/test identities, no donor paths or private data. [Source provenance](SOURCE-PROVENANCE.json), [selection](OPEN-SOURCE-SELECTION.md) and [license status](LICENSE-STATUS.md).
 
@@ -93,3 +93,7 @@ Target-device restricted-permission install, actual model/user comprehension, no
 ## Readable command metadata — 0.1.0-dev.8
 
 [Interface checks](evidence/interface-checks.json) record current declared UI text, standard YAML parsing and official skill validation.20 across the pair; IDs, unrelated metadata, SKILL bodies and executable bytes unchanged. Agent/source versions select an exact new pair for this metadata change; no installed copies/client agents affected. Source default-store doc now matches unchanged queue implementation. No native UI installation, employee comprehension, permissions, privacy/release acceptance inferred. Historical failures/controls preserved.
+
+## Reviewed source diagnostic dependency — dev.9
+
+Exact source-skills dev.7 adds bounded retry stage/type diagnostics only. Five mocked diagnostic cases and original local Chromium fixture recorded by the source; not employee/live VK or historical cold root-cause closure. Capture stdout/schema, parameters and other functions retained. Native install/source authority/independent review and original controls remain pending.

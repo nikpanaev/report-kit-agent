@@ -70,3 +70,7 @@ Continued local preparation exposed a direct preflight route that could return R
 ## Office-user interface metadata — 0.1.0-dev.8
 
 Owner novice requirement applies to visible commands too. Change display_name/short_description and plugin description only; preserve IDs, policy/dependencies/default prompts and every SKILL body/executable. Existing validator and YAML/source preservation observations; no new tests mirroring wording, dependency or GUI. Source DATA-BOUNDARY default corrected to existing report-skills store; no second queue/default migration. Source provenance output hashes reflect five copied YAML adaptations; origins unchanged. Target employee/native installation/usability and independent release controls remain open.
+
+## Bounded source diagnostics adoption — dev.9
+
+Exact reviewed source-skills dev.7 dependency and maintainer guidance only. No workflow execution/API/permission/interface or model service change; source diagnostic observation is not original failure closure. Preserve source/employee/independent/privacy/lifecycle limitations.
