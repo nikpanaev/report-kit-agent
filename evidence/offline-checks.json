@@ -1,0 +1,69 @@
+{
+  "scope": "LOCAL_PREPARATION; not release/installation/device/privacy acceptance",
+  "recorded_date": "2026-10-14",
+  "runs": [
+    {
+      "id": "test-01",
+      "script": "scripts/test_package_boundaries.py",
+      "exitCode": 0,
+      "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSHA256": "372ee57a30b8a8b17bb056a0814266786a922da7dcf4139f4f9a2457745d6424",
+      "scope": "Synthetic fixtures; no real account/credential/source capture; source import/path/helper checks on donor runtime",
+      "laterChanges": "Only documented synthetic fixture label or MCP version metadata changes require affected rerun; subsequent raw receipts kept outside public package",
+      "currentScriptSHA256": "19eb9225824e97ec9bf08f6251db409dcec1fafbc40cf5ba89f592d1af341328",
+      "identityLimitation": "Current script hash; first donor-run output separately recorded; affected reruns/immutable clone verification retained in private evidence"
+    },
+    {
+      "id": "test-02",
+      "script": "scripts/check_report_templates_selftest.py",
+      "exitCode": 0,
+      "stdoutSHA256": "c2f425951a468570a929058de8ab3e26b78dd6fba407e2debbf338aea78e42ba",
+      "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "Synthetic fixtures; no real account/credential/source capture; source import/path/helper checks on donor runtime",
+      "laterChanges": "Only documented synthetic fixture label or MCP version metadata changes require affected rerun; subsequent raw receipts kept outside public package",
+      "currentScriptSHA256": "dbde613895c5360ece334f61e8d3cae3386d3d3bd5651c641f1ebb4c6393b480",
+      "identityLimitation": "Current script hash; first donor-run output separately recorded; affected reruns/immutable clone verification retained in private evidence"
+    }
+  ],
+  "skillValidation": [
+    {
+      "skill": "report-agent/skills/report-agent-update",
+      "exitCode": 0
+    },
+    {
+      "skill": "report-agent/skills/report-client-onboarding",
+      "exitCode": 0
+    },
+    {
+      "skill": "report-agent/skills/report-monthly",
+      "exitCode": 0
+    },
+    {
+      "skill": "report-agent/skills/report-quality-check",
+      "exitCode": 0
+    },
+    {
+      "skill": "report-agent/skills/report-setup",
+      "exitCode": 0
+    }
+  ],
+  "originalFailures": [],
+  "limitations": [
+    "No target-device/account/OS or host install validation",
+    "No live Google/LiveDune/social access",
+    "No independent QA/security approval",
+    "License/release/publication pending",
+    "Raw donor paths and temporary screenshots deliberately excluded"
+  ],
+  "lifecycle": {
+    "result": "IN_DEVELOPMENT",
+    "exitCode": 0,
+    "framework": "v3.4.0",
+    "commit": "63f4faee40598bd3d6e75d49777fa00982c20811",
+    "scope": "Development identity/policy only, not gates/release"
+  },
+  "claimGate": {
+    "result": "FAIL",
+    "reason": "Material technical observations await real human acceptance; no schema/policy waiver or fake approval"
+  }
+}

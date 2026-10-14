@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "report-agent",
+  "version": "0.1.0-dev.0",
+  "description": "Portable reporting orchestration and guided setup",
+  "extensions": {
+    "com.openai": {
+      "onboardingSkill": "./skills/report-setup/SKILL.md"
+    }
+  }
+}

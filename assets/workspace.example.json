@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "timezone": "Europe/Moscow",
+  "packages": {"report-agent": null, "report-skills": null},
+  "capabilities": {},
+  "clients": []
+}

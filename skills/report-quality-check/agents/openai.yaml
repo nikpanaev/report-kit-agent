@@ -1,0 +1,3 @@
+interface:
+  display_name: "report-quality-check"
+  short_description: "Проверка native отчёта перед приёмкой"

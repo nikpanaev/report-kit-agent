@@ -1,0 +1,14 @@
+# Первоначальная настройка
+
+Цель: сотрудник выбирает рабочую область и самостоятельно входит в нужные сервисы; нет копирования чужих клиентов, чатов или авторизации.
+
+1. Прочитай package VERSION, dependencies.json и CHANGE-SPEC scope. Уточни ОС/Codex surface только если неизвестны. Поддержка устройства определяется фактической проверкой, не именем ОС в инструкции.
+2. Найди выбранную копию report-skills. Для local preparation это sibling package; у future distribution должен быть настоящий source URL/exact revision. Не угадывать GitHub URL и не делать curl|shell. Проверить scripts/check_package.py для обоих пакетов и compatible identity по dependencies.json. Установка/обновление требует прямого разрешения. При конфликте installed skill namespaces/source остановиться; ничего не перезаписывать.
+3. Предложи отдельную private workspace вне обоих репозиториев; работодатель/владелец должен разрешить хранение нужных данных. Не ставить local workspace или credentials внутрь package/plugin cache. Уточни владельца приёмки и разрешённые способы sharing. Создать папку/локальные settings только по явно выбранному пути; plaintext secrets не записывать.
+4. Workspace settings schema1 хранит пути, timezone, package identities и доступные capability statuses, не passwords/cookies/API tokens. Пример assets/workspace.example.json синтетический и не является готовой конфигурацией. Клиентов пока нет. Profile/chat binding появляется только при отдельном подключении.
+5. Показать фактические отсутствующие подключения. Google needed при первом документе, LiveDune при первых метриках, соцсеть/DM только при соответствующей съёмке; Gmail только для согласованного почтового источника. Не выдавать широкие scopes заранее. Выбор account для каждого new file сохраняется; setup не отменяет это правило.
+6. Ключ LiveDune принадлежит сотруднику/разрешённому рабочему аккаунту; никогда не вставлять его в чат, argv или package config. Текущий CLI secret adapter поддерживает macOS Keychain. Иная ОС: API CLI NOT_SUPPORTED до отдельного безопасного adapter/проверки; разрешённое web чтение не означает исправленный CLI. VK использует собственную ручную авторизацию или явно разрешённый local CDP; новая личная сессия не поставляется.
+7. Для UI нужна единая проверенная очередь всех навыков на этом устройстве. Если уже есть другие UI skills/очередь, согласовать совместимость одного store до первого UI действия; не создавать конкурирующие активные очереди. Наличие пакета не доказывает вызов skill из модели.
+8. Сохранить setup receipt: package identities, selected workspace (private only), capability discovery vs actual invocation, checks PASS/FAIL/NOT_RUN/NOT_APPLICABLE, actions, blockers и next state. Offline package PASS не означает Google permissions или действующую сессию.
+
+Если настраиваемую часть можно отложить до запроса, отложи её. Не требуй всех аккаунтов или всех соцсетей сразу. Никакой отчёт не собирается только из поручения на настройку.

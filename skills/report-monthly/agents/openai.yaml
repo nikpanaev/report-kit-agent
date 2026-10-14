@@ -1,0 +1,3 @@
+interface:
+  display_name: "report-monthly"
+  short_description: "Переносимый процесс клиентских отчётов"

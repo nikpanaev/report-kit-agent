@@ -1,0 +1,17 @@
+{
+  "name": "report-agent-local",
+  "plugins": [
+    {
+      "name": "report-agent",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

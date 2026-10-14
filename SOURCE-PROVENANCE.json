@@ -1,0 +1,24 @@
+{
+  "snapshot_date": "2026-10-14",
+  "origin": "Owner-maintained report workflow; existing offline native-template guard exported unchanged; source data and Git history excluded",
+  "license_status": "Owner distribution license pending",
+  "files": [
+    {
+      "sourceRelative": "scripts/check_report_templates.py",
+      "sourceSHA256": "abc7e6807b49646e850e9989aec5a27ae75aee0ef3bce7d619f27b94c0d18652",
+      "destination": "scripts/check_report_templates.py",
+      "outputSHA256": "abc7e6807b49646e850e9989aec5a27ae75aee0ef3bce7d619f27b94c0d18652",
+      "changes": []
+    },
+    {
+      "sourceRelative": "scripts/check_report_templates_selftest.py",
+      "sourceSHA256": "a50d359fc26f931a944344f28c0e77ddae7b41ef66be1838522bda385fd26e08",
+      "destination": "scripts/check_report_templates_selftest.py",
+      "outputSHA256": "dbde613895c5360ece334f61e8d3cae3386d3d3bd5651c641f1ebb4c6393b480",
+      "changes": [
+        "Replace report-derived numerical fixture values with synthetic values; same assertions",
+        "Replace existing client name in synthetic native fixture with fictional training client; same inventory/hash assertions"
+      ]
+    }
+  ]
+}
