@@ -27,6 +27,10 @@ Process Profile and authority: [CHANGE-SPEC](CHANGE-SPEC.md). Baseline and scope
 
 AI claim ledger uses legacy default; pending human acceptance is intentionally preserved, not a product pass. No prospective policy or automatic claim acceptance activated. Framework v3.4.0/63f4faee40598bd3d6e75d49777fa00982c20811 exact-tag checkers used privately; mutable framework working HEAD is not authority.
 
-Next authorized action within this slice: finish local identity/provenance/relocation checks and commits. Next product work: license/source review and rate-limit fixture diagnosis, then target-device installation and new-client control report after inputs/permission. No existing client migration or publication.
+Local preparation identity/provenance/relocation checks and commits are complete; their private receipts retain exact committed identities and limitations. Next product work: license/source review and rate-limit fixture diagnosis, then target-device installation and new-client control report after inputs/permission. No existing client migration or publication.
 
 Actual exact-tag lifecycle: IN_DEVELOPMENT, exit0/issues[]. Initial VERSION_POLICY_BLOCKED preserved privately; canonical existing version contract fields corrected, no criteria weakened. Legacy claim gate remains FAIL only material human acceptance; source observations not accepted product release.
+
+## Maintenance transfer plan — 2026-10-14
+
+[HANDOVER](HANDOVER.md) now proposes the complete maintenance/release/compatibility/employee path. Bounded source review of the existing LiveDune maintenance contract and reporting refresh rules, plus recent comment/message maintainer turns, informed the plan. This is not a full audit of all skill chats, an accepted operational permission, an implemented incident router or tested cross-account messaging. The portable LiveDune entrypoint currently lacks the full maintenance cycle. Existing local bindings are not exported; all employee bindings/permissions must be private and configured afresh. Existing sources, installed skills and client agents remain outside this document-only change. VERSION unchanged; no updater, schedule, chat or publication was activated. Prior executable checks remain observations of their original commits; changed document payload requires a new identity check, not relabelling old evidence.
