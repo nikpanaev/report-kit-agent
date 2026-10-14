@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "package": "report-agent",
-  "package_version": "0.1.0-dev.3",
+  "package_version": "0.1.0-dev.4",
   "interfaces": {
     "workspace": 1,
     "maintenance": 1,

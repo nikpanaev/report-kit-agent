@@ -49,3 +49,5 @@ rollback snapshot schema1: old/new exact pair, clients и protected_files. Со�
 ## Проверки и документация
 
 scripts/test_updates.py проверяет synthetic selection/preflight/partial refresh/rollback. Это не live native tool, messaging, GitHub publication или устройство сотрудника. К CLI нельзя подставлять secrets/raw corpus; private paths и результаты не коммитить. User-facing explanation — [руководство](../docs/USER-GUIDE.md) и [помощь](../docs/HELP.md); актуализировать их вместе с поведением и release notes.
+
+Runtime/dependency review входит в affected compatibility: читать текущий report-skills/dependencies/REVIEW.json и actual host results. Например, frozen LiveDune chain требует Node>=20, хотя root metadata says18; при required LiveDune нельзя принять root version alone. Metadata inventory не заменяет candidate-specific native regression. Helper не измеряет реальный Node/Python/browser: их проверка и source/raw evidence обязательны исполнителю, unknown означает BLOCKED.

@@ -26,3 +26,5 @@
 Release notes простым языком: что стало доступно, что исправлено, затронутые источники/доступы, совместимость и действие сотрудника. Если действий нет, не вынуждать его перенастраивать аккаунты. Подробности/source receipts остаются у сопровождающего; помощь сотруднику — [здесь](../docs/HELP.md).
 
 [Git archive](https://git-scm.com/docs/git-archive), [GitHub Releases](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository), [native CLI draft option](https://cli.github.com/manual/gh_release_create).
+
+Source/dependency review preparation: report-skills/THIRD-PARTY-DEPENDENCIES.md и dependencies/REVIEW.json содержат declared labels/integrity/engines, не автоматический license PASS. При изменении frozen dependency graph/поставки повторить проверку; current Node20/transitive Python/esbuild/platform ограничения не скрывать в release notes.
