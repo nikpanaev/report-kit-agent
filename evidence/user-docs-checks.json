@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "package_version": "0.1.0-dev.13",
+  "scope": "Two user documents; no operational skill/code change",
+  "documents": {
+    "docs/USER-GUIDE.md": "c27ae2347cca06a7f02bfc487f8ed4fdb0a26b15a9c138f3e81522cf64e4219e",
+    "docs/HELP.md": "286cf6c551f0418fc94ad3243b2f8a3edc1e01a15e4113bd112d8f7befcfb8ba"
+  },
+  "review_basis": "Complete before/after reading and20-item operational-constraint comparison",
+  "preserved_agent_code_and_skills": 19,
+  "preserved_selected_source_files": 98,
+  "user_readability_acceptance": "PENDING",
+  "independent_qa_security_acceptance": false,
+  "publication_authorized": false,
+  "installation_authorized": false,
+  "limits": "Documentation content review only. Not proof of understandable language for the employee or actual setup/update/report behavior."
+}

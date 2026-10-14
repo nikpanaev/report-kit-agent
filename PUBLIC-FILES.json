@@ -38,6 +38,7 @@
     "evidence/report-kit-checks.json",
     "evidence/update-help-checks.json",
     "evidence/update-version-checks.json",
+    "evidence/user-docs-checks.json",
     "plugin.json",
     "references/maintenance.md",
     "references/onboarding.md",

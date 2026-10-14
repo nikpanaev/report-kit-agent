@@ -1,6 +1,6 @@
 # Evidence Index — report-agent
 
-Current state2026-10-14: VERSION0.1.0-dev.12, prototype/development, no stable release, no remote. Authorized result: device-independent local source preparation only. Existing client agents/installed skills unchanged by this task; preservation receipt outside public package. Publication/installation/service access not performed.
+Current state2026-10-14: VERSION0.1.0-dev.13, prototype/development, no stable release, no remote. Authorized result: device-independent local source preparation only. Existing client agents/installed skills unchanged by this task; preservation receipt outside public package. Publication/installation/service access not performed.
 
 Process Profile and authority: [CHANGE-SPEC](CHANGE-SPEC.md). Baseline and scoped branch actual Git; package content identity/private exact run records retained locally. [Offline checks](evidence/offline-checks.json) contain only sanitized source/test identities, no donor paths or private data. [Source provenance](SOURCE-PROVENANCE.json), [selection](OPEN-SOURCE-SELECTION.md) and [license status](LICENSE-STATUS.md).
 
@@ -109,3 +109,7 @@ Exact existing Pillow12.3.0/NumPy2.3.5 primary metadata and five local license f
 ## Standalone package route accepted — 2026-10-14
 
 Direct owner answer accepted the [separate source/artifact route](evidence/package-route-decision.json) documented in [releases](references/releases.md). Developer route selection is closed as a process decision. Earlier FRAMEWORK_DRIFT/public-root and CONTROL_MISSING/parent-version-conflict observations remain raw historical results, not retroactive passes. No test/checker/critical control weakened. Independent reviewer/QA/security/licensing, original cold risk, employee-runtime acceptance and release/publication/install authority remain pending. Source package identity and executable/skill bytes unchanged.
+
+## User-facing prose revision — 2026-10-14
+
+Owner rejected the user-facing language as translated prompt prose. USER-GUIDE and HELP rewritten as office-user instructions; internal onboarding reference is for the agent. Before/after content review preserves host/access, source, separate approvals, update/pause/recovery and cleanup constraints. Executable/skill files and entire selected source unchanged. User readability and independent/runtime/release acceptance remain pending; document review is not a behavior test.
