@@ -1,6 +1,6 @@
 # Evidence Index — report-agent
 
-Current state2026-10-14: VERSION0.1.0-dev.5, prototype/development, no stable release, no remote. Authorized result: device-independent local source preparation only. Existing client agents/installed skills unchanged by this task; preservation receipt outside public package. Publication/installation/service access not performed.
+Current state2026-10-14: VERSION0.1.0-dev.6, prototype/development, no stable release, no remote. Authorized result: device-independent local source preparation only. Existing client agents/installed skills unchanged by this task; preservation receipt outside public package. Publication/installation/service access not performed.
 
 Process Profile and authority: [CHANGE-SPEC](CHANGE-SPEC.md). Baseline and scoped branch actual Git; package content identity/private exact run records retained locally. [Offline checks](evidence/offline-checks.json) contain only sanitized source/test identities, no donor paths or private data. [Source provenance](SOURCE-PROVENANCE.json), [selection](OPEN-SOURCE-SELECTION.md) and [license status](LICENSE-STATUS.md).
 
@@ -76,3 +76,12 @@ Owner approved Report Kit and existing-chat/local-folder naming. Current package
 
 
 Source inventory expanded to12 capabilities at owner request. Required instructions/modified CLI paths/shared dependencies reviewed; original capture logic is inherited and has not received a new independent full audit. Isolated copies contained no parent AGENTS or developer framework:20 update and22 maintenance cases plus source URL/caption/PNG/stitch/FIFO checks passed. New external path guards exercised before session/navigation/image access. A synthetic default-path assertion initially compared lexical /var with canonical /private/var on macOS; original failed receipt retained, expected path corrected to resolve(). Target employee installation/permission/live capture remains NOT_RUN. Independent QA/security/license and earlier original rate-limit cause remain open.
+
+
+## Guided office-employee setup — dev.6
+
+Owner renewed novice setup/permission-aware autonomy, questionnaire and compatible automatic update requirements. Shipped instructions now separate guided dialogue from technical executor checks: example/format/month/sources/folder/account, first report and distinct base approval, agreed next-period validation. Existing first-pilot/source records are historical, not novice usability evidence.
+
+[Recorded checks](evidence/guided-setup-checks.json):26 synthetic update cases passed, including revoked/default opt-in, source/channel drift, human-vs-agent declaration, full-client snapshot change, actual CLI unknown-host default and unchanged fixture bytes.22 maintenance,4 boundary,7 native package cases and native-template selftest passed.8 official skill validations and63 local links passed before adding this receipt. Source-skills package remains exact dev.5, unchanged. No installation, company-policy change, login, messaging, schedule, client report or publication performed. Compatible policy is a bounded preference with original human verification; helper install_authorized remains false and host approval is not bypassed.
+
+Target-device restricted-permission install, actual model/user comprehension, novice first-report/base/next-period flow and native auto-activation/approval/restart/rollback remain NOT_RUN. Real public source is unset. Earlier original rate-limit, developer/package lifecycle route, independent QA/security/license/copyright and release controls remain open; no gate accepted by these observations.

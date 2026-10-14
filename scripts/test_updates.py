@@ -2,13 +2,15 @@
 import copy
 import hashlib
 import json
+import subprocess
+import sys
 from pathlib import Path
 import tempfile
 import unittest
 
 from check_package import identity
 from maintenance import ContractError
-from updates import due, select_release, preflight, rollout, rollback_preflight
+from updates import due, select_release, preflight, rollout, rollback_preflight, activation_decision, document_identity
 
 
 class Updates(unittest.TestCase):
@@ -228,6 +230,56 @@ class Updates(unittest.TestCase):
             "result": "PASS", "blockers": [], "loaded_identity_verified": True}
         with self.assertRaisesRegex(ValueError, "refresh_receipt"):
             rollout(plan, self.compatibility, {client: receipt}, self.new)
+
+    def update_policy(self):
+        return {"schema_version": 1, "mode": "compatible", "source_sha256": document_identity(self.source),
+                "authority": {"source_kind": "human_message", "source_locator": "synthetic owner choice", "decision": "compatible_updates"}, "revoked": False}
+
+    def test_compatible_preference_keeps_native_permission_boundary(self):
+        plan = self.preflight()
+        for host, route in [("required", "WAIT_FOR_HOST_APPROVAL"), ("unknown", "CHECK_HOST_APPROVAL"), ("unavailable", "MANUAL_HOST_STEP"), ("not_required", "NATIVE_COMPATIBLE_ROUTE")]:
+            result = activation_decision(self.update_policy(), self.source, plan, self.compatibility, host)
+            self.assertEqual(result["route"], route)
+            self.assertFalse(result["install_authorized"])
+
+    def test_update_choice_default_and_revocation_ask_again(self):
+        policy = {"schema_version": 1, "mode": "ask_each", "source_sha256": None, "authority": None, "revoked": False}
+        self.assertEqual(activation_decision(policy, self.source, self.preflight(), self.compatibility, "not_required")["route"], "ASK_FOR_UPDATE")
+        policy = self.update_policy(); policy["revoked"] = True
+        self.assertEqual(activation_decision(policy, self.source, self.preflight(), self.compatibility, "not_required")["route"], "ASK_FOR_UPDATE")
+
+    def test_automatic_choice_requires_same_source_and_working_channel(self):
+        plan = self.preflight()
+        for change in [("agent_repository", "https://github.com/example/another"), ("channel", "preview"), ("skills_repository", None)]:
+            source = dict(self.source); source[change[0]] = change[1]
+            with self.assertRaisesRegex(ValueError, "update_policy_source"):
+                activation_decision(self.update_policy(), source, plan, self.compatibility, "not_required")
+
+    def test_agent_message_or_missing_choice_cannot_select_auto(self):
+        for value in [None, {"source_kind": "agent_message", "source_locator": "synthetic", "decision": "compatible_updates"}, {"source_kind": "human_message", "source_locator": "", "decision": "compatible_updates"}]:
+            policy = self.update_policy(); policy["authority"] = value
+            with self.assertRaises(ValueError): activation_decision(policy, self.source, self.preflight(), self.compatibility, "not_required")
+
+    def test_automatic_route_requires_unchanged_full_preflight(self):
+        plan = self.preflight(); compatibility = copy.deepcopy(self.compatibility)
+        del compatibility["clients"]["second"]
+        with self.assertRaisesRegex(ValueError, "preflight_snapshot_changed"):
+            activation_decision(self.update_policy(), self.source, plan, compatibility, "not_required")
+        plan["status"] = "PARTIAL"
+        with self.assertRaisesRegex(ValueError, "preflight_required"):
+            activation_decision(self.update_policy(), self.source, plan, self.compatibility, "not_required")
+
+    def test_policy_cli_defaults_to_unknown_host_permission_without_writes(self):
+        policy = self.write("update-policy.json", self.update_policy())
+        source = self.write("source.json", self.source)
+        plan = self.write("plan.json", self.preflight())
+        before = {p.relative_to(self.workspace).as_posix(): p.read_bytes() for p in self.workspace.rglob("*") if p.is_file()}
+        result = subprocess.run([sys.executable, "-B", str(Path(__file__).with_name("updates.py")), "policy", str(policy), str(source), str(plan), str(self.compat)], capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        record = json.loads(result.stdout)
+        self.assertEqual(record["route"], "CHECK_HOST_APPROVAL")
+        self.assertFalse(record["install_authorized"])
+        self.assertEqual(before, {p.relative_to(self.workspace).as_posix(): p.read_bytes() for p in self.workspace.rglob("*") if p.is_file()})
 
 
 if __name__ == "__main__": unittest.main()

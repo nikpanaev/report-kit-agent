@@ -34,3 +34,10 @@ Package IDs and portable agent workflow names now use report-kit-. Workspace sch
 
 
 The same uncommitted dev.5 naming slice now includes all12 report source skills and self-contained employee entrypoints. Rules/helpers for template QA, updates, rollback, cleanup and source FIFO are shipped locally; external capabilities still require employee setup. Seven new source exports have no donor sessions/private pilot history.
+
+
+## 0.1.0-dev.6 — понятное начало работы
+
+Пошаговая настройка и опрос о первом клиенте, понятный выбор формата и источников, самостоятельная разрешённая диагностика и помощь при ограниченных правах. Сотруднику объясняются первый отчёт, отдельная основа и проверка следующего периода. Полный каталог источников отражён в помощи.
+
+Совместимые обновления можно отдельно разрешить один раз с возможностью отзыва. Проверяется неизменный источник/все клиенты; подтверждения приложения и ограничения сохраняются. Это подготовленные инструкции и локальная проверка выбора; на устройстве сотрудника установка, автоактивация и понятность ещё не проверены.

@@ -1,0 +1,44 @@
+{
+  "candidate_version": "0.1.0-dev.6",
+  "source_skills_version": "0.1.0-dev.5",
+  "runs": [
+    {
+      "script": "scripts/test_updates.py",
+      "sha256": "42e8bd0dd5011c24f34e2592c5ec1c2c895a41634644bc985259bc564cbe9079",
+      "exit_code": 0,
+      "summary": "26 update cases incl native permission/revocation/source/snapshot/CLI-no-write"
+    },
+    {
+      "script": "scripts/test_maintenance.py",
+      "sha256": "258b1baf7a31478c538e68725d66f8b0d223bbe67b1bfc1234982452749bdb0e",
+      "exit_code": 0,
+      "summary": "Existing synthetic regression"
+    },
+    {
+      "script": "scripts/test_package_boundaries.py",
+      "sha256": "836b0616efc02eea4c5c3cbba3a48c26fa0f371a0e6cfcf94bbd4dfe4a7dfc2c",
+      "exit_code": 0,
+      "summary": "Existing synthetic regression"
+    },
+    {
+      "script": "scripts/test_prepare_release.py",
+      "sha256": "3b534843166174eb903970f4f816064fb505a25ab2becc96641683e0ff243f84",
+      "exit_code": 0,
+      "summary": "Existing synthetic regression"
+    },
+    {
+      "script": "scripts/check_report_templates_selftest.py",
+      "sha256": "dbde613895c5360ece334f61e8d3cae3386d3d3bd5651c641f1ebb4c6393b480",
+      "exit_code": 0,
+      "summary": "Existing synthetic regression"
+    }
+  ],
+  "official_skill_validations": 8,
+  "local_links_checked": 63,
+  "permission_model": "No implicit developer privileges; policy helper never grants permission or installs",
+  "real_employee_install": "NOT_RUN",
+  "novice_usability": "NOT_RUN",
+  "automatic_native_activation": "NOT_RUN",
+  "live_report": "NOT_RUN",
+  "limits": "Synthetic tests and source instructions only; employee tools/permissions/installed source provenance and original human opt-in remain actual runtime checks; pending QA/security/license/lifecycle gates retained"
+}

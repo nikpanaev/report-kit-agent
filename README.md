@@ -1,4 +1,4 @@
-# report-kit-agent
+# Report Kit
 
 Локальная подготовка переносимого комплекта для будущих отчётов. Версия: [VERSION](VERSION). Maturity: prototype; channel: development; stable release отсутствует.
 
@@ -6,7 +6,7 @@
 
 ## Использование
 
-Для сотрудника: [краткое руководство](docs/USER-GUIDE.md) и [помощь](docs/HELP.md). Начать можно сообщением «Помоги настроить отчётного агента». Технический план — [передача сотруднику](HANDOVER.md), настройка — [setup skill](skills/report-kit-setup/SKILL.md). Пакет подготавливает будущих клиентов; существующие runtime/chats/profiles не импортируются. Источники отчётных данных и настройки сотрудника — отдельная private workspace вне обеих package folders.
+Для сотрудника: [краткое руководство](docs/USER-GUIDE.md) и [помощь](docs/HELP.md). Начать можно одним сообщением «Помоги настроить Report Kit и сделать первый отчёт для моего клиента». Агент по шагам выясняет образец, формат, период, источники и место сохранения; проверки и разрешённые настройки выполняет сам. [Опрос и помощь](references/onboarding.md). Технический план — [передача сотруднику](HANDOVER.md), настройка — [setup skill](skills/report-kit-setup/SKILL.md). Пакет подготавливает будущих клиентов; существующие runtime/chats/profiles не импортируются. Источники отчётных данных и настройки сотрудника — отдельная private workspace вне обеих package folders.
 
 Восемь workflows: локальный черновик выпуска, помощь, setup, подключение клиента, сборка периода, QA, update/context refresh, [сопровождение](skills/report-kit-maintenance/SKILL.md). [Общий процесс](references/workflow.md); [принятый scope и ограничения](CHANGE-SPEC.md); [проверки/оставшиеся gates](EVIDENCE-INDEX.md). Пример workspace не рабочая конфигурация.
 

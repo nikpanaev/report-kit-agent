@@ -57,3 +57,8 @@ Owner accepted Report Kit and report-kit naming. Portable package IDs/folders be
 
 
 Owner follow-up: all report source skills must be present; employee instructions must work independently of the developer framework. Add seven source capabilities plus existing shared stitch/queue dependencies, external state/output guards and synthetic regression. Public AGENTS now route only to shipped workflow/source instructions; developer lifecycle remains in the local project and is not an employee prerequisite. No install, live login or target-device support inferred from this export.
+
+
+## Guided employee setup and compatible-update consent — dev.6
+
+Owner14Oct2026 renewed the requirement for ordinary office employees without technical knowledge: guided installation, permission-aware self-repair, staged client questionnaire, clear first-report/next-period/template explanations, Google Docs/Slides/Sheets choice and compatible automatic updates. Modify only portable agent instructions/help and its existing read-only update guard; no new installer, model API, GUI, daemon, actual user accounts, report or installation. Reuse native capabilities and existing whole-client preflight/rollout/rollback. Save a bounded revocable future human preference tied to approved update sources; it never overrides actual host approvals, paused work, new scopes/hooks, migrations or incomplete compatibility. Tests cover policy defaults/revocation/source drift/changed client snapshot/host approval. Conversation examples are documented for human review; they do not prove novice usability or actual installed behaviour. Existing source-skills/client/installed copies remain unchanged.

@@ -199,10 +199,36 @@ def identity_file(path):
     return digest.hexdigest()
 
 
-def rollout(plan, compatibility, receipts, loaded):
-    require(plan["status"] == "READY_FOR_REVIEW" and loaded == plan["candidate"], "loaded_identity")
+def same_snapshot(plan, compatibility):
+    require(plan["status"] == "READY_FOR_REVIEW", "preflight_required")
     require(plan["clients"] == sorted(compatibility["clients"]) and plan["clients_checked"] == len(compatibility["clients"])
             and plan["compatibility_sha256"] == document_identity(compatibility), "preflight_snapshot_changed")
+
+
+def activation_decision(policy, source, plan, compatibility, host_approval):
+    source_check(source)
+    same_snapshot(plan, compatibility)
+    require(host_approval in {"required", "not_required", "unknown", "unavailable"}, "host_approval")
+    fields(policy, {"schema_version", "mode", "source_sha256", "authority", "revoked"}, "update_policy_fields")
+    require(type(policy["schema_version"]) is int and policy["schema_version"] == 1
+            and policy["mode"] in {"ask_each", "compatible"} and type(policy["revoked"]) is bool, "update_policy")
+    route = "ASK_FOR_UPDATE"
+    if policy["mode"] == "compatible" and not policy["revoked"]:
+        require(None not in [source["agent_repository"], source["skills_repository"]]
+                and source["channel"] == "working" and policy["source_sha256"] == document_identity(source), "update_policy_source")
+        authority = policy["authority"]
+        fields(authority, {"source_kind", "source_locator", "decision"}, "update_policy_authority")
+        require(authority["source_kind"] == "human_message" and authority["decision"] == "compatible_updates"
+                and isinstance(authority["source_locator"], str) and authority["source_locator"].strip(), "update_policy_authority")
+        route = {"required": "WAIT_FOR_HOST_APPROVAL", "unknown": "CHECK_HOST_APPROVAL",
+                 "unavailable": "MANUAL_HOST_STEP", "not_required": "NATIVE_COMPATIBLE_ROUTE"}[host_approval]
+    return {"route": route, "candidate": plan["candidate"], "clients": plan["clients"],
+            "install_authorized": False, "limitations": LIMIT + " Policy is a revocable preference; original human choice and host permissions must be independently checked. No installation performed."}
+
+
+def rollout(plan, compatibility, receipts, loaded):
+    require(plan["status"] == "READY_FOR_REVIEW" and loaded == plan["candidate"], "loaded_identity")
+    same_snapshot(plan, compatibility)
     expected = set(compatibility["clients"]); require(isinstance(receipts, dict) and set(receipts) <= expected, "refresh_inventory")
     pending = sorted(expected - set(receipts))
     for client, receipt in receipts.items():
@@ -242,12 +268,16 @@ if __name__ == "__main__":
     for key in ["current-agent", "current-skills", "candidate-agent", "candidate-skills", "release", "compatibility"]: check.add_argument("--" + key, type=Path, required=True)
     refresh = sub.add_parser("rollout"); refresh.add_argument("plan", type=Path); refresh.add_argument("compatibility", type=Path); refresh.add_argument("receipts", type=Path); refresh.add_argument("loaded", type=Path)
     undo = sub.add_parser("rollback"); undo.add_argument("workspace", type=Path); undo.add_argument("snapshot", type=Path); undo.add_argument("old", type=Path); undo.add_argument("actual_new", type=Path)
+    policy = sub.add_parser("policy")
+    for key in ["policy", "source", "plan", "compatibility"]: policy.add_argument(key, type=Path)
+    policy.add_argument("--host-approval", choices=["required", "not_required", "unknown", "unavailable"], default="unknown")
     args = parser.parse_args(); now = datetime.now(timezone.utc).isoformat()
     try:
         if args.mode == "due": result = due(read_json(args.source), args.checked_at, now, args.offline)
         elif args.mode == "select": result = {"selected": select_release(read_json(args.index), read_json(args.source), read_json(args.current)), "limitations": LIMIT}
         elif args.mode == "rollout": result = rollout(read_json(args.plan), read_json(args.compatibility), read_json(args.receipts), read_json(args.loaded))
         elif args.mode == "rollback": result = rollback_preflight(args.workspace, read_json(args.snapshot), read_json(args.old), read_json(args.actual_new))
+        elif args.mode == "policy": result = activation_decision(read_json(args.policy), read_json(args.source), read_json(args.plan), read_json(args.compatibility), args.host_approval)
         else: result = preflight(args.workspace, args.current_agent, args.current_skills, args.candidate_agent, args.candidate_skills,
                                 read_json(args.release), args.compatibility, now)
     except (ValueError, OSError, KeyError, TypeError, AssertionError) as error:
