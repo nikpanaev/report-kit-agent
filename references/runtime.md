@@ -41,3 +41,5 @@ LiveDune Node layer не равен настроенному backend: по су�
 ## Выпуск
 
 prepare_release --runtime-assets добавляет проверенные готовые файлы в тот же local draft и SHA256SUMS, без remote/publish/install. Поставляемый draft-runtime-delivery связан с exact pair; published=false. Перед публикацией проверить все license/NOTICE files CPython, wheels, Node/npm/driver/native libraries; собственная MIT этого не заменяет. При новой OS/CPU/runtime пересобрать exact inventory, проверить native libraries, подпись/доверие и восстановление. Windows проверяет сотрудник после отдельного разрешения выпуска. Independent QA/security/license decisions не подменять self-tests.
+
+Первый тестовый профиль: Windows11+ x64 или macOS14+ arm64. Windows Server, Intel macOS и Windows ARM пока не объявлены поддержанными; агент проверяет actual OS/CPU до исполнения среды. Требования Playwright: https://playwright.dev/python/docs/intro#system-requirements .

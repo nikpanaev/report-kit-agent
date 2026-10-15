@@ -33,6 +33,18 @@ def host_platform():
             ('Windows', 'x86_64'): 'windows-x64'}.get((platform.system(), platform.machine()), 'unsupported')
 
 
+def host_requirements():
+    """First test profiles: macOS14+ arm64, Windows11+ x64; server/other CPU builds are unverified."""
+    target = host_platform()
+    require(target in PLATFORMS, 'runtime_unsupported_host')
+    if target == 'macos-arm64':
+        major = platform.mac_ver()[0].split('.')[0]
+        require(major.isdigit() and int(major) >= 14, 'runtime_macos_too_old')
+    else:
+        require(sys.platform == 'win32' and sys.getwindowsversion().build >= 22000, 'runtime_windows_too_old')
+    return target
+
+
 def needed_layers(capabilities):
     require(isinstance(capabilities, list) and all(isinstance(x, str) for x in capabilities), 'runtime_capabilities')
     layers = {'core'}
@@ -120,7 +132,7 @@ def probe(root, expected_receipt_sha256, *, execution_authorized=False):
     operation = str(uuid.uuid4()); support_event('setup', 'validation', 'started', operation=operation)
     require(isinstance(expected_receipt_sha256, str) and re.fullmatch('[0-9a-f]{64}', expected_receipt_sha256), 'runtime_trusted_receipt')
     root = Path(root).resolve(); receipt = verify(root, expected_receipt_sha256=expected_receipt_sha256)
-    require(receipt['platform'] == host_platform(), 'runtime_wrong_host')
+    require(receipt['platform'] == host_requirements(), 'runtime_wrong_host')
     python = root / ('python/python.exe' if receipt['platform'] == 'windows-x64' else 'python/bin/python3')
     for name in receipt['executables']: (root / name).chmod(0o700)
     modules = sorted({'tzdata', *{m for layer in receipt['layers'] for m in IMPORTS.get(layer, [])}})
@@ -147,7 +159,7 @@ def execution_plan(root, receipt_hash, source_root, source_identity, script, arg
     """Return argv for a verified package script; the native executor still checks authority."""
     from check_package import identity
     root = Path(root).resolve(); receipt = verify(root, expected_receipt_sha256=receipt_hash)
-    require(receipt['platform'] == host_platform(), 'runtime_wrong_host')
+    require(receipt['platform'] == host_requirements(), 'runtime_wrong_host')
     source_root = Path(source_root).resolve(); script = Path(script).resolve()
     require(identity(source_root) == source_identity and script.is_relative_to(source_root)
             and script.is_file() and script.suffix == '.py', 'runtime_script_identity')
@@ -184,7 +196,7 @@ def client_preflight(workspace, candidate_agent, clients):
     require(chosen['runtime_id'] == read_json(recipe)['runtime_id'], 'runtime_candidate_incompatible')
     required = set(needed_layers([skill for client in clients.values() for skill in client['required_skills']]))
     receipt = verify(chosen['root'], required, chosen['receipt_sha256'])
-    require(receipt['runtime_id'] == chosen['runtime_id'] and receipt['platform'] == host_platform(), 'runtime_selection_identity')
+    require(receipt['runtime_id'] == chosen['runtime_id'] and receipt['platform'] == host_requirements(), 'runtime_selection_identity')
     return {'candidate': chosen, 'previous': read_json(selection) if selection.exists() else None,
             'selection_changed': False, 'limits': 'Native activation must preserve previous selection until package and runtime checks pass; rollback excludes client data.'}
 

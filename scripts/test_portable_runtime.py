@@ -87,7 +87,7 @@ class PortableRuntime(unittest.TestCase):
         r = self.stage(); candidate = self.root / 'candidate'; (candidate / 'assets').mkdir(parents=True)
         (candidate / 'assets/runtime-recipe.json').write_text(json.dumps({'runtime_id': 'fixture-v1'}))
         (self.workspace / 'runtime-selection.json').write_text(json.dumps({'runtime_id': 'fixture-v1', 'root': str(self.root / 'stage'), 'receipt_sha256': r['receipt_sha256']}))
-        with patch.object(runtime, 'host_platform', return_value='macos-arm64'):
+        with patch.object(runtime, 'host_requirements', return_value='macos-arm64'):
             runtime.client_preflight(self.workspace, candidate, {})
             with self.assertRaises(ValueError): runtime.client_preflight(self.workspace, candidate, {'second': {'required_skills': ['vk-post-screenshot']}})
         self.assertEqual((self.root / 'stage/NOTICE').read_bytes(), b'Synthetic notice')
@@ -97,6 +97,12 @@ class PortableRuntime(unittest.TestCase):
         self.assertEqual(runtime.browser_plan('chromium', 'missing', install_consent=True)['command_for_agent_only'], ['-m', 'playwright', 'install', 'chromium'])
         self.assertEqual(runtime.browser_plan('chrome', 'working')['action'], 'USE_VERIFIED_BROWSER')
         self.assertEqual(runtime.browser_plan('chrome', 'policy_denied', install_consent=True)['action'], 'CONTACT_IT')
+
+    def test_old_os_is_not_accepted_by_cpu_name_alone(self):
+        with patch.object(runtime, 'host_platform', return_value='macos-arm64'), patch.object(runtime.platform, 'mac_ver', return_value=('13.7', (), '')):
+            with self.assertRaises(ValueError): runtime.host_requirements()
+        with patch.object(runtime, 'host_platform', return_value='macos-arm64'), patch.object(runtime.platform, 'mac_ver', return_value=('14.0', (), '')):
+            self.assertEqual(runtime.host_requirements(), 'macos-arm64')
 
     def test_setup_starts_without_special_request_and_resumes(self):
         self.assertEqual(onboarding.next_step(self.workspace)['step'], 'discovery')
@@ -152,7 +158,7 @@ class PortableRuntime(unittest.TestCase):
         current = self.workspace / 'runtime-selection.json'; current.write_text(json.dumps({'runtime_id': 'old', 'root': 'unchanged', 'receipt_sha256': '0' * 64}))
         before = current.read_bytes()
         (self.workspace / 'runtime-candidate.json').write_text(json.dumps({'runtime_id': 'fixture-v1', 'root': str(self.root / 'stage'), 'receipt_sha256': r['receipt_sha256']}))
-        with patch.object(runtime, 'host_platform', return_value='macos-arm64'):
+        with patch.object(runtime, 'host_requirements', return_value='macos-arm64'):
             plan = runtime.client_preflight(self.workspace, candidate, {})
         self.assertFalse(plan['selection_changed']); self.assertEqual(current.read_bytes(), before)
         self.assertEqual(plan['previous']['runtime_id'], 'old')
