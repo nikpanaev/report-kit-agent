@@ -1,0 +1,42 @@
+{
+  "status": "LOCAL_CHECKS_PASS_LIMITED",
+  "agent_version": "0.1.0-dev.23",
+  "skills_version": "0.1.0-dev.14",
+  "unit_tests": 120,
+  "optimized_tests": 28,
+  "single_entry_cases": 24,
+  "native_template_selftest": "PASS",
+  "static_scan": {
+    "tool": "semgrep1.176.0",
+    "production_files": 2,
+    "findings": 0,
+    "errors": 0
+  },
+  "scenarios": [
+    "clean_no_skills",
+    "compatible_current",
+    "missing_or_foreign_skills_preserved",
+    "agent_only_and_pair_release",
+    "one_incompatible_client_blocks",
+    "offline",
+    "missing_tool",
+    "denied_permission",
+    "unknown_work_inventory",
+    "draft_wrong_origin",
+    "damaged_interrupted_archive",
+    "archive_escape_links_windows_collision",
+    "active_report_deferred",
+    "failed_health_selects_saved_pair",
+    "synthetic_host_pair_rollback",
+    "private_rules_settings_templates_history_data_preserved",
+    "initial_install_not_authorized_by_future_auto_choice"
+  ],
+  "native_github_download": "NOT_RUN",
+  "native_install_update_rollback": "NOT_RUN",
+  "employee_windows": "USER_CHECK_REQUIRED",
+  "seven_audit_fixes": "PRESERVED: source-skills bytes unchanged; existing agent regressions pass",
+  "secrets_check": "Final committed archive checked separately; initial developer-directory scan includes excluded optimizer metadata; raw result retained privately",
+  "publication_authorized": false,
+  "installation_authorized": false,
+  "limitations": "Synthetic releases/host observations and isolated local archives only. This is not independent review, original release trust, actual download, native installation, native rollback or employee support proof."
+}

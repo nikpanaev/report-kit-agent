@@ -1,12 +1,15 @@
-"""Readonly release/compatibility/rollout contracts. Native tools fetch and install; this does neither."""
+"""Shared setup/update verification and inert staging. Native tools fetch and install."""
 import argparse
 import hashlib
+import io
 from datetime import datetime, timezone
 import json
 from pathlib import Path
 import re
+import tarfile
+import unicodedata
 
-from check_package import identity
+from check_package import identity, files, check as package_check, sensitive
 from check_workspace import check as check_workspace
 from maintenance import ContractError, require, fields, private_path, read_json, sealed_json, SHA
 
@@ -73,7 +76,8 @@ def document_identity(value):
 
 
 def select_release(index, source, current):
-    source_check(source); pair_check(current)
+    source_check(source)
+    if current is not None: pair_check(current)
     fields(index, {"schema_version", "releases"}, "release_index")
     require(type(index["schema_version"]) is int and index["schema_version"] == 1 and isinstance(index["releases"], list), "release_index")
     versions, ids, selected = {}, set(), None
@@ -84,9 +88,9 @@ def select_release(index, source, current):
         versions[key] = release["packages"]
         if release["packages"] == current and release["revoked"]: raise ContractError("current_release_revoked")
         if release["channel"] != source["channel"] or not release["published"] or release["revoked"]: continue
-        if version(release["packages"]["report-kit-agent"]["version"]) == version(current["report-kit-agent"]["version"]):
+        if current is not None and version(release["packages"]["report-kit-agent"]["version"]) == version(current["report-kit-agent"]["version"]):
             require(release["packages"] == current, "same_version_content_drift")
-        if version(release["packages"]["report-kit-agent"]["version"]) <= version(current["report-kit-agent"]["version"]): continue
+        if current is not None and version(release["packages"]["report-kit-agent"]["version"]) <= version(current["report-kit-agent"]["version"]): continue
         if selected is None or version(release["packages"]["report-kit-agent"]["version"]) > version(selected["packages"]["report-kit-agent"]["version"]): selected = release
     return selected
 
@@ -118,6 +122,15 @@ def contracts(root, name, package_version):
     return data
 
 
+def execution_surface(root):
+    manifest = read_json(root / 'plugin.json')
+    controls = {k: v for k, v in manifest.items() if k not in {'version', 'description', 'interface', 'license'}}
+    control_files = {name: sha for name, sha in files(root).items()
+                     if (Path(name).name in {'.mcp.json','mcp.json','.app.json','marketplace.json','plugin.json'}
+                         and name != 'plugin.json') or 'hooks' in Path(name).parts}
+    return controls, control_files
+
+
 def skill_closure(catalog, names):
     graph = {item["name"]: item["requires"] for item in catalog["capabilities"]}
     require(len(graph) == len(catalog["capabilities"]), "capability_inventory")
@@ -132,14 +145,26 @@ def skill_closure(catalog, names):
     return seen
 
 
-def preflight(workspace, current_agent, current_skills, candidate_agent, candidate_skills, release, compatibility_path, now):
-    roots = [Path(p).resolve() for p in [current_agent, current_skills, candidate_agent, candidate_skills]]
-    workspace = Path(workspace).resolve(); check_workspace(workspace, roots + [ROOT])
+def preflight(workspace, current_agent, current_skills, candidate_agent, candidate_skills, release, compatibility_path, now, *, bootstrap=False):
+    roots = [Path(p).resolve() if p is not None else None for p in [current_agent, current_skills, candidate_agent, candidate_skills]]
+    workspace = Path(workspace).resolve(); check_workspace(workspace, [p for p in roots if p is not None] + [ROOT])
     current_agent, current_skills, candidate_agent, candidate_skills = roots
+    require(execution_surface(current_agent) == execution_surface(candidate_agent), 'execution_permission_change')
+    if current_skills is not None and current_skills.exists():
+        require(execution_surface(current_skills) == execution_surface(candidate_skills), 'execution_permission_change')
     settings = read_json(workspace / "settings.json")
-    current = actual_pair(current_agent, current_skills); candidate = actual_pair(candidate_agent, candidate_skills)
-    require(version(candidate["report-kit-agent"]["version"]) > version(current["report-kit-agent"]["version"]),
-            "candidate_version_not_newer")
+    candidate = actual_pair(candidate_agent, candidate_skills)
+    if bootstrap:
+        current = settings["packages"]; pair_check(current)
+        require(identity(current_agent) == current["report-kit-agent"]["package_sha256"]
+                and (current_agent / "VERSION").read_text(encoding="utf-8").strip() == current["report-kit-agent"]["version"], "current_agent_drift")
+        # First setup/repair may restore the exact pinned pair; never silently downgrade.
+        newer = version(candidate["report-kit-agent"]["version"]) > version(current["report-kit-agent"]["version"])
+        require(newer or candidate == current, "candidate_version_not_newer")
+    else:
+        current = actual_pair(current_agent, current_skills)
+        require(version(candidate["report-kit-agent"]["version"]) > version(current["report-kit-agent"]["version"]),
+                "candidate_version_not_newer")
     release_check(release)
     require(settings["packages"] == current, "current_package_drift")
     require(release["packages"] == candidate and release["published"] is True and release["revoked"] is False, "candidate_identity")
@@ -193,7 +218,7 @@ def preflight(workspace, current_agent, current_skills, candidate_agent, candida
                 and receipt["source_locator"] and receipt["client_id"] == client and receipt["candidate"] == candidate
                 and receipt["profile_sha256"] == record["profile_sha256"] and receipt["result"] == "PASS"
                 and isinstance(receipt["checks"], list) and {"client_overrides", "protected_history", "affected_components"} <= set(receipt["checks"]), "regression_receipt")
-    return {"status": "READY_FOR_REVIEW", "clients_checked": len(data["clients"]), "clients": sorted(data["clients"]),
+    return {"status": "READY_FOR_REVIEW", "bootstrap": bootstrap, "clients_checked": len(data["clients"]), "clients": sorted(data["clients"]),
             "compatibility_sha256": document_identity(data), "current": current,
             "candidate": candidate, "install_authorized": False, "limitations": LIMIT}
 
@@ -218,8 +243,8 @@ def activation_decision(policy, source, plan, compatibility, host_approval):
     fields(policy, {"schema_version", "mode", "source_sha256", "authority", "revoked"}, "update_policy_fields")
     require(type(policy["schema_version"]) is int and policy["schema_version"] == 1
             and policy["mode"] in {"ask_each", "compatible"} and type(policy["revoked"]) is bool, "update_policy")
-    route = "ASK_FOR_UPDATE"
-    if policy["mode"] == "compatible" and not policy["revoked"]:
+    route = "ASK_FOR_INSTALL" if plan.get('bootstrap') is True else "ASK_FOR_UPDATE"
+    if policy["mode"] == "compatible" and not policy["revoked"] and plan.get('bootstrap') is not True:
         require(None not in [source["agent_repository"], source["skills_repository"]]
                 and source["channel"] == "working" and policy["source_sha256"] == document_identity(source), "update_policy_source")
         authority = policy["authority"]
@@ -265,6 +290,150 @@ def rollback_preflight(workspace, snapshot, selected_old_pair, actual_new_pair):
             "writes": [], "limitations": LIMIT + " Package selection rollback is not data migration/restore."}
 
 
+def delivery_check(source, delivery, observed):
+    """Bind a pair to original published release observations, not repository main."""
+    source_check(source)
+    require(None not in [source['agent_repository'], source['skills_repository']], 'source_not_configured')
+    fields(delivery, {'schema_version', 'release', 'assets'}, 'delivery_fields')
+    require(type(delivery['schema_version']) is int and delivery['schema_version'] == 1, 'delivery_schema')
+    release = delivery['release']; release_check(release)
+    require(release['published'] and not release['revoked'] and release['channel'] == source['channel'], 'unpublished_or_wrong_channel')
+    fields(delivery['assets'], PACKAGES, 'delivery_assets'); fields(observed, PACKAGES, 'release_observations')
+    for name, asset in delivery['assets'].items():
+        fields(asset, {'repository', 'tag', 'commit', 'url', 'size', 'archive_sha256'}, 'asset_fields')
+        repository = source['agent_repository' if name == 'report-kit-agent' else 'skills_repository']
+        tag = 'v' + release['packages'][name]['version']
+        require(re.fullmatch(r'[0-9a-f]{40}', asset['commit']) is not None, 'asset_commit')
+        require(asset['repository'] == repository and asset['tag'] == tag
+                and asset['url'] == repository + '/releases/download/' + tag + '/' + name + '-' + release['packages'][name]['version'] + '.tar', 'asset_origin')
+        require(type(asset['size']) is int and 0 < asset['size'] <= 64 * 1024 * 1024
+                and isinstance(asset['archive_sha256'], str) and SHA.fullmatch(asset['archive_sha256']), 'asset_bounds')
+        receipt = observed[name]
+        fields(receipt, {'repository', 'tag', 'commit', 'asset_url', 'draft', 'published', 'prerelease', 'source_kind', 'source_locator'}, 'release_observation')
+        require(receipt['source_kind'] == 'native_tool_result' and isinstance(receipt['source_locator'], str)
+                and receipt['source_locator'].strip() and receipt['repository'] == repository
+                and receipt['tag'] == tag and receipt['commit'] == asset['commit']
+                and receipt['asset_url'] == asset['url'] and receipt['draft'] is False
+                and receipt['published'] is True and type(receipt['prerelease']) is bool, 'release_origin')
+    return {'status': 'READY_TO_DOWNLOAD', 'assets': delivery['assets'], 'candidate': release['packages'],
+            'install_authorized': False, 'limitations': LIMIT + ' Original release/redirect/observation authenticity is checked by the native executor, not by JSON.'}
+
+
+def archive_files(raw):
+    """Read bounded plain Git tar files as data; never extract links or run package code."""
+    payload, names, total = {}, set(), 0
+    try:
+        with tarfile.open(fileobj=io.BytesIO(raw), mode='r:') as archive:
+            for index, member in enumerate(archive):
+                name = member.name.rstrip('/') if member.isdir() else member.name
+                parts = name.split('/')
+                require(index < 10000 and name and all(p and p not in {'.', '..'}
+                        and not p.endswith((' ', '.')) and not re.search(r'[\\:*?"<>|\x00-\x1f\x7f]', p)
+                        and p.split('.')[0].upper() not in {'CON','PRN','AUX','NUL', *('COM'+str(i) for i in range(1,10)), *('LPT'+str(i) for i in range(1,10))}
+                        for p in parts), 'archive_path')
+                require(member.isfile() or member.isdir(), 'archive_type')
+                key = unicodedata.normalize('NFC', name).casefold()
+                require(key not in names, 'archive_collision'); names.add(key)
+                if member.isdir(): continue
+                total += member.size
+                require(member.size >= 0 and total <= 64 * 1024 * 1024, 'archive_size')
+                data = archive.extractfile(member).read()
+                require(len(data) == member.size and not sensitive(data.decode('utf-8')), 'archive_content')
+                payload[name] = data
+    except (tarfile.TarError, UnicodeError, EOFError):
+        raise ContractError('archive_unreadable') from None
+    require(payload, 'archive_empty')
+    file_keys = {unicodedata.normalize('NFC', p).casefold() for p in payload}
+    require(all('/'.join(p.split('/')[:i]) not in file_keys for p in file_keys
+                for i in range(1, len(p.split('/')))), 'archive_parent_file')
+    return payload
+
+
+def stage_candidate(source, delivery, observed, downloads, output, protected_roots):
+    """Only inert new staging; no shell, subprocess, network, install or active replacement."""
+    delivery_check(source, delivery, observed); fields(downloads, PACKAGES, 'downloads')
+    output = Path(output).resolve()
+    require(not output.exists(), 'stage_exists')
+    for root in [ROOT, *protected_roots]:
+        root = Path(root).resolve()
+        require(not output.is_relative_to(root) and not root.is_relative_to(output), 'stage_boundary')
+    payloads = {}
+    for name, path in downloads.items():
+        path = Path(path); asset = delivery['assets'][name]
+        require(not path.is_symlink() and path.is_file() and path.stat().st_size == asset['size'], 'download_incomplete')
+        with path.open('rb') as stream: raw = stream.read(asset['size'] + 1)
+        require(len(raw) == asset['size'] and hashlib.sha256(raw).hexdigest() == asset['archive_sha256'], 'download_checksum')
+        payloads[name] = archive_files(raw)
+    output.mkdir(mode=0o700, parents=True)
+    # A failed stage is kept for its exact receipt/cleanup, never used as an installed package.
+    for name, payload in payloads.items():
+        for relative, raw in payload.items():
+            path = output / name / relative; path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+            with path.open('xb') as stream: stream.write(raw)
+            path.chmod(0o600)
+    agent, skills = output / 'report-kit-agent', output / 'report-kit-skills'
+    package_check(skills); package_check(agent, skills)
+    require(actual_pair(agent, skills) == delivery['release']['packages'], 'staged_pair_identity')
+    return {'status': 'STAGED_NOT_INSTALLED', 'candidate': delivery['release']['packages'],
+            'paths': {name: str(output / name) for name in PACKAGES}, 'install_authorized': False, 'limitations': LIMIT}
+
+
+def setup_status(online, verified_installed):
+    require(type(online) is bool and type(verified_installed) is bool, 'setup_connection_status')
+    status = 'CHECK_RELEASES' if online else 'KEEP_VERIFIED_CURRENT' if verified_installed else 'NEEDS_CONNECTION'
+    return {'status': status, 'notify': status == 'NEEDS_CONNECTION', 'install_authorized': False}
+
+
+def installation_plan(plan, compatibility, candidate_skills, host, now):
+    """Preflight is reused for bootstrap/update; actual native permission and consent follow."""
+    same_snapshot(plan, compatibility)
+    fields(host, {'checked_at', 'source_kind', 'source_locator', 'required_skills', 'tool_checks',
+                  'new_permissions', 'namespace_conflicts', 'active_runs', 'runs_inventory_complete', 'approval'}, 'host_observation')
+    require(host['source_kind'] == 'native_tool_result' and isinstance(host['source_locator'], str) and host['source_locator'].strip()
+            and 0 <= (timestamp(now)-timestamp(host['checked_at'])).total_seconds() < 86400, 'host_observation')
+    for key in ['required_skills', 'new_permissions', 'namespace_conflicts', 'active_runs']:
+        require(isinstance(host[key], list) and all(isinstance(v, str) and v for v in host[key]), 'host_inventory')
+    require(type(host['runs_inventory_complete']) is bool and host['approval'] in {'required','unknown','unavailable','not_required'}, 'host_permission')
+    require(identity(Path(candidate_skills)) == plan['candidate']['report-kit-skills']['package_sha256'], 'candidate_changed')
+    catalog = read_json(Path(candidate_skills) / 'capabilities.json')
+    needed = set(host['required_skills'])
+    for client in compatibility['clients'].values(): needed.update(client['required_skills'])
+    needed = skill_closure(catalog, needed)
+    tools = sorted({'Python'} | {x for item in catalog['capabilities'] if item['name'] in needed for x in item.get('external', [])})
+    require(isinstance(host['tool_checks'], dict) and all(isinstance(k,str) and v in {'PASS','MISSING','DENIED','UNKNOWN'}
+            for k,v in host['tool_checks'].items()), 'tool_observations')
+    missing = [tool for tool in tools if host['tool_checks'].get(tool) != 'PASS']
+    status = 'CHECK_CONSENT'
+    if not host['runs_inventory_complete']: status = 'CHECK_RUNNING_WORK'
+    elif host['active_runs']: status = 'DEFER_UNTIL_IDLE'
+    elif host['namespace_conflicts']: status = 'KEEP_FOREIGN_SKILLS'
+    elif missing: status = 'NEEDS_TOOLS'
+    elif host['new_permissions']: status = 'NEEDS_PERMISSION'
+    elif host['approval'] != 'not_required':
+        status = {'required':'WAIT_FOR_HOST_APPROVAL','unknown':'CHECK_HOST_APPROVAL','unavailable':'MANUAL_HOST_STEP'}[host['approval']]
+    return {'status': status, 'required_skills': sorted(needed), 'required_tools': tools, 'missing_tools': missing,
+            'candidate': plan['candidate'], 'install_authorized': False, 'limitations': LIMIT}
+
+
+def activation_result(plan, saved, loaded, health_passed):
+    """Choose native recovery action only; never restore a client-data snapshot."""
+    require(plan['status'] == 'READY_FOR_REVIEW', 'preflight_required')
+    expected = {'packages', 'verified', 'source_locator'}
+    fields(saved, expected | ({'absent_packages'} if 'absent_packages' in saved else set()), 'saved_pair')
+    pair_check(saved['packages'])
+    require(saved['packages'] == plan['current'] and saved['verified'] is True
+            and isinstance(saved['source_locator'], str) and saved['source_locator'].strip(), 'rollback_not_ready')
+    require(type(health_passed) is bool, 'health_result')
+    absent = saved.get('absent_packages', [])
+    require(absent == [] or (absent == ['report-kit-skills'] and plan.get('bootstrap') is True), 'saved_absent_packages')
+    if loaded is not None: pair_check(loaded)
+    passed = loaded == plan['candidate'] and health_passed
+    return {'status':'VERIFY_CLIENT_REFRESH' if passed else 'ROLLBACK_REQUIRED',
+            'selected': plan['candidate'] if passed else saved['packages'], 'client_data_writes': [],
+            'restore_absence': absent if not passed else [],
+            'limitations': LIMIT + ' A directive is not proof of native activation or rollback; verify reloaded identities and health.'}
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="mode", required=True)
@@ -272,6 +441,17 @@ if __name__ == "__main__":
     select = sub.add_parser("select"); select.add_argument("source", type=Path); select.add_argument("index", type=Path); select.add_argument("current", type=Path)
     check = sub.add_parser("preflight"); check.add_argument("workspace", type=Path)
     for key in ["current-agent", "current-skills", "candidate-agent", "candidate-skills", "release", "compatibility"]: check.add_argument("--" + key, type=Path, required=True)
+    check.add_argument('--bootstrap', action='store_true', help='First setup/repair of the exact pinned pair; current-skills path may be absent')
+    delivery = sub.add_parser('delivery')
+    for key in ['source','delivery','observed']: delivery.add_argument(key, type=Path)
+    stage = sub.add_parser('stage')
+    for key in ['source','delivery','observed','downloads','output']: stage.add_argument(key, type=Path)
+    stage.add_argument('--protect-root', type=Path, action='append', required=True)
+    install = sub.add_parser('installation-plan')
+    for key in ['plan','compatibility','candidate-skills','host']: install.add_argument(key, type=Path)
+    finish = sub.add_parser('activation-result')
+    for key in ['plan','saved','loaded']: finish.add_argument(key, type=Path)
+    finish.add_argument('--health-passed', action='store_true')
     refresh = sub.add_parser("rollout"); refresh.add_argument("plan", type=Path); refresh.add_argument("compatibility", type=Path); refresh.add_argument("receipts", type=Path); refresh.add_argument("loaded", type=Path)
     undo = sub.add_parser("rollback"); undo.add_argument("workspace", type=Path); undo.add_argument("snapshot", type=Path); undo.add_argument("old", type=Path); undo.add_argument("actual_new", type=Path)
     policy = sub.add_parser("policy")
@@ -281,11 +461,15 @@ if __name__ == "__main__":
     try:
         if args.mode == "due": result = due(read_json(args.source), args.checked_at, now, args.offline)
         elif args.mode == "select": result = {"selected": select_release(read_json(args.index), read_json(args.source), read_json(args.current)), "limitations": LIMIT}
+        elif args.mode == 'delivery': result = delivery_check(read_json(args.source),read_json(args.delivery),read_json(args.observed))
+        elif args.mode == 'stage': result = stage_candidate(read_json(args.source),read_json(args.delivery),read_json(args.observed),read_json(args.downloads),args.output,args.protect_root)
+        elif args.mode == 'installation-plan': result = installation_plan(read_json(args.plan),read_json(args.compatibility),args.candidate_skills,read_json(args.host),now)
+        elif args.mode == 'activation-result': result = activation_result(read_json(args.plan),read_json(args.saved),read_json(args.loaded),args.health_passed)
         elif args.mode == "rollout": result = rollout(read_json(args.plan), read_json(args.compatibility), read_json(args.receipts), read_json(args.loaded))
         elif args.mode == "rollback": result = rollback_preflight(args.workspace, read_json(args.snapshot), read_json(args.old), read_json(args.actual_new))
         elif args.mode == "policy": result = activation_decision(read_json(args.policy), read_json(args.source), read_json(args.plan), read_json(args.compatibility), args.host_approval)
         else: result = preflight(args.workspace, args.current_agent, args.current_skills, args.candidate_agent, args.candidate_skills,
-                                read_json(args.release), args.compatibility, now)
+                                read_json(args.release), args.compatibility, now, bootstrap=args.bootstrap)
     except (ValueError, OSError, KeyError, TypeError, AssertionError) as error:
         result = {"status": "BLOCKED", "issue": str(error) if isinstance(error, ContractError) else "invalid_local_record"}
     print(json.dumps(result)); raise SystemExit(result.get("status") == "BLOCKED")

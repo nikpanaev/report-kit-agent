@@ -9,7 +9,7 @@ import subprocess
 import tarfile
 
 from check_package import check as package_check, files
-from updates import actual_pair, release_check
+from updates import actual_pair, release_check, source_check
 
 
 def git(root, *args):
@@ -41,7 +41,7 @@ def verify_archive(raw, inventory):
     return observed
 
 
-def prepare(agent, skills, output, commits, channel):
+def prepare(agent, skills, output, commits, channel, source=None):
     agent=Path(agent).resolve();skills=Path(skills).resolve();output=Path(output).resolve()
     roots={"report-kit-agent":agent,"report-kit-skills":skills}
     if set(commits)!=set(roots) or channel not in {"working","preview"}:raise ValueError("release_inputs")
@@ -61,6 +61,18 @@ def prepare(agent, skills, output, commits, channel):
     release={"release_id":"prepared-"+pair["report-kit-agent"]["version"],"channel":channel,"published":False,"revoked":False,"packages":pair}
     release_check(release)
     payloads["draft-release.json"]=(json.dumps(release,indent=2)+"\n").encode()
+    if source is not None:
+        source_check(source)
+        if source['channel'] != channel: raise ValueError('delivery_channel')
+    assets={}
+    for name in roots:
+        filename=f"{name}-{pair[name]['version']}.tar"
+        repository=source['agent_repository' if name=='report-kit-agent' else 'skills_repository'] if source else None
+        tag='v'+pair[name]['version']
+        assets[name]={'repository':repository,'tag':tag,'commit':commits[name],
+            'url':repository+'/releases/download/'+tag+'/'+filename if repository else None,
+            'size':len(payloads[filename]),'archive_sha256':hashlib.sha256(payloads[filename]).hexdigest()}
+    payloads['draft-delivery.json']=(json.dumps({'schema_version':1,'release':release,'assets':assets},indent=2)+'\n').encode()
     notes="# Local draft — publication not approved\n\n"
     for name,root in roots.items():
         changelog=root/"CHANGELOG.md"
@@ -93,10 +105,12 @@ if __name__=="__main__":
     for key in ["agent-root","skills-root","output"]:parser.add_argument("--"+key,type=Path,required=True)
     for key in ["agent-commit","skills-commit"]:parser.add_argument("--"+key,required=True)
     parser.add_argument("--channel",choices=["working","preview"],default="working")
+    parser.add_argument('--source',type=Path,help='Approved repository source record; no network or publication')
     args=parser.parse_args()
     try:
         result=prepare(args.agent_root,args.skills_root,args.output,
-            {"report-kit-agent":args.agent_commit,"report-kit-skills":args.skills_commit},args.channel)
+            {"report-kit-agent":args.agent_commit,"report-kit-skills":args.skills_commit},args.channel,
+            json.loads(args.source.read_text(encoding='utf-8')) if args.source else None)
         result={"status":result["status"],"artifacts":result["artifacts"],"publication_authorized":False,"blockers":result["blockers"]}
     except (ValueError,AssertionError,OSError,KeyError,subprocess.CalledProcessError):
         result={"status":"BLOCKED","issue":"invalid_or_changed_package_or_output","publication_authorized":False}

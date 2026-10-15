@@ -14,3 +14,7 @@
 Official plugin package reference: https://developers.openai.com/plugins/build/plugins . Documentation checked2026-10-14. Native host/schema loading and distribution integration remain unverified until target runtime tests.
 
 Tooling versions used are recorded in local evidence, not vendored. Owner-maintained adaptations use MIT, copyright Report Kit; third-party notices/compatibility review remains pending. No download/install authority implied by selection. All future third-party upgrades require canonical version/license/provenance, permission/data review and compatibility test; stars/popularity are not acceptance.
+
+## Bootstrap и обновления по одной ссылке
+
+Повторно использовать scripts/updates.py, check_package.py, prepare_release.py и штатные native GitHub/HTTP/plugin tools. Python stdlib tarfile/hashlib нужны только для проверки и инертного staging по exact public inventory; downloaded code не запускается. Отдельный package manager/installer, daemon или сторонняя auto-update библиотека отклонены: они дублируют имеющийся native путь и добавляют границы доверия. Native шаг доступен не на каждой поверхности: подготовить минимальное подтверждение в приложении, не обходить его. Реальная совместимость штатной активации/возврата ещё требует device test.

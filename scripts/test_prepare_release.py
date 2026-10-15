@@ -77,6 +77,18 @@ class Releases(unittest.TestCase):
             filename=f"{name}-0.1.0-dev.0.tar"
             self.assertEqual(first["artifacts"][filename],second["artifacts"][filename])
 
+    def test_delivery_metadata_is_draft_and_uses_exact_archive_checksums(self):
+        source={'schema_version':1,'agent_repository':'https://github.com/example/report-kit-agent',
+                'skills_repository':'https://github.com/example/report-kit-skills','channel':'working','interval_hours':24}
+        result=prepare(self.agent,self.skills,self.output,self.heads,'working',source)
+        delivery=json.loads((self.output/'draft-delivery.json').read_text(encoding='utf-8'))
+        self.assertFalse(delivery['release']['published'])
+        for name,a in delivery['assets'].items():
+            filename=name+'-0.1.0-dev.0.tar'
+            self.assertEqual(a['archive_sha256'],result['artifacts'][filename])
+            self.assertEqual(a['commit'],self.heads[name])
+            self.assertTrue(a['url'].endswith('/releases/download/v0.1.0-dev.0/'+filename))
+
     def test_dirty_wrong_commit_and_untracked_block_before_output(self):
         (self.agent/"VERSION").write_text("changed", encoding="utf-8")
         with self.assertRaisesRegex(ValueError,"dirty_package"):self.build()
