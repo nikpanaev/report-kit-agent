@@ -7,20 +7,23 @@
       "sourceRelative": "scripts/check_report_templates.py",
       "sourceSHA256": "abc7e6807b49646e850e9989aec5a27ae75aee0ef3bce7d619f27b94c0d18652",
       "destination": "scripts/check_report_templates.py",
-      "outputSHA256": "9f790c6a5e8662701e369e045cf63d9ada12b584f6de7c1403fa16c35e3fce1d",
+      "outputSHA256": "f7970bd6ddf4bbea7dd73d254226d1b86caf6758efeef633c1a4d0ae149df858",
       "changes": [
-        "Add bounded native Sheets whole-read/Drive-version/typed-cell/chart/frozen-history guard; legacy Docs/Slides oracle unchanged"
+        "Add bounded native Sheets whole-read/Drive-version/typed-cell/chart/frozen-history guard; legacy Docs/Slides oracle unchanged",
+        "Portable audit fixes: explicit UTF-8 and affected source/recovery/auth tests; donor snapshot unchanged"
       ]
     },
     {
       "sourceRelative": "scripts/check_report_templates_selftest.py",
       "sourceSHA256": "a50d359fc26f931a944344f28c0e77ddae7b41ef66be1838522bda385fd26e08",
       "destination": "scripts/check_report_templates_selftest.py",
-      "outputSHA256": "dbde613895c5360ece334f61e8d3cae3386d3d3bd5651c641f1ebb4c6393b480",
+      "outputSHA256": "8828399d75ab20223e49d2e2a70f472b86432165833308d552ffef439486c5db",
       "changes": [
         "Replace report-derived numerical fixture values with synthetic values; same assertions",
-        "Replace existing client name in synthetic native fixture with fictional training client; same inventory/hash assertions"
+        "Replace existing client name in synthetic native fixture with fictional training client; same inventory/hash assertions",
+        "Portable audit fixes: explicit UTF-8 and affected source/recovery/auth tests; donor snapshot unchanged"
       ]
     }
-  ]
+  ],
+  "portable_revision_date": "2026-10-15"
 }

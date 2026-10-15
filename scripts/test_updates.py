@@ -33,7 +33,7 @@ class Updates(unittest.TestCase):
         profile = {}
         for client in ["first", "second"]:
             p = self.workspace / "clients" / client / "AGENT.md"; p.parent.mkdir(parents=True)
-            p.write_text("Accepted client rules; keep historical snapshot and own font override")
+            p.write_text("Accepted client rules; keep historical snapshot and own font override", encoding="utf-8")
             sha = hashlib.sha256(p.read_bytes()).hexdigest()
             receipt = {"kind": "compatibility", "source_kind": "native_tool_result", "source_locator": "synthetic run",
                 "client_id": client, "candidate": self.new, "profile_sha256": sha,
@@ -52,12 +52,12 @@ class Updates(unittest.TestCase):
 
     def write(self, relative, data):
         path = self.workspace / relative; path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps(data)); return path
+        path.write_text(json.dumps(data), encoding="utf-8"); return path
 
     def package(self, folder, name, version):
         root = self.base / folder; root.mkdir()
-        (root / "VERSION").write_text(version + "\n")
-        (root / "plugin.json").write_text(json.dumps({"name": name, "version": version}))
+        (root / "VERSION").write_text(version + "\n", encoding="utf-8")
+        (root / "plugin.json").write_text(json.dumps({"name": name, "version": version}), encoding="utf-8")
         contracts = {"schema_version": 1, "package": name, "package_version": version,
             "interfaces": {"workspace": 2, "maintenance": 1, "template_registry": 3, "profile": 1},
             "host_capabilities": ["native-plugin-update"], "permissions": []}
@@ -67,15 +67,15 @@ class Updates(unittest.TestCase):
             catalog = {"schema_version": 1, "package_version": version, "capabilities": [
                 {"name": "vk-post-screenshot", "requires": []}, {"name": "vk-comment-screenshot", "requires": ["vk-post-screenshot"]}],
                 "shared": ["skills/_shared/ui_queue.py"]}
-            (root / "capabilities.json").write_text(json.dumps(catalog))
-        (root / "contracts.json").write_text(json.dumps(contracts))
+            (root / "capabilities.json").write_text(json.dumps(catalog), encoding="utf-8")
+        (root / "contracts.json").write_text(json.dumps(contracts), encoding="utf-8")
         names = sorted(p.name for p in root.iterdir()); names.append("PUBLIC-FILES.json")
-        (root / "PUBLIC-FILES.json").write_text(json.dumps({"schema_version": 1, "files": names}))
+        (root / "PUBLIC-FILES.json").write_text(json.dumps({"schema_version": 1, "files": names}), encoding="utf-8")
         return root
 
     @staticmethod
     def pair(agent, skills):
-        return {name: {"version": (root / "VERSION").read_text().strip(), "package_sha256": identity(root)}
+        return {name: {"version": (root / "VERSION").read_text(encoding="utf-8").strip(), "package_sha256": identity(root)}
                 for name, root in [("report-kit-agent", agent), ("report-kit-skills", skills)]}
 
     def preflight(self):
@@ -86,8 +86,8 @@ class Updates(unittest.TestCase):
 
     def test_missing_skill_permission_declaration_blocks(self):
         path = self.candidate_skills / "contracts.json"
-        data = json.loads(path.read_text()); del data["permissions"]["vk-comment-screenshot"]
-        path.write_text(json.dumps(data))
+        data = json.loads(path.read_text(encoding="utf-8")); del data["permissions"]["vk-comment-screenshot"]
+        path.write_text(json.dumps(data), encoding="utf-8")
         candidate = self.pair(self.candidate_agent, self.candidate_skills)
         self.release["packages"] = candidate
         with self.assertRaisesRegex(ContractError, "permission_contract_inventory"):
@@ -127,13 +127,13 @@ class Updates(unittest.TestCase):
         self.assertFalse(result["install_authorized"])
 
     def current_version(self, value):
-        (self.current_agent / "VERSION").write_text(value + "\n")
+        (self.current_agent / "VERSION").write_text(value + "\n", encoding="utf-8")
         for name in ["plugin.json", "contracts.json"]:
-            path = self.current_agent / name; data = json.loads(path.read_text())
+            path = self.current_agent / name; data = json.loads(path.read_text(encoding="utf-8"))
             data["version" if name == "plugin.json" else "package_version"] = value
-            path.write_text(json.dumps(data))
+            path.write_text(json.dumps(data), encoding="utf-8")
         self.old = self.pair(self.current_agent, self.current_skills)
-        settings = json.loads((self.workspace / "settings.json").read_text())
+        settings = json.loads((self.workspace / "settings.json").read_text(encoding="utf-8"))
         settings["packages"] = self.old; self.write("settings.json", settings)
 
     def test_direct_preflight_rejects_equal_build_only_and_older_candidate(self):
@@ -171,8 +171,8 @@ class Updates(unittest.TestCase):
         with self.assertRaises(ValueError): self.preflight()
 
     def setUp_catalog_cycle(self):
-        p = self.candidate_skills / "capabilities.json"; d = json.loads(p.read_text())
-        d["capabilities"][0]["requires"] = ["vk-comment-screenshot"]; p.write_text(json.dumps(d))
+        p = self.candidate_skills / "capabilities.json"; d = json.loads(p.read_text(encoding="utf-8"))
+        d["capabilities"][0]["requires"] = ["vk-comment-screenshot"]; p.write_text(json.dumps(d), encoding="utf-8")
         self.release["packages"] = self.pair(self.candidate_agent, self.candidate_skills)
 
     def test_missing_stale_or_unregistered_client_blocked(self):
@@ -183,7 +183,7 @@ class Updates(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "stale_compatibility"): self.preflight()
 
     def test_profile_edit_and_protected_history_change_blocked(self):
-        (self.workspace / "clients/first/AGENT.md").write_text("Owner edited rules")
+        (self.workspace / "clients/first/AGENT.md").write_text("Owner edited rules", encoding="utf-8")
         with self.assertRaisesRegex(ValueError, "profile_changed"): self.preflight()
 
     def test_active_run_new_permission_missing_host_or_candidate_tamper(self):
@@ -193,12 +193,12 @@ class Updates(unittest.TestCase):
             saved = copy.deepcopy(self.compatibility); edit(self.compatibility)
             with self.assertRaisesRegex(ValueError, code): self.preflight()
             self.compatibility = saved
-        (self.candidate_agent / "VERSION").write_text("0.1.0-dev.99\n")
+        (self.candidate_agent / "VERSION").write_text("0.1.0-dev.99\n", encoding="utf-8")
         with self.assertRaises(ValueError): self.preflight()
 
     def test_failed_or_old_candidate_regression_is_not_compatibility(self):
-        p = self.workspace / "receipts/first.json"; d = json.loads(p.read_text()); d["candidate"] = self.old
-        p.write_text(json.dumps(d)); self.compatibility["clients"]["first"]["regression_sha256"] = hashlib.sha256(p.read_bytes()).hexdigest()
+        p = self.workspace / "receipts/first.json"; d = json.loads(p.read_text(encoding="utf-8")); d["candidate"] = self.old
+        p.write_text(json.dumps(d), encoding="utf-8"); self.compatibility["clients"]["first"]["regression_sha256"] = hashlib.sha256(p.read_bytes()).hexdigest()
         with self.assertRaisesRegex(ValueError, "regression_receipt"): self.preflight()
 
     def test_rollout_requires_actual_ack_for_every_client(self):
@@ -225,10 +225,10 @@ class Updates(unittest.TestCase):
     def test_rollback_is_readonly_and_preserves_owner_edits(self):
         snapshot = self.rollback_snapshot()
         self.assertEqual(rollback_preflight(self.workspace, snapshot, self.old, self.new)["writes"], [])
-        path = self.workspace / "clients/second/AGENT.md"; path.write_text("Later owner edit")
+        path = self.workspace / "clients/second/AGENT.md"; path.write_text("Later owner edit", encoding="utf-8")
         with self.assertRaisesRegex(ValueError, "subsequent_owner_edit"):
             rollback_preflight(self.workspace, snapshot, self.old, self.new)
-        self.assertEqual(path.read_text(), "Later owner edit")
+        self.assertEqual(path.read_text(encoding="utf-8"), "Later owner edit")
 
     def test_rollback_wrong_pair_and_incomplete_protection_rejected(self):
         with self.assertRaisesRegex(ValueError, "rollback_identity"):
@@ -238,7 +238,7 @@ class Updates(unittest.TestCase):
             rollback_preflight(self.workspace, snapshot, self.old, self.new)
 
     def test_ghost_client_duplicate_version_and_source_revocation(self):
-        ghost = self.workspace / "clients/ghost/AGENT.md"; ghost.parent.mkdir(); ghost.write_text("Unregistered")
+        ghost = self.workspace / "clients/ghost/AGENT.md"; ghost.parent.mkdir(); ghost.write_text("Unregistered", encoding="utf-8")
         with self.assertRaisesRegex(ValueError, "client_inventory"): self.preflight()
         revoked = copy.deepcopy(self.release); revoked["revoked"] = True
         with self.assertRaisesRegex(ValueError, "current_release_revoked"):

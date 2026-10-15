@@ -93,7 +93,7 @@ class SheetTemplates(unittest.TestCase):
         return texts, {}, links
 
     def write(self, name, value):
-        (self.root / name).write_text(json.dumps(value, ensure_ascii=False))
+        (self.root / name).write_text(json.dumps(value, ensure_ascii=False), encoding="utf-8")
 
     def cleanup_fixture(self):
         print(json.dumps({"test": self.id(), "result": "Fixture inspected by assertions in run log; cleanup follows",

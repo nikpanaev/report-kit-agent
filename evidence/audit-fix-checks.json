@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "package": "report-kit-agent",
+  "package_version": "0.1.0-dev.22",
+  "status": "LOCAL_SOURCE_REGRESSION_PASSED_NOT_RELEASE",
+  "tests": {
+    "unittest_methods": 95,
+    "unittest_exit": 0,
+    "templates_selftest_exit": 0,
+    "downloaded_archive_fixture": "PASS without Git calls",
+    "optimized_python": "bad manifest refused",
+    "locale": "UTF8 records retained under emulated cp1252",
+    "old_client_queue_contract": "update blocked pending review"
+  },
+  "source_files": {
+    "scripts/check_package.py": "adace140fa9e9d8a0f3592664efb7b9d0a8e367bf6d478fd8c29b1c3779502d2",
+    "scripts/check_report_templates.py": "f7970bd6ddf4bbea7dd73d254226d1b86caf6758efeef633c1a4d0ae149df858",
+    "scripts/check_report_templates_selftest.py": "8828399d75ab20223e49d2e2a70f472b86432165833308d552ffef439486c5db",
+    "scripts/check_sheet_copy.py": "2fbd3da82e9ed24af6dd9212c1acdd03a5ab4b8a119e2766ce64c56aee305d23",
+    "scripts/check_workspace.py": "5891fe7636c0f8adcf09e3b00e54acbbedcb4c8df6ce1ef9200040bd441489cc",
+    "scripts/maintenance.py": "a78584ad22bc6ce51f1e1d7e125203762661f44e292ff5811e33ea87c283b6cf",
+    "scripts/prepare_release.py": "7716c821ab694b173347721463da66565c7072613c1f9ed63f03345b9fc5b06b",
+    "scripts/test_maintenance.py": "6ca773734a317103f60e2aa819b081ec617e49b2b3b7fad2a49616f5154bc309",
+    "scripts/test_package_boundaries.py": "492293212d16d3e68f39b756d1623fd452d23d56c22b9097370fbf5cc0b47414",
+    "scripts/test_prepare_release.py": "0f42e49643317048d0af5e57d80c8b29a28bd9a058b6cfea8d9aff1866e3ec4c",
+    "scripts/test_sheet_templates.py": "895eb8bd1f71d357e147ef0d9cf13cc0d62f62699d67d3919e996037f389d2c8",
+    "scripts/test_update_interfaces.py": "3016c9d781aac3b31960910fcb06b07e8855ec513464eebb2c48344b80128d53",
+    "scripts/test_updates.py": "3a0f2f4f309c7c1a666c8d6bfdb3ff448bdd918e6b7fbb6fbc49ef8a9c00c5a2",
+    "scripts/updates.py": "7e7c0129e2fa55d42319ad4c8700a3fda957f086d9ce59bab320f7458b78d2e7"
+  },
+  "native_windows": "NOT_RUN; assigned to user after separately authorized test release download",
+  "publication": false,
+  "installation": false,
+  "client_agents_changed": false,
+  "limitations": [
+    "Synthetic/source checks do not prove employee permissions or live services",
+    "Historical raw test and environment failures retained privately; no assertion thresholds weakened",
+    "shared:ui_queue=2 requires client compatibility review; no automatic profile migration"
+  ]
+}

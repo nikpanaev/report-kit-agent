@@ -92,7 +92,7 @@ def select_release(index, source, current):
 
 
 def actual_pair(agent, skills):
-    pair = {name: {"version": (root / "VERSION").read_text().strip(), "package_sha256": identity(root)}
+    pair = {name: {"version": (root / "VERSION").read_text(encoding="utf-8").strip(), "package_sha256": identity(root)}
             for name, root in [("report-kit-agent", agent), ("report-kit-skills", skills)]}
     pair_check(pair)
     for name, root in [("report-kit-agent", agent), ("report-kit-skills", skills)]:

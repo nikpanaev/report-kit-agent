@@ -17,6 +17,10 @@ RULES = {
 EMAIL = re.compile(r"[A-Za-z0-9._%+-]+@([A-Za-z0-9.-]+\.[A-Za-z]{2,})")
 
 
+def _require(condition, message):
+    if not condition: raise ValueError(message)
+
+
 def sensitive(text):
     findings = [name for name, pattern in RULES.items() if pattern.search(text)]
     if any(m.group(1) not in {"example.test", "example.invalid", "example.com"} for m in EMAIL.finditer(text)):
@@ -51,72 +55,82 @@ def files(root):
 
 def identity(root):
     inventory = files(root)
-    allowed = json.loads((root / "PUBLIC-FILES.json").read_text())
-    assert allowed["schema_version"] == 1 and set(allowed["files"]) == set(inventory), "unexpected_or_missing_public_file"
+    allowed = json.loads((root / "PUBLIC-FILES.json").read_text(encoding="utf-8"))
+    _require(allowed["schema_version"] == 1 and set(allowed["files"]) == set(inventory), "unexpected_or_missing_public_file")
     return hashlib.sha256(json.dumps(inventory, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 
-def check(root, skills_root=None):
+def check(root, skills_root=None, *, history=False):
     root = root.resolve()
     inventory = files(root)
-    manifest = json.loads((root / "plugin.json").read_text())
-    assert manifest["version"] == (root / "VERSION").read_text().strip(), "version_drift"
-    assert re.fullmatch(r"[a-z0-9-]+", manifest["name"]), "plugin_name"
+    manifest = json.loads((root / "plugin.json").read_text(encoding="utf-8"))
+    _require(manifest["version"] == (root / "VERSION").read_text(encoding="utf-8").strip(), "version_drift")
+    _require(re.fullmatch(r"[a-z0-9-]+", manifest["name"]), "plugin_name")
     count = 0
     for path in sorted((root / "skills").glob("*/SKILL.md")):
-        content = path.read_text()
+        content = path.read_text(encoding="utf-8")
         front = re.match(r'---\nname: ([a-z0-9-]+)\ndescription: "(.+)"\n---', content)
-        assert front and front.group(1) == path.parent.name, f"skill_frontmatter:{path.parent.name}"
+        _require(front and front.group(1) == path.parent.name, f"skill_frontmatter:{path.parent.name}")
         for target in re.findall(r"\]\(([^)]+)\)", content):
             if target.startswith(("https://", "http://", "#")):
                 continue
             resolved = (path.parent / target.split("#")[0]).resolve()
-            assert resolved.is_relative_to(root) and resolved.exists(), f"broken_skill_reference:{path.parent.name}"
+            _require(resolved.is_relative_to(root) and resolved.exists(), f"broken_skill_reference:{path.parent.name}")
         count += 1
-    assert count, "no_skills"
-    marketplace = json.loads((root / ".agents/plugins/marketplace.json").read_text())
+    _require(count, "no_skills")
+    marketplace = json.loads((root / ".agents/plugins/marketplace.json").read_text(encoding="utf-8"))
     entry, = marketplace["plugins"]
-    assert entry["name"] == manifest["name"] and entry["source"] == {"source": "local", "path": "./"}, "local_marketplace"
+    _require(entry["name"] == manifest["name"] and entry["source"] == {"source": "local", "path": "./"}, "local_marketplace")
     if manifest["name"] == "report-kit-skills":
-        catalog = json.loads((root / "capabilities.json").read_text())
+        catalog = json.loads((root / "capabilities.json").read_text(encoding="utf-8"))
         names = {item["name"] for item in catalog["capabilities"]}
-        assert names == {p.parent.name for p in (root / "skills").glob("*/SKILL.md")}, "capability_inventory"
-        assert all(set(item["requires"]) <= names for item in catalog["capabilities"]), "missing_transitive_skill"
-        assert catalog["package_version"] == manifest["version"], "catalog_version"
+        _require(names == {p.parent.name for p in (root / "skills").glob("*/SKILL.md")}, "capability_inventory")
+        _require(all(set(item["requires"]) <= names for item in catalog["capabilities"]), "missing_transitive_skill")
+        _require(catalog["package_version"] == manifest["version"], "catalog_version")
     elif skills_root is not None:
-        required = json.loads((root / "dependencies.json").read_text())["report-kit-skills"]
-        assert (skills_root / "VERSION").read_text().strip() == required["version"], "dependency_version"
-        assert identity(skills_root) == required["package_sha256"], "dependency_content_drift"
+        required = json.loads((root / "dependencies.json").read_text(encoding="utf-8"))["report-kit-skills"]
+        _require((skills_root / "VERSION").read_text(encoding="utf-8").strip() == required["version"], "dependency_version")
+        _require(identity(skills_root) == required["package_sha256"], "dependency_content_drift")
+    history_result = check_history(root) if history else {"history_status": "NOT_CHECKED_ARCHIVE"}
+    return {"status": "PASS_LIMITED", "files": len(inventory), "skills": count, **history_result, "package_sha256": identity(root),
+            "limitations": "Pattern/inventory/source identity checks only; no complete secret detector, license review, enforced isolation, installation or live service proof."}
+
+
+def check_history(root):
+    try:
+        top = subprocess.run(["git", "rev-parse", "--show-toplevel"], cwd=root, capture_output=True, text=True, encoding="utf-8", check=True).stdout.strip()
+        if Path(top).resolve() != root.resolve(): raise ValueError("history_requires_package_repository")
+    except (OSError, subprocess.CalledProcessError):
+        raise ValueError("history_requires_package_repository") from None
     # Scan reachable commit contents and author/committer metadata, not just the working tree.
     history = subprocess.run(["git", "log", "--all", "--format=%H"], cwd=root, capture_output=True, text=True, check=True).stdout.splitlines()
     blobs = set()
     for commit in history:
         metadata = subprocess.run(["git", "show", "-s", "--format=%an <%ae> %cn <%ce>", commit], cwd=root, capture_output=True, text=True, check=True).stdout
-        assert not sensitive(metadata), "private_git_identity"
+        _require(not sensitive(metadata), "private_git_identity")
         tree = subprocess.run(["git", "ls-tree", "-r", "-z", commit], cwd=root, capture_output=True, check=True).stdout
         for record in tree.split(b"\0"):
             if not record:
                 continue
             info, name = record.split(b"\t", 1)
             mode, kind, blob = info.decode().split()
-            assert mode != "120000" and kind == "blob", "history_symlink_or_submodule"
-            assert not any(part in PRIVATE | IGNORED for part in Path(name.decode()).parts), "private_history_path"
+            _require(mode != "120000" and kind == "blob", "history_symlink_or_submodule")
+            _require(not any(part in PRIVATE | IGNORED for part in Path(name.decode()).parts), "private_history_path")
             if blob not in blobs:
                 raw = subprocess.run(["git", "cat-file", "blob", blob], cwd=root, capture_output=True, check=True).stdout
-                assert not sensitive(raw.decode("utf-8")), "sensitive_git_history"
+                _require(not sensitive(raw.decode("utf-8")), "sensitive_git_history")
                 blobs.add(blob)
-    return {"status": "PASS_LIMITED", "files": len(inventory), "skills": count, "history_commits": len(history),
-            "history_unique_blobs": len(blobs), "package_sha256": identity(root),
-            "limitations": "Pattern/inventory/source identity checks only; no complete secret detector, license review, enforced isolation, installation or live service proof."}
+    return {"history_status": "CHECKED_LIMITED", "history_commits": len(history), "history_unique_blobs": len(blobs)}
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("root", type=Path)
     parser.add_argument("--skills-root", type=Path)
+    parser.add_argument("--history", action="store_true", help="Maintainer source-history check; requires this package Git repository")
     args = parser.parse_args()
     try:
-        result = check(args.root, args.skills_root)
+        result = check(args.root, args.skills_root, history=args.history)
     except (AssertionError, ValueError, OSError, UnicodeError, KeyError, subprocess.CalledProcessError) as error:
         result = {"status": "FAIL", "issue": str(error)}
     print(json.dumps(result, ensure_ascii=False))

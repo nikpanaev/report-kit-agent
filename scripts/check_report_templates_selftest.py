@@ -57,12 +57,12 @@ with tempfile.TemporaryDirectory() as directory:
                         "acceptance_source": "fixture-direct-owner-acceptance", "source_hashes": {"posts": "a" * 64},
                         "texts": frozen_text, "images": {p: {"properties_sha256": inventory(raw, stable_images=True)[1][p], "file_sha256": file_hash}
                                                          for p in frozen_images}}
-            (root / "june-frozen.json").write_text(json.dumps(snapshot))
+            (root / "june-frozen.json").write_text(json.dumps(snapshot), encoding="utf-8")
             entry["frozen_months"] = [{"month": "2026-06", "snapshot_path": "june-frozen.json", "sha256": digest(snapshot)}]
             entry["linked_data"] = {}
         approval = {"result": "APPROVED", "owner_decision_source": "fixture-owner-decision",
                     "id": ident, "revision": "r1", "approved_sha256": native_digest(raw)}
-        (root / entry["approval_path"]).write_text(json.dumps(approval))
+        (root / entry["approval_path"]).write_text(json.dumps(approval), encoding="utf-8")
         registry["templates"].append(entry)
         run["files"].append({"id": ident, "mimeType": MIME[role], "trashed": False,
                              "parents": ["reports"], "owners": [{"emailAddress": "owner@example.test"}],
@@ -71,10 +71,10 @@ with tempfile.TemporaryDirectory() as directory:
         native[role] = raw
 
     def execute(reg=registry, pre=run, snapshots=native):
-        (root / "registry.json").write_text(json.dumps(reg))
-        (root / "preflight.json").write_text(json.dumps(pre))
+        (root / "registry.json").write_text(json.dumps(reg), encoding="utf-8")
+        (root / "preflight.json").write_text(json.dumps(pre), encoding="utf-8")
         for role, raw in snapshots.items():
-            (root / (role + ".json")).write_text(json.dumps(raw))
+            (root / (role + ".json")).write_text(json.dumps(raw), encoding="utf-8")
         return check(root / "registry.json", root / "preflight.json", list(MIME))
 
     assert execute()["status"] == "PASS_LIMITED"
@@ -110,14 +110,14 @@ with tempfile.TemporaryDirectory() as directory:
     candidate["body"]["content"][1]["textRun"]["content"] = "Июнь–Сентябрь 2026"
     candidate["slides"].insert(0, {"objectId": "september-page", "pageElements": [
         {"objectId": "september-value", "textRun": {"content": "Новый сентябрь"}}]})
-    actual_hashes = {p: file_hash for p in json.loads((root / "june-frozen.json").read_text())["images"]}
+    actual_hashes = {p: file_hash for p in json.loads((root / "june-frozen.json").read_text(encoding="utf-8"))["images"]}
     candidate["slides"][1]["pageElements"][1]["image"]["contentUrl"] = "new-copy-signed-url"
     assert frozen_history(cumulative, root, candidate, "fixture", "2026-09", ["2026-09"], actual_hashes)[2] == ["2026-06"]
     output_run = deepcopy(run); output_run["selected_role"] = "cumulative"
     output_run["copy_source_id"] = "template-cumulative"
     assert execute(pre=output_run)["status"] == "PASS_LIMITED"
-    (root / "output.json").write_text(json.dumps(candidate))
-    (root / "output-images.json").write_text(json.dumps({p: "accepted-june.png" for p in actual_hashes}))
+    (root / "output.json").write_text(json.dumps(candidate), encoding="utf-8")
+    (root / "output-images.json").write_text(json.dumps({p: "accepted-june.png" for p in actual_hashes}), encoding="utf-8")
     command = [sys.executable, str(Path(__file__).with_name("check_report_templates.py")),
                str(root / "registry.json"), str(root / "preflight.json"), "--roles", *MIME,
                "--output-native", str(root / "output.json"), "--output-image-manifest", str(root / "output-images.json")]
@@ -159,7 +159,7 @@ with tempfile.TemporaryDirectory() as directory:
     bad = deepcopy(registry); bad["templates"][1]["semantic_kind"] = "neutral_template"
     reject("cumulative treated as neutral monthly template", reg=bad)
     bad = deepcopy(registry)
-    frozen_pointer = next(iter(json.loads((root / "june-frozen.json").read_text())["texts"]))
+    frozen_pointer = next(iter(json.loads((root / "june-frozen.json").read_text(encoding="utf-8"))["texts"]))
     bad["templates"][1]["mutable_text"][frozen_pointer] = "Июнь: 1 234 просмотров"
     reject("historical zone declared mutable", reg=bad)
 
@@ -185,7 +185,7 @@ with tempfile.TemporaryDirectory() as directory:
         reject("malformed mutable image mapping " + repr(malformed), reg=bad)
     bad = deepcopy(reg); bad["templates"][1]["allowed_images"][aggregate_pointer] = entry["mutable_images"][aggregate_pointer]
     reject("mutable image overlaps decor", reg=bad)
-    bad = deepcopy(reg); pointer = next(iter(json.loads((root / "june-frozen.json").read_text())["images"]))
+    bad = deepcopy(reg); pointer = next(iter(json.loads((root / "june-frozen.json").read_text(encoding="utf-8"))["images"]))
     bad["templates"][1]["mutable_images"][pointer] = {"properties_sha256": inventory(native["cumulative"])[1][pointer], "file_sha256": file_hash}
     reject("historical image declared mutable", reg=bad)
     bad = deepcopy(reg); bad["templates"][1]["mutable_images"][aggregate_pointer]["file_sha256"] = "b" * 64
@@ -208,7 +208,7 @@ with tempfile.TemporaryDirectory() as directory:
                           "source_hashes": {"september": "c" * 64}, "texts": st,
                           "images": {p: {"properties_sha256": h, "file_sha256": file_hash}
                                      for p, h in si.items()}}
-    (root / "september-frozen.json").write_text(json.dumps(september_snapshot))
+    (root / "september-frozen.json").write_text(json.dumps(september_snapshot), encoding="utf-8")
     promoted = deepcopy(reg); promoted_entry = promoted["templates"][1]
     promoted_entry["frozen_months"].append({"month": "2026-09", "snapshot_path": "september-frozen.json",
                                           "sha256": digest(september_snapshot)})
@@ -216,9 +216,9 @@ with tempfile.TemporaryDirectory() as directory:
     promoted_run = deepcopy(run); promoted_run.update(selected_role="monthly", copy_source_id="template-monthly",
                                                      collection_months=[])
     promoted_run["files"][1]["image_paths"].update({p: "accepted-june.png" for p in si})
-    approval_path = root / promoted_entry["approval_path"]; saved_approval = approval_path.read_text()
+    approval_path = root / promoted_entry["approval_path"]; saved_approval = approval_path.read_text(encoding="utf-8")
     approval = json.loads(saved_approval); approval["approved_sha256"] = promoted_entry["approved_sha256"]
-    approval_path.write_text(json.dumps(approval))
+    approval_path.write_text(json.dumps(approval), encoding="utf-8")
     assert execute(promoted, promoted_run, promoted_native)["status"] == "PASS_LIMITED"
     bad = deepcopy(promoted_run); bad["selected_role"] = "cumulative"; bad["copy_source_id"] = "template-cumulative"
     reject("cannot append accepted September again", reg=promoted, pre=bad, snapshots=promoted_native)
@@ -232,7 +232,7 @@ with tempfile.TemporaryDirectory() as directory:
         assert "accepted historical" in str(error); cases.append("monthly reuse protects September values")
     else:
         raise AssertionError("monthly reused changed September values")
-    approval_path.write_text(saved_approval)
+    approval_path.write_text(saved_approval, encoding="utf-8")
 
     # An approved cumulative linked chart needs its exact frozen source read; no LiveDune fetch.
     linked_native = deepcopy(native); linked_native["cumulative"]["sheetsChart"] = {
@@ -240,19 +240,19 @@ with tempfile.TemporaryDirectory() as directory:
     reg = deepcopy(registry); linked_entry = reg["templates"][1]
     _, _, linked_inventory = inventory(linked_native["cumulative"], allow_links=True)
     pointer = next(iter(linked_inventory)); data = {"2026-06": {"views": 1234}}
-    (root / "linked-data.json").write_text(json.dumps(data))
+    (root / "linked-data.json").write_text(json.dumps(data), encoding="utf-8")
     linked_entry["linked_data"] = {pointer: {"object_sha256": linked_inventory[pointer], "source_sha256": digest(data)}}
     linked_entry["approved_sha256"] = native_digest(linked_native["cumulative"])
     pre = deepcopy(run); pre["files"][1]["linked_data_paths"] = {pointer: "linked-data.json"}
-    approval_path = root / linked_entry["approval_path"]; original = approval_path.read_text()
+    approval_path = root / linked_entry["approval_path"]; original = approval_path.read_text(encoding="utf-8")
     approval = json.loads(original); approval["approved_sha256"] = linked_entry["approved_sha256"]
-    approval_path.write_text(json.dumps(approval))
+    approval_path.write_text(json.dumps(approval), encoding="utf-8")
     assert execute(reg, pre, linked_native)["status"] == "PASS_LIMITED"
     linked_refresh = deepcopy(linked_native); linked_refresh["cumulative"]["sheetsChart"]["contentUrl"] = "new-chart-signed-url"
     assert execute(reg, pre, linked_refresh)["status"] == "PASS_LIMITED"
-    (root / "linked-data.json").write_text(json.dumps({"2026-06": {"views": 999}}))
+    (root / "linked-data.json").write_text(json.dumps({"2026-06": {"views": 999}}), encoding="utf-8")
     reject("historical linked chart data changed", reg=reg, pre=pre, snapshots=linked_native)
-    approval_path.write_text(original)
+    approval_path.write_text(original, encoding="utf-8")
 
     for count in (0, 1, 2):
         bad = deepcopy(registry); bad["templates"] = bad["templates"][:count]
@@ -311,11 +311,11 @@ with tempfile.TemporaryDirectory() as directory:
     # Updating only the declared hash must not hide unmapped content or numeric slots.
     reg = deepcopy(registry); reg["templates"][0]["approved_sha256"] = native_digest(bad["docs"])
     approval_path = root / reg["templates"][0]["approval_path"]
-    original_approval = approval_path.read_text(); approval = json.loads(original_approval)
+    original_approval = approval_path.read_text(encoding="utf-8"); approval = json.loads(original_approval)
     approval["approved_sha256"] = reg["templates"][0]["approved_sha256"]
-    approval_path.write_text(json.dumps(approval))
+    approval_path.write_text(json.dumps(approval), encoding="utf-8")
     reject("changed image properties even with refreshed hash", reg=reg, snapshots=bad)
-    approval_path.write_text(original_approval)
+    approval_path.write_text(original_approval, encoding="utf-8")
     bad = deepcopy(registry); del bad["templates"][0]["static_text"][next(iter(bad["templates"][0]["static_text"]))]
     reject("incomplete text inventory mapping", reg=bad)
     bad = deepcopy(registry); pointer = next(iter(bad["templates"][0]["text_slots"]))

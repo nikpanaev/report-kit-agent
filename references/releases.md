@@ -36,3 +36,7 @@ Release notes простым языком: что стало доступно, �
 [Git archive](https://git-scm.com/docs/git-archive), [GitHub Releases](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository), [native CLI draft option](https://cli.github.com/manual/gh_release_create).
 
 Source/dependency review preparation: report-kit-skills/THIRD-PARTY-DEPENDENCIES.md и dependencies/REVIEW.json содержат declared labels/integrity/engines, не автоматический license PASS. При изменении frozen dependency graph/поставки повторить проверку; current Node20/transitive Python/esbuild/platform ограничения не скрывать в release notes.
+
+## Проверка скачанного тестового выпуска
+
+Передать пользователю именно архивы проверенной пары. В репозиториях сопровождающего проверить историю через check_package.py --history; prepare_release.py делает это обязательно. После распаковки вне любого Git-репозитория выполнить обычную проверку состава/версий/зависимости без --history. NOT_CHECKED_ARCHIVE не означает проверку Git-истории или доверенность источника: origin, commit и SHA256SUMS сверяются с согласованным выпуском отдельно. Не создавать .git и не копировать чужую историю для обхода проверки. Тестовая публикация требует отдельного разрешения; пользовательская проверка скачанного выпуска предшествует решению о поддержке Windows/рабочем выпуске.

@@ -107,3 +107,8 @@ Bounded metadata-only correction: C-010 and C-011 used explanatory prose in the 
 ## Final local journal consistency correction
 
 Owner accepted local preparation of exact dev19/dev11. Completion audit found two remaining prose values in skills direct_support and a copied method for historical C-017. Correct only those skills fields after exact primary readback; do not change historical claims/results/limits/review decisions, runtime/test/skill bytes or accepted client work. Bump source skills to dev12 and refresh the exact agent dependency in dev20. Preserve accepted archives, raw checker FAIL and private owner record. This follow-up is local metadata preparation, not installation, publication, Windows support or release approval. No new runtime tests are justified by byte-identical executable/test/skill payload.
+
+
+## Принятый срез: семь замечаний аудита 15.10.2026
+
+Владелец поручил исправить все семь замечаний, проверить исправления и подготовить новую пару пакетов для тестового релиза. Разрешены только переносимые исходники, их тесты/документы, локальные task-коммиты и архивы. Установка, публикация, live-сбор, изменение установленных скиллов и клиентских агентов запрещены. Защищённые исходные snapshots/старые результаты сохраняются. Новые проверки покрывают архив вне Git, -O, другую локальную кодировку, запрет записи пароля, смену ID Threads и аварийное восстановление с сохранением живого заимствующего процесса/журнала. Новая auxiliary owner table остаётся в едином UI store; legacy/manual билеты без доказуемого владельца не снимаются автоматически. Windows требует настоящей проверки пользователем.

@@ -21,14 +21,14 @@ class OptionalInterfaces(unittest.TestCase):
     def candidate_interface(self, name, version, root=None):
         f = self.fixture
         path = (f.candidate_agent if root is None else root) / "contracts.json"
-        data = json.loads(path.read_text()); data["interfaces"][name] = version
-        path.write_text(json.dumps(data))
+        data = json.loads(path.read_text(encoding="utf-8")); data["interfaces"][name] = version
+        path.write_text(json.dumps(data), encoding="utf-8")
         f.new = f.pair(f.candidate_agent, f.candidate_skills)
         f.release["packages"] = f.new
         for record in f.compatibility["clients"].values():
             path = f.workspace / record["regression_receipt"]
-            receipt = json.loads(path.read_text()); receipt["candidate"] = f.new
-            path.write_text(json.dumps(receipt))
+            receipt = json.loads(path.read_text(encoding="utf-8")); receipt["candidate"] = f.new
+            path.write_text(json.dumps(receipt), encoding="utf-8")
             record["regression_sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
 
     def test_missing_optional_interface_blocks_even_one_client(self):

@@ -22,7 +22,7 @@ def committed(root, expected):
     if git(root,"status","--porcelain=v1","--untracked-files=all"):raise ValueError("dirty_package")
     inventory=files(root)
     tracked={p.decode() for p in git(root,"ls-files","-z").split(b"\0") if p}
-    allowed=json.loads((root/"PUBLIC-FILES.json").read_text())["files"]
+    allowed=json.loads((root/"PUBLIC-FILES.json").read_text(encoding="utf-8"))["files"]
     if tracked!=set(inventory) or tracked!=set(allowed):raise ValueError("committed_inventory")
     return inventory
 
@@ -48,7 +48,7 @@ def prepare(agent, skills, output, commits, channel):
     if any(output.is_relative_to(root) or root.is_relative_to(output) for root in roots.values()):raise ValueError("output_boundary")
     if output.exists():raise ValueError("output_exists")
     inventories={name:committed(root,commits[name]) for name,root in roots.items()}
-    checks={"report-kit-skills":package_check(skills),"report-kit-agent":package_check(agent,skills)}
+    checks={"report-kit-skills":package_check(skills,history=True),"report-kit-agent":package_check(agent,skills,history=True)}
     pair=actual_pair(agent,skills)
     payloads={}
     for name,root in roots.items():
@@ -65,7 +65,7 @@ def prepare(agent, skills, output, commits, channel):
     for name,root in roots.items():
         changelog=root/"CHANGELOG.md"
         if not changelog.is_file():raise ValueError("missing_release_notes")
-        notes+=f"## {name} {pair[name]['version']}\n\n"+changelog.read_text()+"\n"
+        notes+=f"## {name} {pair[name]['version']}\n\n"+changelog.read_text(encoding="utf-8")+"\n"
     payloads["RELEASE-NOTES.md"]=notes.encode()
     artifacts={name:hashlib.sha256(raw).hexdigest() for name,raw in payloads.items()}
     payloads["SHA256SUMS"]="".join(f"{sha}  {name}\n" for name,sha in sorted(artifacts.items())).encode()
@@ -83,7 +83,7 @@ def prepare(agent, skills, output, commits, channel):
         with path.open("xb") as stream:stream.write(raw)
         path.chmod(0o600)
     path=output/"build-record.json"
-    with path.open("x") as stream:stream.write(json.dumps(record,indent=2)+"\n")
+    with path.open("x",encoding="utf-8") as stream:stream.write(json.dumps(record,indent=2)+"\n")
     path.chmod(0o600)
     return record
 

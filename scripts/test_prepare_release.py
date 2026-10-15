@@ -47,7 +47,7 @@ class Releases(unittest.TestCase):
             files["capabilities.json"] = json.dumps({"schema_version":1,"package_version":"0.1.0-dev.0","capabilities":[{"name":"livedune","requires":[]}]})
         files["PUBLIC-FILES.json"] = json.dumps({"schema_version":1,"files":sorted([*files,"PUBLIC-FILES.json"])})
         for name, text in files.items():
-            path=root/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_text(text)
+            path=root/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_text(text, encoding="utf-8")
         self.git(root, "add", "--", *files);self.git(root, "commit", "-m", "Synthetic committed payload")
         return root
 
@@ -58,7 +58,7 @@ class Releases(unittest.TestCase):
         before = {name: identity(root) for name,root in [("report-kit-agent",self.agent),("report-kit-skills",self.skills)]}
         result = self.build()
         self.assertEqual(result["status"], "LOCAL_DRAFT_NOT_APPROVED")
-        release=json.loads((self.output/"draft-release.json").read_text())
+        release=json.loads((self.output/"draft-release.json").read_text(encoding="utf-8"))
         self.assertFalse(release["published"])
         self.assertFalse(result["publication_authorized"])
         self.assertTrue(result["blockers"])
@@ -66,7 +66,7 @@ class Releases(unittest.TestCase):
             tar=self.output/f"{name}-0.1.0-dev.0.tar"
             with tarfile.open(tar) as archive:
                 paths={m.name for m in archive.getmembers() if m.isfile()}
-                self.assertEqual(paths,set(json.loads((root/"PUBLIC-FILES.json").read_text())["files"]))
+                self.assertEqual(paths,set(json.loads((root/"PUBLIC-FILES.json").read_text(encoding="utf-8"))["files"]))
             self.assertEqual(identity(root),before[name])
             self.assertEqual(self.git(root,"status","--porcelain").stdout,"")
         self.assertEqual(set(result["artifacts"]),{p.name for p in self.output.iterdir() if p.name!="build-record.json"})
@@ -78,34 +78,34 @@ class Releases(unittest.TestCase):
             self.assertEqual(first["artifacts"][filename],second["artifacts"][filename])
 
     def test_dirty_wrong_commit_and_untracked_block_before_output(self):
-        (self.agent/"VERSION").write_text("changed")
+        (self.agent/"VERSION").write_text("changed", encoding="utf-8")
         with self.assertRaisesRegex(ValueError,"dirty_package"):self.build()
         self.assertFalse(self.output.exists())
         self.git(self.agent,"restore","--","VERSION")
-        (self.agent/"untracked.txt").write_text("extra")
+        (self.agent/"untracked.txt").write_text("extra", encoding="utf-8")
         with self.assertRaisesRegex(ValueError,"dirty_package"):self.build()
         (self.agent/"untracked.txt").unlink()
         self.heads["report-kit-agent"]="0"*40
         with self.assertRaisesRegex(ValueError,"commit_changed"):self.build()
 
     def test_existing_output_and_package_output_preserved(self):
-        self.output.mkdir();marker=self.output/"keep.txt";marker.write_text("caller data")
+        self.output.mkdir();marker=self.output/"keep.txt";marker.write_text("caller data", encoding="utf-8")
         with self.assertRaisesRegex(ValueError,"output_exists"):self.build()
-        self.assertEqual(marker.read_text(),"caller data")
+        self.assertEqual(marker.read_text(encoding="utf-8"),"caller data")
         self.output=self.agent/"nested"
         with self.assertRaisesRegex(ValueError,"output_boundary"):self.build()
         self.assertFalse(self.output.exists())
 
     def test_ignored_caches_not_exported(self):
-        cache=self.agent/".token-optimizer";cache.mkdir();(cache/"ignored.txt").write_text("private synthetic cache")
+        cache=self.agent/".token-optimizer";cache.mkdir();(cache/"ignored.txt").write_text("private synthetic cache", encoding="utf-8")
         self.build()
         with tarfile.open(self.output/"report-kit-agent-0.1.0-dev.0.tar") as archive:
             self.assertFalse(any(".token-optimizer" in m.name for m in archive.getmembers()))
 
     def test_git_export_attribute_cannot_hide_public_file(self):
-        (self.agent/".gitattributes").write_text("CHANGELOG.md export-ignore\n")
-        path=self.agent/"PUBLIC-FILES.json";data=json.loads(path.read_text())
-        data["files"].append(".gitattributes");path.write_text(json.dumps(data))
+        (self.agent/".gitattributes").write_text("CHANGELOG.md export-ignore\n", encoding="utf-8")
+        path=self.agent/"PUBLIC-FILES.json";data=json.loads(path.read_text(encoding="utf-8"))
+        data["files"].append(".gitattributes");path.write_text(json.dumps(data), encoding="utf-8")
         self.git(self.agent,"add","--",".gitattributes","PUBLIC-FILES.json")
         self.git(self.agent,"commit","-m","Synthetic export exclusion")
         self.heads["report-kit-agent"]=self.git(self.agent,"rev-parse","HEAD").stdout.strip()

@@ -10,7 +10,7 @@ def check(workspace, package_roots):
         package = package.resolve()
         if workspace.is_relative_to(package) or package.is_relative_to(workspace):
             raise ValueError("workspace_and_packages_must_be_separate")
-    settings = json.loads((workspace / "settings.json").read_text())
+    settings = json.loads((workspace / "settings.json").read_text(encoding="utf-8"))
     if set(settings) != {"schema_version", "timezone", "packages", "capabilities", "clients"}:
         raise ValueError("unexpected_settings_field")
     if settings["schema_version"] != 2 or not settings["timezone"]:

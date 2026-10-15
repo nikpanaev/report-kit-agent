@@ -222,7 +222,7 @@ def evidence_path(base, relative):
 
 
 def read_json(base, relative):
-    return json.loads(evidence_path(base, relative).read_text())
+    return json.loads(evidence_path(base, relative).read_text(encoding="utf-8"))
 
 
 def image_hashes(base, paths):
@@ -274,8 +274,8 @@ def frozen_history(template, base, raw, client, new_month, collection_months, ac
 def check(registry_path, preflight_path, required_roles):
     issues, verified = [], []
     try:
-        registry = json.loads(registry_path.read_text())
-        run = json.loads(preflight_path.read_text())
+        registry = json.loads(registry_path.read_text(encoding="utf-8"))
+        run = json.loads(preflight_path.read_text(encoding="utf-8"))
         roles = set(required_roles)
         if not roles or not roles <= NATIVE_MIME.keys() or len(roles) != len(required_roles):
             raise ValueError("required roles must be nonempty, unique and supported")
@@ -418,16 +418,16 @@ if __name__ == "__main__":
     result = check(args.registry, args.preflight, args.roles)
     if not result["issues"] and args.output_native:
         try:
-            registry = json.loads(args.registry.read_text()); run = json.loads(args.preflight.read_text())
+            registry = json.loads(args.registry.read_text(encoding="utf-8")); run = json.loads(args.preflight.read_text(encoding="utf-8"))
             if run["selected_role"] not in CUMULATIVE_ROLES:
                 raise ValueError("output history check applies only to a cumulative report")
             if args.output_image_manifest is None:
                 raise ValueError("filled output needs its actual image manifest")
             template = next(t for t in registry["templates"] if t["role"] == run["selected_role"])
-            frozen_history(template, args.registry.parent, json.loads(args.output_native.read_text()),
+            frozen_history(template, args.registry.parent, json.loads(args.output_native.read_text(encoding="utf-8")),
                            registry["client_id"], run["new_month"], run["collection_months"],
                            image_hashes(args.output_image_manifest.parent,
-                                        json.loads(args.output_image_manifest.read_text())))
+                                        json.loads(args.output_image_manifest.read_text(encoding="utf-8"))))
             result["output_history"] = "PASS_LIMITED"
         except (OSError, KeyError, ValueError, TypeError, StopIteration) as error:
             result["issues"].append(str(error)); result["status"] = "BLOCKED"

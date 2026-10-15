@@ -47,7 +47,7 @@ class MaintenanceTests(unittest.TestCase):
     def write(self, relative, value):
         path = self.root / relative
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps(value))
+        path.write_text(json.dumps(value), encoding="utf-8")
         return path
 
     def binding(self, role, n):
@@ -92,7 +92,7 @@ class MaintenanceTests(unittest.TestCase):
 
     def test_unconfirmed_wrong_role_and_duplicate_binding_rejected(self):
         role = self.registry["maintainers"]["vk-comment-screenshot"]["receipt"]
-        d = json.loads((self.root / role).read_text()); d["role"] = "skill:vk-message-screenshot"
+        d = json.loads((self.root / role).read_text(encoding="utf-8")); d["role"] = "skill:vk-message-screenshot"
         self.write(role, d)
         with self.assertRaisesRegex(ValueError, "role_receipt"):
             check_registry(self.root, SKILLS)
@@ -111,7 +111,7 @@ class MaintenanceTests(unittest.TestCase):
                     route(checked, "client:sample", "skill:vk-comment-screenshot", "g1", "request")
 
     def test_authority_message_not_model_message(self):
-        grant = json.loads((self.root / "receipts/grant.json").read_text()); grant["source_kind"] = "agent_message"
+        grant = json.loads((self.root / "receipts/grant.json").read_text(encoding="utf-8")); grant["source_kind"] = "agent_message"
         self.write("receipts/grant.json", grant)
         with self.assertRaisesRegex(ValueError, "human_authority_receipt"):
             check_registry(self.root, SKILLS)
@@ -212,7 +212,7 @@ class MaintenanceTests(unittest.TestCase):
 
     def test_symlink_escape_rejected(self):
         with tempfile.TemporaryDirectory() as outside:
-            target = Path(outside) / "case.json"; target.write_text(json.dumps(self.case))
+            target = Path(outside) / "case.json"; target.write_text(json.dumps(self.case), encoding="utf-8")
             (self.root / "escaped.json").symlink_to(target)
             self.incident["case_ref"] = "escaped.json"
             with self.assertRaisesRegex(ValueError, "private_reference"): self.check()
@@ -222,7 +222,7 @@ class MaintenanceTests(unittest.TestCase):
         self.event("replay", result="FAIL", loaded_sha256="b" * 64, origin_paused=False,
                    started_before=0, started_after=1)
         path = self.root / self.incident["events"][-1]["receipt"]
-        value = json.loads(path.read_text()); value["result"] = "PASS"; path.write_text(json.dumps(value))
+        value = json.loads(path.read_text(encoding="utf-8")); value["result"] = "PASS"; path.write_text(json.dumps(value), encoding="utf-8")
         with self.assertRaisesRegex(ValueError, "receipt_changed"): self.check()
         self.incident["events"].pop()
         self.case["expected"] = "Changed requirement"; self.write("cases/sample.json", self.case)

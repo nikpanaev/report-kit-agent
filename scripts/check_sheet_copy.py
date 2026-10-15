@@ -38,8 +38,8 @@ def check(plan_path, receipt_path):
     issues = []
     counts = {}
     try:
-        plan = json.loads(plan_path.read_text())
-        run = json.loads(receipt_path.read_text())
+        plan = json.loads(plan_path.read_text(encoding="utf-8"))
+        run = json.loads(receipt_path.read_text(encoding="utf-8"))
         base = receipt_path.parent
         if plan["schema_version"] != 1 or run["schema_version"] != 1:
             raise ValueError("unsupported copy-check schema")

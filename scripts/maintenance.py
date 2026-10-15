@@ -37,7 +37,7 @@ def private_path(root, reference):
 
 def read_json(path):
     require(path.stat().st_size <= 1024 * 1024, "record_too_large")
-    return json.loads(path.read_text())
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def sealed_json(root, reference, digest):
