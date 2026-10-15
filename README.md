@@ -8,13 +8,13 @@ Windows: подготовлен вариант подключения LiveDune, 
 
 ## Использование
 
-Для сотрудника: [краткое руководство](docs/USER-GUIDE.md) и [помощь](docs/HELP.md). Начать можно одним сообщением «Помоги настроить Report Kit и сделать первый отчёт для моего клиента». Агент по шагам выясняет образец, формат, период, источники и место сохранения; проверки и разрешённые настройки выполняет сам. [Опрос и помощь](references/onboarding.md). Технический план — [передача сотруднику](HANDOVER.md), настройка — [setup skill](skills/report-kit-setup/SKILL.md). Пакет подготавливает будущих клиентов; существующие runtime/chats/profiles не импортируются. Источники отчётных данных и настройки сотрудника — отдельная private workspace вне обеих package folders.
+Для сотрудника: [краткое руководство](docs/USER-GUIDE.md) и [помощь](docs/HELP.md). При первом обычном обращении к активному Report Kit агент сам начинает или продолжает настройку. Штатное действие настройки в приложении ведёт в тот же мастер; отдельный запрос «помоги настроить» не требуется. Агент по шагам выясняет образец, формат, период, источники и место сохранения; проверки и разрешённые настройки выполняет сам. [Опрос и помощь](references/onboarding.md). Технический план — [передача сотруднику](HANDOVER.md), настройка — [setup skill](skills/report-kit-setup/SKILL.md). Пакет подготавливает будущих клиентов; существующие runtime/chats/profiles не импортируются. Источники отчётных данных и настройки сотрудника — отдельная private workspace вне обеих package folders.
 
 Восемь workflows: локальный черновик выпуска, помощь, setup, подключение клиента, сборка периода, QA, update/context refresh, [сопровождение](skills/report-kit-maintenance/SKILL.md). [Общий процесс](references/workflow.md); [принятый scope и ограничения](CHANGE-SPEC.md); [проверки/оставшиеся gates](EVIDENCE-INDEX.md). Пример workspace не рабочая конфигурация.
 
 Local manifest `plugin.json` и `.agents/plugins/marketplace.json` подготовлены, но не установлены и не проверены actual host install. Вторая зависимость — exact pair в dependencies.json; source skills отдельно. Native connected Google/Docs/Sheets/Slides capabilities подключаются сотрудником, third-party plugin code не поставляется.
 
-Проверка: `python3 scripts/check_package.py . --skills-root ../report-kit-skills`, `python3 scripts/test_package_boundaries.py`, `python3 scripts/check_report_templates_selftest.py`. Source checks only; no accounts/keys/Google writes. Для workspace отдельный check_workspace.py.
+Проверки сопровождающего, не команды для сотрудника: `python3 scripts/check_package.py . --skills-root ../report-kit-skills`, `python3 scripts/test_package_boundaries.py`, `python3 scripts/check_report_templates_selftest.py`. Source checks only; no accounts/keys/Google writes. Для workspace отдельный check_workspace.py.
 
 Для основ Google Таблиц: [маршрут проверки](references/sheet-templates.md), `python3 scripts/test_sheet_templates.py` и `python3 scripts/test_update_interfaces.py`. Это локальные примеры без доступа к Google; полнота источников, формулы на настоящих данных и устройство сотрудника проверяются отдельно.
 

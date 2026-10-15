@@ -22,5 +22,17 @@
     "Mandatory release control changes",
     "Suitable developer checker newly accepted"
   ],
-  "limitations": "Process route only; no tested or approved employee installation, live reporting, independent review or release."
+  "limitations": "Process route only; no tested or approved employee installation, live reporting, independent review or release.",
+  "runtime_extension": {
+    "date": "2026-10-15",
+    "authority": "Direct owner accepted portable environment/first-run plan; local preparation authorized, installation/publication forbidden",
+    "scope": "Same two-repository/package route plus exact separate runtime release assets",
+    "controls": [
+      "Exact upstream digest/version/platform and complete asset inventory",
+      "Preserved licenses/notices with separate redistribution decision",
+      "Inert native bootstrap without system Python",
+      "Native install/first-run/browser/Windows/update/rollback evidence pending"
+    ],
+    "independent_release_acceptance": false
+  }
 }

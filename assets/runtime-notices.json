@@ -1,0 +1,2507 @@
+{
+  "status": "INVENTORIED_AND_PRESERVED_NOT_INDEPENDENT_LEGAL_APPROVAL",
+  "runtime_id": "python312-20261013-v1",
+  "platforms": {
+    "macos-arm64": [
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/LICENSE.txt",
+        "size": 13936,
+        "sha256": "3b2f81fe21d181c499c59a256c8e1968455d6689d269aa85373bfb6af41da3bf"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip-26.2.1.dist-info/licenses/LICENSE.txt",
+        "size": 1093,
+        "sha256": "634300a669d49aeae65b12c6c48c924c51a4cdf3d1ff086dc3456dc8bcaa2104"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/cachecontrol/LICENSE.txt",
+        "size": 558,
+        "sha256": "86eeee87be2a43f3ff1f56496f451f69243926f025fedbb033666c304c4c161b"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/certifi/LICENSE",
+        "size": 989,
+        "sha256": "e93716da6b9c0d5a4a1df60fe695b370f0695603d21f6f83f053e42cfc10caf7"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/distlib/LICENSE.txt",
+        "size": 14531,
+        "sha256": "808e10c8a6ab8deb149ff9b3fb19f447a808094606d712a9ca57fead3552599d"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/distro/LICENSE",
+        "size": 11325,
+        "sha256": "cb5e8e7e5f4a3988e1063c142c60dc2df75605f4c46515e776e3aca6df976e14"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/idna/LICENSE.md",
+        "size": 1541,
+        "sha256": "1a9a4f0e3d479a27240ddd59a9137a66ab4a0f9dfdc8ca6188cc0bfd85187f04"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/msgpack/COPYING",
+        "size": 614,
+        "sha256": "492dedba85da5872f78e6091bcd1fea474d660d35acb4dee964b8aab3f007427"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/packaging/LICENSE",
+        "size": 197,
+        "sha256": "cad1ef5bd340d73e074ba614d26f7deaca5c7940c3d8c34852e65c4909686c48"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/packaging/LICENSE.APACHE",
+        "size": 10174,
+        "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/packaging/LICENSE.BSD",
+        "size": 1344,
+        "sha256": "b70e7e9b742f1cc6f948b34c16aa39ffece94196364bc88ff0d2180f0028fac5"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/pkg_resources/LICENSE",
+        "size": 1023,
+        "sha256": "86da0f01aeae46348a3c3d465195dc1ceccde79f79e87769a64b8da04b2a4741"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/platformdirs/LICENSE",
+        "size": 1089,
+        "sha256": "29e0fd62e929850e86eb28c3fdccf0cefdf4fa94879011cffb3d0d4bed6d4db6"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/pygments/LICENSE",
+        "size": 1331,
+        "sha256": "a9d66f1d526df02e29dce73436d34e56e8632f46c275bbdffc70569e882f9f17"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/pyproject_hooks/LICENSE",
+        "size": 1081,
+        "sha256": "1b22b049b5267d6dfc23a67bf4a84d8ec04b9fdfb1a51d360e42b4342c8b4154"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/requests/LICENSE",
+        "size": 10142,
+        "sha256": "09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/resolvelib/LICENSE",
+        "size": 751,
+        "sha256": "f388fd38cad13112c1dc0f669bbe80e7f84541edbafb72f3030d2ca7642c3c9d"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/rich/LICENSE",
+        "size": 1056,
+        "sha256": "deed7c17a4318158190a3ea239cc879a5a50271cebb98ae7025f48fbe58dca15"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/tomli/LICENSE",
+        "size": 1072,
+        "sha256": "b80816b0d530b8accb4c2211783790984a6e3b61922c2b5ee92f3372ab2742fe"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/tomli_w/LICENSE",
+        "size": 1072,
+        "sha256": "b80816b0d530b8accb4c2211783790984a6e3b61922c2b5ee92f3372ab2742fe"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/truststore/LICENSE",
+        "size": 1086,
+        "sha256": "33be7b7e8fa4fd19b1760e1a8ed8a668bdab852c91b692dd41424bcb725a9fca"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/urllib3/LICENSE.txt",
+        "size": 1093,
+        "sha256": "130e3a64d5fdd5d096a752694634a7d9df284469de86e5732100268041e3d686"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip/_vendor/cachecontrol/LICENSE.txt",
+        "size": 558,
+        "sha256": "86eeee87be2a43f3ff1f56496f451f69243926f025fedbb033666c304c4c161b"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip/_vendor/certifi/LICENSE",
+        "size": 989,
+        "sha256": "e93716da6b9c0d5a4a1df60fe695b370f0695603d21f6f83f053e42cfc10caf7"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip/_vendor/distlib/LICENSE.txt",
+        "size": 14531,
+        "sha256": "808e10c8a6ab8deb149ff9b3fb19f447a808094606d712a9ca57fead3552599d"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip/_vendor/distro/LICENSE",
+        "size": 11325,
+        "sha256": "cb5e8e7e5f4a3988e1063c142c60dc2df75605f4c46515e776e3aca6df976e14"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip/_vendor/idna/LICENSE.md",
+        "size": 1541,
+        "sha256": "1a9a4f0e3d479a27240ddd59a9137a66ab4a0f9dfdc8ca6188cc0bfd85187f04"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip/_vendor/msgpack/COPYING",
+        "size": 614,
+        "sha256": "492dedba85da5872f78e6091bcd1fea474d660d35acb4dee964b8aab3f007427"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip/_vendor/packaging/LICENSE",
+        "size": 197,
+        "sha256": "cad1ef5bd340d73e074ba614d26f7deaca5c7940c3d8c34852e65c4909686c48"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip/_vendor/packaging/LICENSE.APACHE",
+        "size": 10174,
+        "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip/_vendor/packaging/LICENSE.BSD",
+        "size": 1344,
+        "sha256": "b70e7e9b742f1cc6f948b34c16aa39ffece94196364bc88ff0d2180f0028fac5"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip/_vendor/pkg_resources/LICENSE",
+        "size": 1023,
+        "sha256": "86da0f01aeae46348a3c3d465195dc1ceccde79f79e87769a64b8da04b2a4741"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip/_vendor/platformdirs/LICENSE",
+        "size": 1089,
+        "sha256": "29e0fd62e929850e86eb28c3fdccf0cefdf4fa94879011cffb3d0d4bed6d4db6"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip/_vendor/pygments/LICENSE",
+        "size": 1331,
+        "sha256": "a9d66f1d526df02e29dce73436d34e56e8632f46c275bbdffc70569e882f9f17"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip/_vendor/pyproject_hooks/LICENSE",
+        "size": 1081,
+        "sha256": "1b22b049b5267d6dfc23a67bf4a84d8ec04b9fdfb1a51d360e42b4342c8b4154"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip/_vendor/requests/LICENSE",
+        "size": 10142,
+        "sha256": "09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip/_vendor/resolvelib/LICENSE",
+        "size": 751,
+        "sha256": "f388fd38cad13112c1dc0f669bbe80e7f84541edbafb72f3030d2ca7642c3c9d"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip/_vendor/rich/LICENSE",
+        "size": 1056,
+        "sha256": "deed7c17a4318158190a3ea239cc879a5a50271cebb98ae7025f48fbe58dca15"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip/_vendor/tomli/LICENSE",
+        "size": 1072,
+        "sha256": "b80816b0d530b8accb4c2211783790984a6e3b61922c2b5ee92f3372ab2742fe"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip/_vendor/tomli_w/LICENSE",
+        "size": 1072,
+        "sha256": "b80816b0d530b8accb4c2211783790984a6e3b61922c2b5ee92f3372ab2742fe"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip/_vendor/truststore/LICENSE",
+        "size": 1086,
+        "sha256": "33be7b7e8fa4fd19b1760e1a8ed8a668bdab852c91b692dd41424bcb725a9fca"
+      },
+      {
+        "layer": "core",
+        "path": "python/lib/python3.12/site-packages/pip/_vendor/urllib3/LICENSE.txt",
+        "size": 1093,
+        "sha256": "130e3a64d5fdd5d096a752694634a7d9df284469de86e5732100268041e3d686"
+      },
+      {
+        "layer": "core",
+        "path": "site/tzdata-2026.5.dist-info/licenses/LICENSE",
+        "size": 625,
+        "sha256": "df58f69ea88683035d720b5375bcef0cf5aeaa98a1d098d572e0992c378deb46"
+      },
+      {
+        "layer": "core",
+        "path": "site/tzdata-2026.5.dist-info/licenses/licenses/LICENSE_APACHE",
+        "size": 11357,
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      {
+        "layer": "capture",
+        "path": "site/greenlet-3.5.6.dist-info/licenses/LICENSE",
+        "size": 1434,
+        "sha256": "769831d6e5dfaf2c20802faccff1fafb4c2025dd8f6253dfa47fcad59d4d0979"
+      },
+      {
+        "layer": "capture",
+        "path": "site/greenlet-3.5.6.dist-info/licenses/LICENSE.PSF",
+        "size": 2424,
+        "sha256": "e5ff3c23c110e494cd7d736c10fd96d462457bafeca310840db6527298c7d46b"
+      },
+      {
+        "layer": "capture",
+        "path": "site/playwright-1.63.0.dist-info/licenses/LICENSE",
+        "size": 11399,
+        "sha256": "7fab1461b41970ff376f1c9303a637076bfaaeb71cd12dd3a1c44aaf59a1a2b9"
+      },
+      {
+        "layer": "capture",
+        "path": "site/playwright/driver/LICENSE",
+        "size": 157609,
+        "sha256": "5888dbb9a1d2b18f2c3e6c5f6af1b39de658372b402a0577b002777f14c62ace"
+      },
+      {
+        "layer": "capture",
+        "path": "site/playwright/driver/package/LICENSE",
+        "size": 11601,
+        "sha256": "45873d00a0dd243596deb4aa23b2493b3d1f0671921bf2538ea431d7380220eb"
+      },
+      {
+        "layer": "capture",
+        "path": "site/playwright/driver/package/NOTICE",
+        "size": 254,
+        "sha256": "6d602191187b35b9b01d2cffa01c8469c2c8d9de8a96f1bf868e0f264f51c81d"
+      },
+      {
+        "layer": "capture",
+        "path": "site/pyee-13.0.1.dist-info/licenses/LICENSE",
+        "size": 1080,
+        "sha256": "1ff556ca206b107f10e1c562ae454d3292e0296c3510eb90eb7f114caee32a66"
+      },
+      {
+        "layer": "capture",
+        "path": "site/typing_extensions-4.16.0.dist-info/licenses/LICENSE",
+        "size": 13936,
+        "sha256": "3b2f81fe21d181c499c59a256c8e1968455d6689d269aa85373bfb6af41da3bf"
+      },
+      {
+        "layer": "images",
+        "path": "site/numpy-2.3.5.dist-info/LICENSE.txt",
+        "size": 47800,
+        "sha256": "d84715000c6b3fd8719b2027238b6f6457cb853b2eb7023821a585949387f7bf"
+      },
+      {
+        "layer": "images",
+        "path": "site/numpy/_core/include/numpy/random/LICENSE.txt",
+        "size": 1018,
+        "sha256": "fbc539f47d0cf83bc61378080fb873d5c14630126cacbfe754035c3926daa5ec"
+      },
+      {
+        "layer": "images",
+        "path": "site/numpy/ma/LICENSE",
+        "size": 1593,
+        "sha256": "05f3b88351988ecfad10abe92c0c50e5875c6452d5009a0084cc291551ffcca6"
+      },
+      {
+        "layer": "images",
+        "path": "site/numpy/random/LICENSE.md",
+        "size": 3511,
+        "sha256": "103166b62b80443afb9eb3488e052ea06be0cff566b908f199e561fde49af19f"
+      },
+      {
+        "layer": "images",
+        "path": "site/pillow-12.3.0.dist-info/licenses/LICENSE",
+        "size": 70307,
+        "sha256": "dda12a98c1979cf3d94df1cff45d27a4cb3f04a60c76f76902ac54cac03ec0ce"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/LICENSE",
+        "size": 157609,
+        "sha256": "5888dbb9a1d2b18f2c3e6c5f6af1b39de658372b402a0577b002777f14c62ace"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/corepack/LICENSE.md",
+        "size": 1063,
+        "sha256": "30a7b8ba5c4483d97d6123f5634da2362d578fb81f42ed6e1dfbb84fb1cd8fe4"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/LICENSE",
+        "size": 9742,
+        "sha256": "7610d223851f421d315df5e77974f1c68a04b97e02060e5bbbcf13d95e3ca257"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@gar/promise-retry/LICENSE",
+        "size": 1156,
+        "sha256": "1c66b5311fc6328ab70616d2cf8e20a8e0a787f534831cf8a311b20098b617a5"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@isaacs/fs-minipass/LICENSE",
+        "size": 765,
+        "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@isaacs/string-locale-compare/LICENSE",
+        "size": 748,
+        "sha256": "05dc4d785ac3a488676d3ed10e901b75ad89dafcc63f8e66610fd4a39cc5c7e8"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@npmcli/arborist/LICENSE.md",
+        "size": 798,
+        "sha256": "27d998b503b18cdb16c49e93da04069a99ba8a1d7e18d67146de8e242f9a6d21"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@npmcli/arborist/bin/license.js",
+        "size": 1485,
+        "sha256": "3c7c2b07a2591835cb6c60687a23e425540565d9ccb65fef17478c6073bf6841"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@npmcli/config/LICENSE",
+        "size": 739,
+        "sha256": "898c2bcff663681498ad1ca8235d45b6e70b10cdf1f869a5b5e69f6e46efedd3"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@npmcli/fs/LICENSE.md",
+        "size": 798,
+        "sha256": "27d998b503b18cdb16c49e93da04069a99ba8a1d7e18d67146de8e242f9a6d21"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@npmcli/fs/lib/cp/LICENSE",
+        "size": 1084,
+        "sha256": "1e76029602ae9b21cc4e612db2496d92febed882ba13ba745f8b3309e85f9d39"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@npmcli/git/LICENSE",
+        "size": 733,
+        "sha256": "565acf764f4583abe4cf4b02128f01b5d4d1b4c62c253e92df7ed6a8a8ad406b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@npmcli/installed-package-contents/LICENSE",
+        "size": 739,
+        "sha256": "898c2bcff663681498ad1ca8235d45b6e70b10cdf1f869a5b5e69f6e46efedd3"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@npmcli/map-workspaces/LICENSE.md",
+        "size": 798,
+        "sha256": "27d998b503b18cdb16c49e93da04069a99ba8a1d7e18d67146de8e242f9a6d21"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@npmcli/metavuln-calculator/LICENSE",
+        "size": 739,
+        "sha256": "898c2bcff663681498ad1ca8235d45b6e70b10cdf1f869a5b5e69f6e46efedd3"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@npmcli/name-from-folder/LICENSE",
+        "size": 721,
+        "sha256": "802fae69bfe8fcb201f15b6a12505580028158679c3ed3254df5ea8f0912aed4"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@npmcli/node-gyp/LICENSE",
+        "size": 746,
+        "sha256": "8da13c785af46eb3d0bf2ce4c34bdf191b8c57bf43e410e9359d5b5eab5f4b0f"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@npmcli/package-json/LICENSE",
+        "size": 719,
+        "sha256": "65675229fc81818c9490a1942f361f7ef31cd525bef9111e62a6c84e9bd4769d"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@npmcli/package-json/lib/license.js",
+        "size": 860,
+        "sha256": "bc4c06b48b593b8b63f3e1557f52bdd37ebf40295033cfdb03d420d181809c11"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@npmcli/promise-spawn/LICENSE",
+        "size": 733,
+        "sha256": "565acf764f4583abe4cf4b02128f01b5d4d1b4c62c253e92df7ed6a8a8ad406b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@npmcli/query/LICENSE",
+        "size": 798,
+        "sha256": "27d998b503b18cdb16c49e93da04069a99ba8a1d7e18d67146de8e242f9a6d21"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@npmcli/redact/LICENSE",
+        "size": 1060,
+        "sha256": "d0b7cddf14a2005e05b397a950b9f69e1de412b8c6749e5b5d70610fb119e9ee"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@npmcli/run-script/LICENSE",
+        "size": 739,
+        "sha256": "898c2bcff663681498ad1ca8235d45b6e70b10cdf1f869a5b5e69f6e46efedd3"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@sigstore/bundle/LICENSE",
+        "size": 11351,
+        "sha256": "364a130d2ca340bd56eb1e6d045fc6929bb0f9d0aa018f2c1949b29517e1cdd0"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@sigstore/core/LICENSE",
+        "size": 11351,
+        "sha256": "364a130d2ca340bd56eb1e6d045fc6929bb0f9d0aa018f2c1949b29517e1cdd0"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@sigstore/protobuf-specs/LICENSE",
+        "size": 11351,
+        "sha256": "364a130d2ca340bd56eb1e6d045fc6929bb0f9d0aa018f2c1949b29517e1cdd0"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@sigstore/sign/LICENSE",
+        "size": 11351,
+        "sha256": "364a130d2ca340bd56eb1e6d045fc6929bb0f9d0aa018f2c1949b29517e1cdd0"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@sigstore/tuf/LICENSE",
+        "size": 11351,
+        "sha256": "364a130d2ca340bd56eb1e6d045fc6929bb0f9d0aa018f2c1949b29517e1cdd0"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@tufjs/canonical-json/LICENSE",
+        "size": 1088,
+        "sha256": "564bcb001d6e131452a8e9fba0f0ccc59e8b881f84ce3e46e319a5a33e191e10"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/@tufjs/models/LICENSE",
+        "size": 1088,
+        "sha256": "564bcb001d6e131452a8e9fba0f0ccc59e8b881f84ce3e46e319a5a33e191e10"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/abbrev/LICENSE",
+        "size": 2011,
+        "sha256": "9e0d5c7989f7e9f07d7c4b158aceff270f235eb7464ace41c5e7b200834a43e0"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/agent-base/LICENSE",
+        "size": 1101,
+        "sha256": "8d8c55319c7729d57be811c747452636688d54f19701ee0752b6b15ad3771d9a"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/aproba/LICENSE",
+        "size": 752,
+        "sha256": "0cef05dfff8b6aa7f35596984f5709f0d17c2582924a751efa471a76de7cdc11"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/archy/LICENSE",
+        "size": 1073,
+        "sha256": "435a6722c786b0a56fbe7387028f1d9d3f3a2d0fb615bb8fee118727c3f59b7b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/balanced-match/LICENSE.md",
+        "size": 1155,
+        "sha256": "d408f38ffa3355c5faec517153295338892eb0f1ea43f57874bb23c6075979b5"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/bin-links/LICENSE",
+        "size": 739,
+        "sha256": "898c2bcff663681498ad1ca8235d45b6e70b10cdf1f869a5b5e69f6e46efedd3"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/binary-extensions/license",
+        "size": 1167,
+        "sha256": "96f0820026bd6dadc4af99c6dba7111d2e0190c092c376a746c13863e151d072"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/brace-expansion/LICENSE",
+        "size": 1144,
+        "sha256": "9c63a23124d68cd30cd316a94a1a0bca34f032786df6df69fc4b5f136bac8d2e"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/cacache/LICENSE.md",
+        "size": 755,
+        "sha256": "720836c9bdad386485a492ab41fe08007ecf85ca278ddd8f9333494dcac4949d"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/chalk/license",
+        "size": 1117,
+        "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/chownr/LICENSE.md",
+        "size": 1764,
+        "sha256": "a49c9ba464796f65b59fca3f1e6ca40912df1e859f575383223f7ec6c5baae09"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/ci-info/LICENSE",
+        "size": 1086,
+        "sha256": "f58943cb354fb2707fea2f7b26b04e6014ddb56835cdfd414c9d2c6c59165b64"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/cidr-regex/LICENSE",
+        "size": 1290,
+        "sha256": "23e60503dc06abf04b9e535e17797b4e0f9224e6c5abf9207317d5a67c88c743"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/cmd-shim/LICENSE",
+        "size": 756,
+        "sha256": "ec361617c0473d39347b020eaa6dceedaebab43879fa1cd8b8f0f97a8e80a475"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/common-ancestor-path/LICENSE.md",
+        "size": 1552,
+        "sha256": "8a1af140fdfbf5afd3df27f7e662f989c5b963a300020dfafce42033cae9e004"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/cssesc/LICENSE-MIT.txt",
+        "size": 1077,
+        "sha256": "483acb265f182907d1caf6cff9c16c96f31325ed23792832cc5d8b12d5f88c8a"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/debug/LICENSE",
+        "size": 1139,
+        "sha256": "3a61c6c96caf5c1d9b623fb9b04c822b783dfcb78aa7e49c76a3f643e6ed7f95"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/diff/LICENSE",
+        "size": 1546,
+        "sha256": "eda81a415869e67809f6a9f3fd6056062cb83a462118e07eec5e92b2e0c40ce9"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/env-paths/license",
+        "size": 1109,
+        "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/exponential-backoff/LICENSE",
+        "size": 11351,
+        "sha256": "f5afc95c69e116ea6b1755f91a8763f53eadb78b4f1582a08d2d18586a03a117"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/fastest-levenshtein/LICENSE.md",
+        "size": 1072,
+        "sha256": "b8baf91be313643f3e87a01da77704b68e12795184a62e51e537a5a43c2932f3"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/fs-minipass/LICENSE",
+        "size": 765,
+        "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/glob/LICENSE.md",
+        "size": 1764,
+        "sha256": "a49c9ba464796f65b59fca3f1e6ca40912df1e859f575383223f7ec6c5baae09"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/graceful-fs/LICENSE",
+        "size": 791,
+        "sha256": "f65c5d9f22a317b2a10803bd1868461ce6499c2ed7217bc80c0cc772a748789c"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/hosted-git-info/LICENSE",
+        "size": 733,
+        "sha256": "c1476ec53119cd4c8370f91f5152ac76312a29b4fae2d49b5e0e0970fe0fa5ee"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/http-cache-semantics/LICENSE",
+        "size": 1274,
+        "sha256": "ab868ad5a2ef5068560d9cd3b2180ec63c140bb4c5cae1ba779d300a0ac74fa3"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/http-proxy-agent/LICENSE",
+        "size": 1102,
+        "sha256": "71368fd0f5b4129191e9afcd1e1ef2dc89a9090d3e4d80bbab92dafd032b3bef"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/https-proxy-agent/LICENSE",
+        "size": 1101,
+        "sha256": "8d8c55319c7729d57be811c747452636688d54f19701ee0752b6b15ad3771d9a"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/iconv-lite/LICENSE",
+        "size": 1064,
+        "sha256": "ac779f7314c74f232ef847ea86e714abe25cf6eeb5cc97b69451b74e2af6492d"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/ignore-walk/LICENSE",
+        "size": 765,
+        "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/ini/LICENSE",
+        "size": 765,
+        "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/init-package-json/LICENSE.md",
+        "size": 717,
+        "sha256": "7f75bb21103e77b7acfcf88a6ad0286741a18b5d13c4326160346e8cf7e356ad"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/ip-address/LICENSE",
+        "size": 1061,
+        "sha256": "f8d791359a50cbcac82c29cb7b0b1b889b28be76fdd35b8ee33f0f7c8704702a"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/is-cidr/LICENSE",
+        "size": 1290,
+        "sha256": "23e60503dc06abf04b9e535e17797b4e0f9224e6c5abf9207317d5a67c88c743"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/isexe/LICENSE.md",
+        "size": 1552,
+        "sha256": "8a1af140fdfbf5afd3df27f7e662f989c5b963a300020dfafce42033cae9e004"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/json-parse-even-better-errors/LICENSE.md",
+        "size": 1209,
+        "sha256": "50627796eb4236cd05674e71d090e594447995225b7d94cd59e57c25fa3a0217"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/json-stringify-nice/LICENSE",
+        "size": 765,
+        "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/jsonparse/LICENSE",
+        "size": 1087,
+        "sha256": "ed251dc3a48522399fffe95fe04d94fbcadcd9edd0e7689f3b71cf73403a6138"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/just-diff-apply/LICENSE",
+        "size": 1078,
+        "sha256": "ebb30d70f7ebd918f223ce6ed7621fa4cef3ec2d59d6707c23868b01def28ce2"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/just-diff/LICENSE",
+        "size": 1078,
+        "sha256": "ebb30d70f7ebd918f223ce6ed7621fa4cef3ec2d59d6707c23868b01def28ce2"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/libnpmaccess/LICENSE",
+        "size": 717,
+        "sha256": "77d72758faff2d3a086b1c77f66f4dcfa63a1ee1a9bab5df4ab3c2e8f3eb646d"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/libnpmdiff/LICENSE",
+        "size": 741,
+        "sha256": "7967f87257c7d5f0ef29012d472a8b99a0fb1c5202b6d861a2c81671329a2ee4"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/libnpmexec/LICENSE",
+        "size": 741,
+        "sha256": "7967f87257c7d5f0ef29012d472a8b99a0fb1c5202b6d861a2c81671329a2ee4"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/libnpmfund/LICENSE",
+        "size": 738,
+        "sha256": "9dd1bc5666fd1e32f086518046532e993f5307749327aff37cecf98355f2b9a0"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/libnpmorg/LICENSE",
+        "size": 717,
+        "sha256": "77d72758faff2d3a086b1c77f66f4dcfa63a1ee1a9bab5df4ab3c2e8f3eb646d"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/libnpmpack/LICENSE",
+        "size": 717,
+        "sha256": "77d72758faff2d3a086b1c77f66f4dcfa63a1ee1a9bab5df4ab3c2e8f3eb646d"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/libnpmpublish/LICENSE",
+        "size": 717,
+        "sha256": "77d72758faff2d3a086b1c77f66f4dcfa63a1ee1a9bab5df4ab3c2e8f3eb646d"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/libnpmsearch/LICENSE",
+        "size": 717,
+        "sha256": "77d72758faff2d3a086b1c77f66f4dcfa63a1ee1a9bab5df4ab3c2e8f3eb646d"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/libnpmteam/LICENSE",
+        "size": 717,
+        "sha256": "77d72758faff2d3a086b1c77f66f4dcfa63a1ee1a9bab5df4ab3c2e8f3eb646d"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/libnpmversion/LICENSE",
+        "size": 748,
+        "sha256": "05dc4d785ac3a488676d3ed10e901b75ad89dafcc63f8e66610fd4a39cc5c7e8"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/lru-cache/LICENSE.md",
+        "size": 1552,
+        "sha256": "8a1af140fdfbf5afd3df27f7e662f989c5b963a300020dfafce42033cae9e004"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/make-fetch-happen/LICENSE",
+        "size": 765,
+        "sha256": "a806e21000ee60cfd64a6f1416f29c7552b4834701974e86c0156f99c0cdd806"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/minimatch/LICENSE.md",
+        "size": 1550,
+        "sha256": "2c7c5d22ed5a8ee968c64757710979afcd77438c48b4a265b94e615babd8a901"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/minipass-collect/LICENSE",
+        "size": 775,
+        "sha256": "b630651f34d0e0284ea940601bbe0a58f306ad7e9819e351d9dfab812f8d0f38"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/minipass-fetch/LICENSE",
+        "size": 1308,
+        "sha256": "1dedee6f84f5875ce4dc398d4d767274eb952a43cfd510a6ada856b2ed347472"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/minipass-flush/LICENSE.md",
+        "size": 1552,
+        "sha256": "8a1af140fdfbf5afd3df27f7e662f989c5b963a300020dfafce42033cae9e004"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/minipass-pipeline/LICENSE",
+        "size": 765,
+        "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/minipass-pipeline/node_modules/minipass/LICENSE",
+        "size": 787,
+        "sha256": "a5a110eb524bf3217958e405b5e3411277e915a2f5902c330348877000337e53"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/minipass-pipeline/node_modules/yallist/LICENSE",
+        "size": 765,
+        "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/minipass-sized/LICENSE",
+        "size": 765,
+        "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/minipass/LICENSE.md",
+        "size": 1552,
+        "sha256": "8a1af140fdfbf5afd3df27f7e662f989c5b963a300020dfafce42033cae9e004"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/minizlib/LICENSE",
+        "size": 1339,
+        "sha256": "df05697a04b8997c79d423930534e59cc18828f6e22d0c8c2d62fcbea1c4f50b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/ms/license.md",
+        "size": 1079,
+        "sha256": "1662fae9b5314d11cf51284e2dcd1f006a354f7343f08712a730fcff9a359801"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/mute-stream/LICENSE",
+        "size": 765,
+        "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/negotiator/LICENSE",
+        "size": 1177,
+        "sha256": "553d4d20029a24e315b428a1a54a9e109eaa340f2e958a4f50a92362c2c4070b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/node-gyp/LICENSE",
+        "size": 1102,
+        "sha256": "662a1b0115251cfb29c6aed0f221f8847bc49c6365d1c53a62c9f4bccc2489c3"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/node-gyp/gyp/LICENSE",
+        "size": 1537,
+        "sha256": "ca90abb6ed71de0774461ef9f928de33e748b617aeb79f9e52415cf08d69230e"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/node-gyp/gyp/pylib/packaging/LICENSE",
+        "size": 197,
+        "sha256": "cad1ef5bd340d73e074ba614d26f7deaca5c7940c3d8c34852e65c4909686c48"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/node-gyp/gyp/pylib/packaging/LICENSE.APACHE",
+        "size": 10174,
+        "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/node-gyp/gyp/pylib/packaging/LICENSE.BSD",
+        "size": 1344,
+        "sha256": "b70e7e9b742f1cc6f948b34c16aa39ffece94196364bc88ff0d2180f0028fac5"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/nopt/LICENSE",
+        "size": 765,
+        "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/npm-audit-report/LICENSE",
+        "size": 755,
+        "sha256": "720836c9bdad386485a492ab41fe08007ecf85ca278ddd8f9333494dcac4949d"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/npm-bundled/LICENSE",
+        "size": 756,
+        "sha256": "ec361617c0473d39347b020eaa6dceedaebab43879fa1cd8b8f0f97a8e80a475"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/npm-install-checks/LICENSE",
+        "size": 1333,
+        "sha256": "f674630c4d3e668dabac6d955fb5f74c75b4a63a707ac93a8833b74bdc57221e"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/npm-normalize-package-bin/LICENSE",
+        "size": 739,
+        "sha256": "898c2bcff663681498ad1ca8235d45b6e70b10cdf1f869a5b5e69f6e46efedd3"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/npm-package-arg/LICENSE",
+        "size": 739,
+        "sha256": "898c2bcff663681498ad1ca8235d45b6e70b10cdf1f869a5b5e69f6e46efedd3"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/npm-packlist/LICENSE",
+        "size": 765,
+        "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/npm-pick-manifest/LICENSE.md",
+        "size": 755,
+        "sha256": "720836c9bdad386485a492ab41fe08007ecf85ca278ddd8f9333494dcac4949d"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/npm-profile/LICENSE.md",
+        "size": 798,
+        "sha256": "27d998b503b18cdb16c49e93da04069a99ba8a1d7e18d67146de8e242f9a6d21"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/npm-registry-fetch/LICENSE.md",
+        "size": 798,
+        "sha256": "27d998b503b18cdb16c49e93da04069a99ba8a1d7e18d67146de8e242f9a6d21"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/npm-user-validate/LICENSE",
+        "size": 1295,
+        "sha256": "8b8404b77ea2a20e045fbad73de1661091a852bfe1f4997e0b646c688f3d18e4"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/p-map/license",
+        "size": 1117,
+        "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/pacote/LICENSE",
+        "size": 791,
+        "sha256": "36ec394cd0f976603cfec687c19175a703c1c0d9db717a76915391e756522c8e"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/parse-conflict-json/LICENSE.md",
+        "size": 798,
+        "sha256": "27d998b503b18cdb16c49e93da04069a99ba8a1d7e18d67146de8e242f9a6d21"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/path-scurry/LICENSE.md",
+        "size": 1552,
+        "sha256": "8a1af140fdfbf5afd3df27f7e662f989c5b963a300020dfafce42033cae9e004"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/postcss-selector-parser/LICENSE-MIT",
+        "size": 1092,
+        "sha256": "2998094b38f7ace25f141fb36f334d8338f65a1812978d618b1161f4d77ae10e"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/proc-log/LICENSE",
+        "size": 742,
+        "sha256": "dc32a0dee275e0a9aeffbc974dbf4899a30dcdc2e5ffa8934aecb69261065864"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/proggy/LICENSE",
+        "size": 742,
+        "sha256": "dc32a0dee275e0a9aeffbc974dbf4899a30dcdc2e5ffa8934aecb69261065864"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/promise-all-reject-late/LICENSE",
+        "size": 748,
+        "sha256": "05dc4d785ac3a488676d3ed10e901b75ad89dafcc63f8e66610fd4a39cc5c7e8"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/promise-call-limit/LICENSE",
+        "size": 748,
+        "sha256": "05dc4d785ac3a488676d3ed10e901b75ad89dafcc63f8e66610fd4a39cc5c7e8"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/promzard/LICENSE",
+        "size": 748,
+        "sha256": "05dc4d785ac3a488676d3ed10e901b75ad89dafcc63f8e66610fd4a39cc5c7e8"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/qrcode-terminal/LICENSE",
+        "size": 11962,
+        "sha256": "b3c7a2fadb2515b8106eae58439a4b9c0581a4eaa88d6a265701f8d4dd7dadb8"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/read-cmd-shim/LICENSE",
+        "size": 752,
+        "sha256": "0cef05dfff8b6aa7f35596984f5709f0d17c2582924a751efa471a76de7cdc11"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/read/LICENSE",
+        "size": 765,
+        "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/safer-buffer/LICENSE",
+        "size": 1094,
+        "sha256": "4bc935e71be198c67ddf3c2b5fddb195f6edc182bfc155a96a6db61b44b494b9"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/semver/LICENSE",
+        "size": 765,
+        "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/signal-exit/LICENSE.txt",
+        "size": 790,
+        "sha256": "b173e19b9a78df305577ace0e52ef45a4bcc915ea28b47b256dc3b68dcb1f7e7"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/sigstore/LICENSE",
+        "size": 11351,
+        "sha256": "364a130d2ca340bd56eb1e6d045fc6929bb0f9d0aa018f2c1949b29517e1cdd0"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/smart-buffer/LICENSE",
+        "size": 1087,
+        "sha256": "c46e2c333e1c9e6fcfd130cf91b8e54bf67b60fabbc04996f7e199b990353ff3"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/socks-proxy-agent/LICENSE",
+        "size": 1101,
+        "sha256": "8d8c55319c7729d57be811c747452636688d54f19701ee0752b6b15ad3771d9a"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/socks/LICENSE",
+        "size": 1082,
+        "sha256": "4f4f28866154c8d758241a64296e8790d45d7d912ff7b029930778c06d8f2a72"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/spdx-expression-parse/LICENSE",
+        "size": 1111,
+        "sha256": "7edb57f7065309027de249642341292a5b21410d5773cc55bba73ff9cf01060e"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/ssri/LICENSE.md",
+        "size": 760,
+        "sha256": "3749709146345fa15546aaba4e3ab1b3b92a4d930077b5bc32d90815cb63afaf"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/supports-color/license",
+        "size": 1117,
+        "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/tar/LICENSE.md",
+        "size": 1552,
+        "sha256": "8a1af140fdfbf5afd3df27f7e662f989c5b963a300020dfafce42033cae9e004"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/text-table/LICENSE",
+        "size": 1073,
+        "sha256": "435a6722c786b0a56fbe7387028f1d9d3f3a2d0fb615bb8fee118727c3f59b7b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/tiny-relative-date/LICENSE.md",
+        "size": 1068,
+        "sha256": "b219efd4921cb32913a471269807d931b4973190d48269bedcfda6205c526100"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/tinyglobby/LICENSE",
+        "size": 1076,
+        "sha256": "22c68811e174cbbfb3813d4135918df4f540959c14d872e601d9abe83d3cde8f"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/tinyglobby/node_modules/fdir/LICENSE",
+        "size": 1053,
+        "sha256": "9a39f2aadab11a3697edd668ff2d8ad885b649737b7ab4d3bf12b34e5ada0c86"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/tinyglobby/node_modules/picomatch/LICENSE",
+        "size": 1091,
+        "sha256": "d0cd141b0c322fded5dfad1d4645bb2fedfc05b7321fe1009469638190d59ef9"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/treeverse/LICENSE",
+        "size": 756,
+        "sha256": "ec361617c0473d39347b020eaa6dceedaebab43879fa1cd8b8f0f97a8e80a475"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/tuf-js/LICENSE",
+        "size": 1088,
+        "sha256": "564bcb001d6e131452a8e9fba0f0ccc59e8b881f84ce3e46e319a5a33e191e10"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/undici/LICENSE",
+        "size": 1090,
+        "sha256": "a6db8096b2707bc0102d256917d4d33f298ba36d8c3f25de067a2b5bb379db27"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/undici/lib/web/fetch/LICENSE",
+        "size": 1071,
+        "sha256": "a21d6c8d3fc631198b97e57584697f7f9c37805c71c6cf9a12e4442b40394b88"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/util-deprecate/LICENSE",
+        "size": 1102,
+        "sha256": "0154425673db15cdfa80ecba2c9b1f1a867f7197a006764712849bfc3a93cbb7"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/validate-npm-package-name/LICENSE",
+        "size": 728,
+        "sha256": "f3e1645267f7dd77ee6545283cc1766e5883e8fb3b5088fe2cfb995defbb3dde"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/walk-up-path/LICENSE",
+        "size": 758,
+        "sha256": "825dacf686e3d026be4a5b3e4efb8ddd67a8676f9e96085a53cfa045a5bd0509"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/which/LICENSE",
+        "size": 765,
+        "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/write-file-atomic/LICENSE.md",
+        "size": 733,
+        "sha256": "ff75aaa5aaf56005eeea7723b287f9df3dd45b33b310a7eb347d3ab28ea26593"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/lib/node_modules/npm/node_modules/yallist/LICENSE.md",
+        "size": 1764,
+        "sha256": "a49c9ba464796f65b59fca3f1e6ca40912df1e859f575383223f7ec6c5baae09"
+      }
+    ],
+    "windows-x64": [
+      {
+        "layer": "core",
+        "path": "python/LICENSE.txt",
+        "size": 25066,
+        "sha256": "886a0ead2d89030ee62dbff52b04e47ab91998341295bb9c56fb952b4e081c7a"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip-26.2.1.dist-info/licenses/LICENSE.txt",
+        "size": 1093,
+        "sha256": "634300a669d49aeae65b12c6c48c924c51a4cdf3d1ff086dc3456dc8bcaa2104"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/cachecontrol/LICENSE.txt",
+        "size": 558,
+        "sha256": "86eeee87be2a43f3ff1f56496f451f69243926f025fedbb033666c304c4c161b"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/certifi/LICENSE",
+        "size": 989,
+        "sha256": "e93716da6b9c0d5a4a1df60fe695b370f0695603d21f6f83f053e42cfc10caf7"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/distlib/LICENSE.txt",
+        "size": 14531,
+        "sha256": "808e10c8a6ab8deb149ff9b3fb19f447a808094606d712a9ca57fead3552599d"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/distro/LICENSE",
+        "size": 11325,
+        "sha256": "cb5e8e7e5f4a3988e1063c142c60dc2df75605f4c46515e776e3aca6df976e14"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/idna/LICENSE.md",
+        "size": 1541,
+        "sha256": "1a9a4f0e3d479a27240ddd59a9137a66ab4a0f9dfdc8ca6188cc0bfd85187f04"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/msgpack/COPYING",
+        "size": 614,
+        "sha256": "492dedba85da5872f78e6091bcd1fea474d660d35acb4dee964b8aab3f007427"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/packaging/LICENSE",
+        "size": 197,
+        "sha256": "cad1ef5bd340d73e074ba614d26f7deaca5c7940c3d8c34852e65c4909686c48"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/packaging/LICENSE.APACHE",
+        "size": 10174,
+        "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/packaging/LICENSE.BSD",
+        "size": 1344,
+        "sha256": "b70e7e9b742f1cc6f948b34c16aa39ffece94196364bc88ff0d2180f0028fac5"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/pkg_resources/LICENSE",
+        "size": 1023,
+        "sha256": "86da0f01aeae46348a3c3d465195dc1ceccde79f79e87769a64b8da04b2a4741"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/platformdirs/LICENSE",
+        "size": 1089,
+        "sha256": "29e0fd62e929850e86eb28c3fdccf0cefdf4fa94879011cffb3d0d4bed6d4db6"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/pygments/LICENSE",
+        "size": 1331,
+        "sha256": "a9d66f1d526df02e29dce73436d34e56e8632f46c275bbdffc70569e882f9f17"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/pyproject_hooks/LICENSE",
+        "size": 1081,
+        "sha256": "1b22b049b5267d6dfc23a67bf4a84d8ec04b9fdfb1a51d360e42b4342c8b4154"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/requests/LICENSE",
+        "size": 10142,
+        "sha256": "09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/resolvelib/LICENSE",
+        "size": 751,
+        "sha256": "f388fd38cad13112c1dc0f669bbe80e7f84541edbafb72f3030d2ca7642c3c9d"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/rich/LICENSE",
+        "size": 1056,
+        "sha256": "deed7c17a4318158190a3ea239cc879a5a50271cebb98ae7025f48fbe58dca15"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/tomli/LICENSE",
+        "size": 1072,
+        "sha256": "b80816b0d530b8accb4c2211783790984a6e3b61922c2b5ee92f3372ab2742fe"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/tomli_w/LICENSE",
+        "size": 1072,
+        "sha256": "b80816b0d530b8accb4c2211783790984a6e3b61922c2b5ee92f3372ab2742fe"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/truststore/LICENSE",
+        "size": 1086,
+        "sha256": "33be7b7e8fa4fd19b1760e1a8ed8a668bdab852c91b692dd41424bcb725a9fca"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip-26.2.1.dist-info/licenses/src/pip/_vendor/urllib3/LICENSE.txt",
+        "size": 1093,
+        "sha256": "130e3a64d5fdd5d096a752694634a7d9df284469de86e5732100268041e3d686"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip/_vendor/cachecontrol/LICENSE.txt",
+        "size": 558,
+        "sha256": "86eeee87be2a43f3ff1f56496f451f69243926f025fedbb033666c304c4c161b"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip/_vendor/certifi/LICENSE",
+        "size": 989,
+        "sha256": "e93716da6b9c0d5a4a1df60fe695b370f0695603d21f6f83f053e42cfc10caf7"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip/_vendor/distlib/LICENSE.txt",
+        "size": 14531,
+        "sha256": "808e10c8a6ab8deb149ff9b3fb19f447a808094606d712a9ca57fead3552599d"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip/_vendor/distro/LICENSE",
+        "size": 11325,
+        "sha256": "cb5e8e7e5f4a3988e1063c142c60dc2df75605f4c46515e776e3aca6df976e14"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip/_vendor/idna/LICENSE.md",
+        "size": 1541,
+        "sha256": "1a9a4f0e3d479a27240ddd59a9137a66ab4a0f9dfdc8ca6188cc0bfd85187f04"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip/_vendor/msgpack/COPYING",
+        "size": 614,
+        "sha256": "492dedba85da5872f78e6091bcd1fea474d660d35acb4dee964b8aab3f007427"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip/_vendor/packaging/LICENSE",
+        "size": 197,
+        "sha256": "cad1ef5bd340d73e074ba614d26f7deaca5c7940c3d8c34852e65c4909686c48"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip/_vendor/packaging/LICENSE.APACHE",
+        "size": 10174,
+        "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip/_vendor/packaging/LICENSE.BSD",
+        "size": 1344,
+        "sha256": "b70e7e9b742f1cc6f948b34c16aa39ffece94196364bc88ff0d2180f0028fac5"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip/_vendor/pkg_resources/LICENSE",
+        "size": 1023,
+        "sha256": "86da0f01aeae46348a3c3d465195dc1ceccde79f79e87769a64b8da04b2a4741"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip/_vendor/platformdirs/LICENSE",
+        "size": 1089,
+        "sha256": "29e0fd62e929850e86eb28c3fdccf0cefdf4fa94879011cffb3d0d4bed6d4db6"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip/_vendor/pygments/LICENSE",
+        "size": 1331,
+        "sha256": "a9d66f1d526df02e29dce73436d34e56e8632f46c275bbdffc70569e882f9f17"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip/_vendor/pyproject_hooks/LICENSE",
+        "size": 1081,
+        "sha256": "1b22b049b5267d6dfc23a67bf4a84d8ec04b9fdfb1a51d360e42b4342c8b4154"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip/_vendor/requests/LICENSE",
+        "size": 10142,
+        "sha256": "09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip/_vendor/resolvelib/LICENSE",
+        "size": 751,
+        "sha256": "f388fd38cad13112c1dc0f669bbe80e7f84541edbafb72f3030d2ca7642c3c9d"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip/_vendor/rich/LICENSE",
+        "size": 1056,
+        "sha256": "deed7c17a4318158190a3ea239cc879a5a50271cebb98ae7025f48fbe58dca15"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip/_vendor/tomli/LICENSE",
+        "size": 1072,
+        "sha256": "b80816b0d530b8accb4c2211783790984a6e3b61922c2b5ee92f3372ab2742fe"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip/_vendor/tomli_w/LICENSE",
+        "size": 1072,
+        "sha256": "b80816b0d530b8accb4c2211783790984a6e3b61922c2b5ee92f3372ab2742fe"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip/_vendor/truststore/LICENSE",
+        "size": 1086,
+        "sha256": "33be7b7e8fa4fd19b1760e1a8ed8a668bdab852c91b692dd41424bcb725a9fca"
+      },
+      {
+        "layer": "core",
+        "path": "python/Lib/site-packages/pip/_vendor/urllib3/LICENSE.txt",
+        "size": 1093,
+        "sha256": "130e3a64d5fdd5d096a752694634a7d9df284469de86e5732100268041e3d686"
+      },
+      {
+        "layer": "core",
+        "path": "python/tcl/tk8.6/demos/license.terms",
+        "size": 2307,
+        "sha256": "0d1e4405f6273f091732764ed89b57066be63ce64869be6c71ea337dc4f2f9b5"
+      },
+      {
+        "layer": "core",
+        "path": "python/tcl/tk8.6/license.terms",
+        "size": 2307,
+        "sha256": "0d1e4405f6273f091732764ed89b57066be63ce64869be6c71ea337dc4f2f9b5"
+      },
+      {
+        "layer": "core",
+        "path": "site/tzdata-2026.5.dist-info/licenses/LICENSE",
+        "size": 625,
+        "sha256": "df58f69ea88683035d720b5375bcef0cf5aeaa98a1d098d572e0992c378deb46"
+      },
+      {
+        "layer": "core",
+        "path": "site/tzdata-2026.5.dist-info/licenses/licenses/LICENSE_APACHE",
+        "size": 11357,
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      {
+        "layer": "capture",
+        "path": "site/greenlet-3.5.6.dist-info/licenses/LICENSE",
+        "size": 1464,
+        "sha256": "ab977b654605670319509481ece49198f405a129372ac38c96f51cd96c2f452e"
+      },
+      {
+        "layer": "capture",
+        "path": "site/greenlet-3.5.6.dist-info/licenses/LICENSE.PSF",
+        "size": 2471,
+        "sha256": "69efa689cc7aec7736236d3039c1d665e4b0c734a5bfea5abf633023abb2fff4"
+      },
+      {
+        "layer": "capture",
+        "path": "site/playwright-1.63.0.dist-info/licenses/LICENSE",
+        "size": 11399,
+        "sha256": "7fab1461b41970ff376f1c9303a637076bfaaeb71cd12dd3a1c44aaf59a1a2b9"
+      },
+      {
+        "layer": "capture",
+        "path": "site/playwright/driver/LICENSE",
+        "size": 160555,
+        "sha256": "ed34dd8e3f0a78dbaf00d0444ce8e285b015b765379c2e17880455f70370f8e9"
+      },
+      {
+        "layer": "capture",
+        "path": "site/playwright/driver/package/LICENSE",
+        "size": 11601,
+        "sha256": "45873d00a0dd243596deb4aa23b2493b3d1f0671921bf2538ea431d7380220eb"
+      },
+      {
+        "layer": "capture",
+        "path": "site/playwright/driver/package/NOTICE",
+        "size": 254,
+        "sha256": "6d602191187b35b9b01d2cffa01c8469c2c8d9de8a96f1bf868e0f264f51c81d"
+      },
+      {
+        "layer": "capture",
+        "path": "site/pyee-13.0.1.dist-info/licenses/LICENSE",
+        "size": 1080,
+        "sha256": "1ff556ca206b107f10e1c562ae454d3292e0296c3510eb90eb7f114caee32a66"
+      },
+      {
+        "layer": "capture",
+        "path": "site/typing_extensions-4.16.0.dist-info/licenses/LICENSE",
+        "size": 13936,
+        "sha256": "3b2f81fe21d181c499c59a256c8e1968455d6689d269aa85373bfb6af41da3bf"
+      },
+      {
+        "layer": "images",
+        "path": "site/numpy-2.3.5.dist-info/LICENSE.txt",
+        "size": 46841,
+        "sha256": "596b953e1dcbe829b32ae444387efa15003fc6abdeca8a2179f364a6364c286e"
+      },
+      {
+        "layer": "images",
+        "path": "site/numpy/_core/include/numpy/random/LICENSE.txt",
+        "size": 1039,
+        "sha256": "d544761558b510866c21f7e8a2d5716fca76e0b98117e3b6b86314db7244d150"
+      },
+      {
+        "layer": "images",
+        "path": "site/numpy/ma/LICENSE",
+        "size": 1616,
+        "sha256": "d78dbb208b80d92b4d333e41a4baae50d12444f46e53199fa7726a91de6e2da7"
+      },
+      {
+        "layer": "images",
+        "path": "site/numpy/random/LICENSE.md",
+        "size": 3582,
+        "sha256": "b4bc2f4fa1c95778f1ed3dd8f14706bece399475b978f9f34b5d3cd72521b48a"
+      },
+      {
+        "layer": "images",
+        "path": "site/pillow-12.3.0.dist-info/licenses/LICENSE",
+        "size": 78016,
+        "sha256": "4f7866a74802c6326f81faff59a56546b6aec2b10b91973e0e9308de95e79857"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/LICENSE",
+        "size": 160555,
+        "sha256": "ed34dd8e3f0a78dbaf00d0444ce8e285b015b765379c2e17880455f70370f8e9"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/corepack/LICENSE.md",
+        "size": 1070,
+        "sha256": "517d52969f11b2b587f2e5116069aea3887ff08251689a198a857a115f250dbf"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/LICENSE",
+        "size": 9977,
+        "sha256": "af1573a67c9d9051fbf8a9c123a22b7f51ec58cb6a588b4c23bead776dd046ab"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@gar/promise-retry/LICENSE",
+        "size": 1176,
+        "sha256": "774997ec2f9544d18557c0567c46a86e42ccef65d718b5756503bef3bc460097"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@isaacs/fs-minipass/LICENSE",
+        "size": 780,
+        "sha256": "3f24d692d165989cd9a00fe35ca15a2bc6859e3361fa42aa20babd435f2e4706"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@isaacs/string-locale-compare/LICENSE",
+        "size": 763,
+        "sha256": "1fccd0ad2e7e0e31ddfadeaf0660d7318947b425324645aa85afd7227cab52d7"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@npmcli/arborist/LICENSE.md",
+        "size": 818,
+        "sha256": "733dcbf5b1c95dc765b76db969b998ce0cbb26f01be2e55e7bccd6c7af29cb04"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@npmcli/arborist/bin/license.js",
+        "size": 1533,
+        "sha256": "56f23377cc1c3ea9c6352c94f903cc24673371712dcf3002ec767d3e5f519e25"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@npmcli/config/LICENSE",
+        "size": 754,
+        "sha256": "45e433413760dc3ae8169be5ed9c2c77adc31ad4d1bc5a28939576df240f29a0"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@npmcli/fs/LICENSE.md",
+        "size": 818,
+        "sha256": "733dcbf5b1c95dc765b76db969b998ce0cbb26f01be2e55e7bccd6c7af29cb04"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@npmcli/fs/lib/cp/LICENSE",
+        "size": 1099,
+        "sha256": "884b3df4817fa2502b7aa5c34e18c5f93788f6477c1a63cccc7486ce5ac49174"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@npmcli/git/LICENSE",
+        "size": 748,
+        "sha256": "c7ec219b06de947768be869516c7021648e4d1445a07759e1327922de636ff45"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@npmcli/installed-package-contents/LICENSE",
+        "size": 754,
+        "sha256": "45e433413760dc3ae8169be5ed9c2c77adc31ad4d1bc5a28939576df240f29a0"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@npmcli/map-workspaces/LICENSE.md",
+        "size": 818,
+        "sha256": "733dcbf5b1c95dc765b76db969b998ce0cbb26f01be2e55e7bccd6c7af29cb04"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@npmcli/metavuln-calculator/LICENSE",
+        "size": 754,
+        "sha256": "45e433413760dc3ae8169be5ed9c2c77adc31ad4d1bc5a28939576df240f29a0"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@npmcli/name-from-folder/LICENSE",
+        "size": 736,
+        "sha256": "91d1e08e62edb2d6d0d291cfa7c5a366df6bc52cf8314d68596642f552adff13"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@npmcli/node-gyp/LICENSE",
+        "size": 753,
+        "sha256": "8efb18bbd2e321a1dc0b411574fa2b577c376e57e319a009b86d2f410f57676e"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@npmcli/package-json/LICENSE",
+        "size": 737,
+        "sha256": "004dc539bb082ec99bc9f764e77a60ca0edb4e681464a73a46f534974ada5c48"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@npmcli/package-json/lib/license.js",
+        "size": 887,
+        "sha256": "8a51c31d56b593b3b94e5bd617f07c0d5b1a86a8108ce485760a5f6a7fe6fe34"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@npmcli/promise-spawn/LICENSE",
+        "size": 748,
+        "sha256": "c7ec219b06de947768be869516c7021648e4d1445a07759e1327922de636ff45"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@npmcli/query/LICENSE",
+        "size": 818,
+        "sha256": "733dcbf5b1c95dc765b76db969b998ce0cbb26f01be2e55e7bccd6c7af29cb04"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@npmcli/redact/LICENSE",
+        "size": 1081,
+        "sha256": "4e95371e332c07aca97824564ffe6550a417df5b8a4d1641c06e2d9f3177474e"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@npmcli/run-script/LICENSE",
+        "size": 754,
+        "sha256": "45e433413760dc3ae8169be5ed9c2c77adc31ad4d1bc5a28939576df240f29a0"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@sigstore/bundle/LICENSE",
+        "size": 11553,
+        "sha256": "7b0ce3425a26fdba501cb13508af096ade77e4036dd2bd8849031ddecf64f7c9"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@sigstore/core/LICENSE",
+        "size": 11553,
+        "sha256": "7b0ce3425a26fdba501cb13508af096ade77e4036dd2bd8849031ddecf64f7c9"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@sigstore/protobuf-specs/LICENSE",
+        "size": 11553,
+        "sha256": "7b0ce3425a26fdba501cb13508af096ade77e4036dd2bd8849031ddecf64f7c9"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@sigstore/sign/LICENSE",
+        "size": 11553,
+        "sha256": "7b0ce3425a26fdba501cb13508af096ade77e4036dd2bd8849031ddecf64f7c9"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@sigstore/tuf/LICENSE",
+        "size": 11553,
+        "sha256": "7b0ce3425a26fdba501cb13508af096ade77e4036dd2bd8849031ddecf64f7c9"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@tufjs/canonical-json/LICENSE",
+        "size": 1109,
+        "sha256": "6ba2fb4cc004819b1d872168a7ba6ac4a5a07400366680750321058fe21dd36b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/@tufjs/models/LICENSE",
+        "size": 1109,
+        "sha256": "6ba2fb4cc004819b1d872168a7ba6ac4a5a07400366680750321058fe21dd36b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/abbrev/LICENSE",
+        "size": 2057,
+        "sha256": "52e0397bbc1859a7891cd601cff0b9433ab9c235ce6b116f8bcf9a17c41a4b94"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/agent-base/LICENSE",
+        "size": 1122,
+        "sha256": "22427a9ca2a0ff9c27dde9e26fe6e940529aee030b342a70b435366af0fcc51b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/aproba/LICENSE",
+        "size": 766,
+        "sha256": "1b94c9898885c681c1e0ebbf96494e49662842f88ac1e4dd8ffad0ac047108ae"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/archy/LICENSE",
+        "size": 1091,
+        "sha256": "a9ecf3da3825b3e7232f29c970a2869bb1752c900bd75ba7cbabeb69b8f032b4"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/balanced-match/LICENSE.md",
+        "size": 1178,
+        "sha256": "562a98e4679fb644862686d948cd3c002aef38db2fd1a34a46a48d294fa57f1c"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/bin-links/LICENSE",
+        "size": 754,
+        "sha256": "45e433413760dc3ae8169be5ed9c2c77adc31ad4d1bc5a28939576df240f29a0"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/binary-extensions/license",
+        "size": 1177,
+        "sha256": "1e932c8b356239b8a54fe6451a356e4e6e83e11db4976e74bfe80adb3557f20e"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/brace-expansion/LICENSE",
+        "size": 1167,
+        "sha256": "00066d466bca492ed42048afc15b035697444dad86a956bbaeada068f8382b87"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/cacache/LICENSE.md",
+        "size": 771,
+        "sha256": "b49c8d25a8b57fa92b2902d09c4b8a809157ee32fc10d17b7dbb43c4a8038f79"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/chalk/license",
+        "size": 1126,
+        "sha256": "fcf1a18be2e25ba82acf2c59821b030d8ee764e4e201db6ef3c51900d385515f"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/chownr/LICENSE.md",
+        "size": 1827,
+        "sha256": "a638a0768dbec922fd821d0b6cce6275231c4b57cfcddf584defce530fbfbbf5"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/ci-info/LICENSE",
+        "size": 1107,
+        "sha256": "9886ff4a999c5f71e923fcbe508bd109cea8c532afe6b80dfcdc5b13d9f4bb3f"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/cidr-regex/LICENSE",
+        "size": 1312,
+        "sha256": "73f22b23c0069037f86eae441acd720dfa7c1637e1f91112e9bc1c533352e222"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/cmd-shim/LICENSE",
+        "size": 771,
+        "sha256": "24b8d53712087b867030d18f2bd6d1a72c78f9fb4dee0ce025374da25e4443b9"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/common-ancestor-path/LICENSE.md",
+        "size": 1607,
+        "sha256": "865576de51d520f97c8869b9b9f96caf8efd69b82bb6e575fc00b0964dc7a3ca"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/cssesc/LICENSE-MIT.txt",
+        "size": 1097,
+        "sha256": "f996f6e050e6fc18086162b4b44e301bba345c87deca83f57a27e6d54195556e"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/debug/LICENSE",
+        "size": 1159,
+        "sha256": "b42cd0a02e61c640f8b4132820ba6a3da322d094b32d3b5ef7feefb7099738e3"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/diff/LICENSE",
+        "size": 1575,
+        "sha256": "278c03ecada65be046e65cf7091e4378b2749eec2309eeb242650e195864d863"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/env-paths/license",
+        "size": 1118,
+        "sha256": "67292c32894c8ac99db06ffa1cb8e9a5171ef988120723ebe673bf76712260ec"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/exponential-backoff/LICENSE",
+        "size": 11553,
+        "sha256": "5ebd9035b6813650acaea03024934d8b6fb5f62b2887e29dbd0dfcdb34bee88f"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/fastest-levenshtein/LICENSE.md",
+        "size": 1092,
+        "sha256": "37304238fcfbe46a5b6038bd9c0f0a378d9b6b49b76c5012f0a887701fe29de6"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/fs-minipass/LICENSE",
+        "size": 780,
+        "sha256": "3f24d692d165989cd9a00fe35ca15a2bc6859e3361fa42aa20babd435f2e4706"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/glob/LICENSE.md",
+        "size": 1827,
+        "sha256": "a638a0768dbec922fd821d0b6cce6275231c4b57cfcddf584defce530fbfbbf5"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/graceful-fs/LICENSE",
+        "size": 806,
+        "sha256": "dc1514d1b920fdea5307f3b3baaae6091918f2c7019343ebba5e4e48b4f510e0"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/hosted-git-info/LICENSE",
+        "size": 746,
+        "sha256": "ac8c5bf1568ae996712633646201100150eb805c35ab90a893ba1b54cc575adf"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/http-cache-semantics/LICENSE",
+        "size": 1283,
+        "sha256": "1fbc6f0d4289ef63086faf6f1d6256969f0919a76262d70465ba06f771132ac8"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/http-proxy-agent/LICENSE",
+        "size": 1124,
+        "sha256": "9b23600356d202082aee46de3e9878e9ff66f0b251438a2559cdc8609c930ab7"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/https-proxy-agent/LICENSE",
+        "size": 1122,
+        "sha256": "22427a9ca2a0ff9c27dde9e26fe6e940529aee030b342a70b435366af0fcc51b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/iconv-lite/LICENSE",
+        "size": 1085,
+        "sha256": "bae26f6bd2f7c50fc43e7a8afc1507ceccffc77a62133c84565e7874b5289058"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/ignore-walk/LICENSE",
+        "size": 780,
+        "sha256": "3f24d692d165989cd9a00fe35ca15a2bc6859e3361fa42aa20babd435f2e4706"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/ini/LICENSE",
+        "size": 780,
+        "sha256": "3f24d692d165989cd9a00fe35ca15a2bc6859e3361fa42aa20babd435f2e4706"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/init-package-json/LICENSE.md",
+        "size": 735,
+        "sha256": "30ae8a003712dae3986756f28f24c0ea8c8f85b233a542f7e9181b2d2af7fe5e"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/ip-address/LICENSE",
+        "size": 1080,
+        "sha256": "40e3d8bff0eba21e2c8a4ca7f7ad3f48c9ffa200de4aa6637d677a7d65514825"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/is-cidr/LICENSE",
+        "size": 1312,
+        "sha256": "73f22b23c0069037f86eae441acd720dfa7c1637e1f91112e9bc1c533352e222"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/isexe/LICENSE.md",
+        "size": 1607,
+        "sha256": "865576de51d520f97c8869b9b9f96caf8efd69b82bb6e575fc00b0964dc7a3ca"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/json-parse-even-better-errors/LICENSE.md",
+        "size": 1234,
+        "sha256": "d2de5571e57dbcae5949f369d0d9894bf2ff7c0874d3759628652639b3e8167a"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/json-stringify-nice/LICENSE",
+        "size": 780,
+        "sha256": "3f24d692d165989cd9a00fe35ca15a2bc6859e3361fa42aa20babd435f2e4706"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/jsonparse/LICENSE",
+        "size": 1111,
+        "sha256": "c8e0305cd798b12d8d759594c69ca58d8d62c2e38448eabaeefa8dfac2480ae4"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/just-diff-apply/LICENSE",
+        "size": 1099,
+        "sha256": "c4f5a45599ea54331e65a21df7c3738f8c9b3e688e1913caf47facee9017a439"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/just-diff/LICENSE",
+        "size": 1099,
+        "sha256": "c4f5a45599ea54331e65a21df7c3738f8c9b3e688e1913caf47facee9017a439"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/libnpmaccess/LICENSE",
+        "size": 730,
+        "sha256": "2ef361317adeda98117f14c5110182c28eae233af1f7050c83d4396961d14013"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/libnpmdiff/LICENSE",
+        "size": 756,
+        "sha256": "60aa4cf74af0ae39c694e32cab95606789180da3b79cb584e1b7f310242d6329"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/libnpmexec/LICENSE",
+        "size": 756,
+        "sha256": "60aa4cf74af0ae39c694e32cab95606789180da3b79cb584e1b7f310242d6329"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/libnpmfund/LICENSE",
+        "size": 753,
+        "sha256": "ae23f46306824f42c6ab243b232b571bb98d8dfa25c58bf02e1dac2520a4f44a"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/libnpmorg/LICENSE",
+        "size": 730,
+        "sha256": "2ef361317adeda98117f14c5110182c28eae233af1f7050c83d4396961d14013"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/libnpmpack/LICENSE",
+        "size": 730,
+        "sha256": "2ef361317adeda98117f14c5110182c28eae233af1f7050c83d4396961d14013"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/libnpmpublish/LICENSE",
+        "size": 730,
+        "sha256": "2ef361317adeda98117f14c5110182c28eae233af1f7050c83d4396961d14013"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/libnpmsearch/LICENSE",
+        "size": 730,
+        "sha256": "2ef361317adeda98117f14c5110182c28eae233af1f7050c83d4396961d14013"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/libnpmteam/LICENSE",
+        "size": 730,
+        "sha256": "2ef361317adeda98117f14c5110182c28eae233af1f7050c83d4396961d14013"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/libnpmversion/LICENSE",
+        "size": 763,
+        "sha256": "1fccd0ad2e7e0e31ddfadeaf0660d7318947b425324645aa85afd7227cab52d7"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/lru-cache/LICENSE.md",
+        "size": 1607,
+        "sha256": "865576de51d520f97c8869b9b9f96caf8efd69b82bb6e575fc00b0964dc7a3ca"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/make-fetch-happen/LICENSE",
+        "size": 781,
+        "sha256": "c49d79211841d8fa00e008dcd7d9531baa35804d05f40e011615c28f970d14da"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/minimatch/LICENSE.md",
+        "size": 1605,
+        "sha256": "fd54a96ff95433409fdb1c7957a43a6383184363b4872df9035b36fbb4b68a2e"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/minipass-collect/LICENSE",
+        "size": 790,
+        "sha256": "ca2d3d147116e1df566aa0e476273edb77229db7bb5849dd2e9ba2d43089c648"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/minipass-fetch/LICENSE",
+        "size": 1336,
+        "sha256": "4457272cd4dbc8fc4f3502bc7656eda8e5414c2feecff8c9daa22ff73852e949"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/minipass-flush/LICENSE.md",
+        "size": 1607,
+        "sha256": "865576de51d520f97c8869b9b9f96caf8efd69b82bb6e575fc00b0964dc7a3ca"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/minipass-pipeline/LICENSE",
+        "size": 780,
+        "sha256": "3f24d692d165989cd9a00fe35ca15a2bc6859e3361fa42aa20babd435f2e4706"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/minipass-pipeline/node_modules/minipass/LICENSE",
+        "size": 802,
+        "sha256": "04400db77d925de5b0264f6db5b44fe6f8b94f9419ad3473caaa8065c525c0be"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/minipass-pipeline/node_modules/yallist/LICENSE",
+        "size": 780,
+        "sha256": "3f24d692d165989cd9a00fe35ca15a2bc6859e3361fa42aa20babd435f2e4706"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/minipass-sized/LICENSE",
+        "size": 780,
+        "sha256": "3f24d692d165989cd9a00fe35ca15a2bc6859e3361fa42aa20babd435f2e4706"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/minipass/LICENSE.md",
+        "size": 1607,
+        "sha256": "865576de51d520f97c8869b9b9f96caf8efd69b82bb6e575fc00b0964dc7a3ca"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/minizlib/LICENSE",
+        "size": 1365,
+        "sha256": "cf7f1747f25b023e8f304670601ba231456a7218f70548d9196b6015f1eaf84c"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/ms/license.md",
+        "size": 1100,
+        "sha256": "7e7740f8b42ce676ef87bcc2d721d62e538c0b7393c4186256ac3ee77ee756fc"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/mute-stream/LICENSE",
+        "size": 780,
+        "sha256": "3f24d692d165989cd9a00fe35ca15a2bc6859e3361fa42aa20babd435f2e4706"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/negotiator/LICENSE",
+        "size": 1201,
+        "sha256": "afe9200bfd30d914879879f17f10b970a455b049d8916b6bb299ca515ce44994"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/node-gyp/LICENSE",
+        "size": 1126,
+        "sha256": "855ae36906c2d355c6ad1b8ee53ebbe81afcdb79a1236f6436e0af3a7f2bc85d"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/node-gyp/gyp/LICENSE",
+        "size": 1565,
+        "sha256": "51b84235e57224d4b96500e29c957b4c4d1a5b93aef90fd3ac6e64ad4fd61169"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/node-gyp/gyp/pylib/packaging/LICENSE",
+        "size": 200,
+        "sha256": "8ef81e4c883c5ccb2a08026cc74ba3193279dd5149b36839d976c0a896637d87"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/node-gyp/gyp/pylib/packaging/LICENSE.APACHE",
+        "size": 10351,
+        "sha256": "eb3d7b5485466acbd81f2b496f595ab637d2792e268206b27d99e793bdb67549"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/node-gyp/gyp/pylib/packaging/LICENSE.BSD",
+        "size": 1367,
+        "sha256": "67daf15b478dbd91bcd83bff907efff68471d42d2138226b89f039d658d53435"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/nopt/LICENSE",
+        "size": 780,
+        "sha256": "3f24d692d165989cd9a00fe35ca15a2bc6859e3361fa42aa20babd435f2e4706"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/npm-audit-report/LICENSE",
+        "size": 771,
+        "sha256": "b49c8d25a8b57fa92b2902d09c4b8a809157ee32fc10d17b7dbb43c4a8038f79"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/npm-bundled/LICENSE",
+        "size": 771,
+        "sha256": "24b8d53712087b867030d18f2bd6d1a72c78f9fb4dee0ce025374da25e4443b9"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/npm-install-checks/LICENSE",
+        "size": 1360,
+        "sha256": "8cacac5768d7ac631777d647f59ced980bc551fa469ca1b9be5538b6765d835c"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/npm-normalize-package-bin/LICENSE",
+        "size": 754,
+        "sha256": "45e433413760dc3ae8169be5ed9c2c77adc31ad4d1bc5a28939576df240f29a0"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/npm-package-arg/LICENSE",
+        "size": 754,
+        "sha256": "45e433413760dc3ae8169be5ed9c2c77adc31ad4d1bc5a28939576df240f29a0"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/npm-packlist/LICENSE",
+        "size": 780,
+        "sha256": "3f24d692d165989cd9a00fe35ca15a2bc6859e3361fa42aa20babd435f2e4706"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/npm-pick-manifest/LICENSE.md",
+        "size": 771,
+        "sha256": "b49c8d25a8b57fa92b2902d09c4b8a809157ee32fc10d17b7dbb43c4a8038f79"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/npm-profile/LICENSE.md",
+        "size": 818,
+        "sha256": "733dcbf5b1c95dc765b76db969b998ce0cbb26f01be2e55e7bccd6c7af29cb04"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/npm-registry-fetch/LICENSE.md",
+        "size": 818,
+        "sha256": "733dcbf5b1c95dc765b76db969b998ce0cbb26f01be2e55e7bccd6c7af29cb04"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/npm-user-validate/LICENSE",
+        "size": 1321,
+        "sha256": "c0846374a35a39d265a3f01fa0099d4acac288c03aebfeaf4f68179f6794c3b6"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/p-map/license",
+        "size": 1126,
+        "sha256": "fcf1a18be2e25ba82acf2c59821b030d8ee764e4e201db6ef3c51900d385515f"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/pacote/LICENSE",
+        "size": 806,
+        "sha256": "7453dacb5bd21525d4a669d1bc06656030af39000ecbdcda8e5118d36cedc9be"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/parse-conflict-json/LICENSE.md",
+        "size": 818,
+        "sha256": "733dcbf5b1c95dc765b76db969b998ce0cbb26f01be2e55e7bccd6c7af29cb04"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/path-scurry/LICENSE.md",
+        "size": 1607,
+        "sha256": "865576de51d520f97c8869b9b9f96caf8efd69b82bb6e575fc00b0964dc7a3ca"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/postcss-selector-parser/LICENSE-MIT",
+        "size": 1114,
+        "sha256": "a562b4aeed0a03767c6ce2da49f1205f09b7d15705b226cf3c32e26d0fb7641b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/proc-log/LICENSE",
+        "size": 757,
+        "sha256": "a5103404e4615fa1ed46aef13082dd287bf4b95964e71ffdf198984b3d5882b8"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/proggy/LICENSE",
+        "size": 757,
+        "sha256": "a5103404e4615fa1ed46aef13082dd287bf4b95964e71ffdf198984b3d5882b8"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/promise-all-reject-late/LICENSE",
+        "size": 763,
+        "sha256": "1fccd0ad2e7e0e31ddfadeaf0660d7318947b425324645aa85afd7227cab52d7"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/promise-call-limit/LICENSE",
+        "size": 763,
+        "sha256": "1fccd0ad2e7e0e31ddfadeaf0660d7318947b425324645aa85afd7227cab52d7"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/promzard/LICENSE",
+        "size": 763,
+        "sha256": "1fccd0ad2e7e0e31ddfadeaf0660d7318947b425324645aa85afd7227cab52d7"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/qrcode-terminal/LICENSE",
+        "size": 12184,
+        "sha256": "b0c4d64802d2d91b929ad494b484751b472f40ce5abf0aa102277fc16f648ae7"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/read-cmd-shim/LICENSE",
+        "size": 766,
+        "sha256": "1b94c9898885c681c1e0ebbf96494e49662842f88ac1e4dd8ffad0ac047108ae"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/read/LICENSE",
+        "size": 780,
+        "sha256": "3f24d692d165989cd9a00fe35ca15a2bc6859e3361fa42aa20babd435f2e4706"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/safer-buffer/LICENSE",
+        "size": 1115,
+        "sha256": "e15582df774daf2392ca0c9248b08d5bb0522c875699de6c062f8be2fdc3e919"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/semver/LICENSE",
+        "size": 780,
+        "sha256": "3f24d692d165989cd9a00fe35ca15a2bc6859e3361fa42aa20babd435f2e4706"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/signal-exit/LICENSE.txt",
+        "size": 806,
+        "sha256": "a71b19749ebde7c65ee97c76dbb6a0287f09880e019fa554b04364c48aa15794"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/sigstore/LICENSE",
+        "size": 11553,
+        "sha256": "7b0ce3425a26fdba501cb13508af096ade77e4036dd2bd8849031ddecf64f7c9"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/smart-buffer/LICENSE",
+        "size": 1107,
+        "sha256": "41f40a85a2ba5eb382752c6d235497ffc70445044866b62cf15995cc2c143409"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/socks-proxy-agent/LICENSE",
+        "size": 1122,
+        "sha256": "22427a9ca2a0ff9c27dde9e26fe6e940529aee030b342a70b435366af0fcc51b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/socks/LICENSE",
+        "size": 1102,
+        "sha256": "03fadbf0195740caca88c2de89aedc0f24c727e0a3f39decea4d0dc4f87aeff6"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/spdx-expression-parse/LICENSE",
+        "size": 1133,
+        "sha256": "9874348297d23c486dfb13b9df158f3fe2f57153ddfd0513507d22f0438ea204"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/ssri/LICENSE.md",
+        "size": 776,
+        "sha256": "030c94ef243985fac9d59646ff042e58a73a090bdc6f5991786819a4261290ef"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/supports-color/license",
+        "size": 1126,
+        "sha256": "fcf1a18be2e25ba82acf2c59821b030d8ee764e4e201db6ef3c51900d385515f"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/tar/LICENSE.md",
+        "size": 1607,
+        "sha256": "865576de51d520f97c8869b9b9f96caf8efd69b82bb6e575fc00b0964dc7a3ca"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/text-table/LICENSE",
+        "size": 1091,
+        "sha256": "a9ecf3da3825b3e7232f29c970a2869bb1752c900bd75ba7cbabeb69b8f032b4"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/tiny-relative-date/LICENSE.md",
+        "size": 1089,
+        "sha256": "a487062cbc5f9c5197614c3782b13f9049bd7321d8fe4d5e08283edac48fa199"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/tinyglobby/LICENSE",
+        "size": 1097,
+        "sha256": "885542bb1f08221d2c8a4075df7bbe4453bdeab11815b4d5281595435919d012"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/tinyglobby/node_modules/fdir/LICENSE",
+        "size": 1060,
+        "sha256": "dd9d2fde1db2a559d7f534313f4754ba7c322dec0d39e584a2d1b41f0e976c2e"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/tinyglobby/node_modules/picomatch/LICENSE",
+        "size": 1112,
+        "sha256": "060522635e5e0d1bdcbea583064dd47afbf52af9607b6e0e463087b9a06876b8"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/treeverse/LICENSE",
+        "size": 771,
+        "sha256": "24b8d53712087b867030d18f2bd6d1a72c78f9fb4dee0ce025374da25e4443b9"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/tuf-js/LICENSE",
+        "size": 1109,
+        "sha256": "6ba2fb4cc004819b1d872168a7ba6ac4a5a07400366680750321058fe21dd36b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/undici/LICENSE",
+        "size": 1111,
+        "sha256": "5dc815ee169aecfdfa69b4c4c98745160d80a29d94cb08450a4d83cad11ebea5"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/undici/lib/web/fetch/LICENSE",
+        "size": 1092,
+        "sha256": "2d95e9954f65425cd2980ef67e0c14ef9a561a7ede6260e7a654c12d88f41e1e"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/util-deprecate/LICENSE",
+        "size": 1126,
+        "sha256": "140afde889594d07da403cf87c73ecfd55e1b8870fff358fa86f475dc3acde7a"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/validate-npm-package-name/LICENSE",
+        "size": 734,
+        "sha256": "218f573aa405a239f1265a3f7b80d8296739b87d2158c56568e6df1153ace95b"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/walk-up-path/LICENSE",
+        "size": 773,
+        "sha256": "56aae31e19b0fdb567348896d26f7a76b0ee89e8755a9988d445429dd04a6e5f"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/which/LICENSE",
+        "size": 780,
+        "sha256": "3f24d692d165989cd9a00fe35ca15a2bc6859e3361fa42aa20babd435f2e4706"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/write-file-atomic/LICENSE.md",
+        "size": 738,
+        "sha256": "009605dbf12d443d9ad128327f8b382086b3a817f1114d6c3e85b23538781c37"
+      },
+      {
+        "layer": "livedune-node",
+        "path": "node/node_modules/npm/node_modules/yallist/LICENSE.md",
+        "size": 1827,
+        "sha256": "a638a0768dbec922fd821d0b6cce6275231c4b57cfcddf584defce530fbfbbf5"
+      }
+    ]
+  },
+  "limits": "Original license/notice bytes remain in exact runtime assets. Full semantic/legal and redistribution obligations review remains required before publication; own-code MIT does not license these components."
+}

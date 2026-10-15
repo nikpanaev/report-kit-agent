@@ -219,9 +219,13 @@ def preflight(workspace, current_agent, current_skills, candidate_agent, candida
                 and receipt["source_locator"] and receipt["client_id"] == client and receipt["candidate"] == candidate
                 and receipt["profile_sha256"] == record["profile_sha256"] and receipt["result"] == "PASS"
                 and isinstance(receipt["checks"], list) and {"client_overrides", "protected_history", "affected_components"} <= set(receipt["checks"]), "regression_receipt")
-    return {"status": "READY_FOR_REVIEW", "bootstrap": bootstrap, "clients_checked": len(data["clients"]), "clients": sorted(data["clients"]),
+    from runtime import client_preflight
+    runtime_plan = client_preflight(workspace, candidate_agent, data['clients'])
+    result = {"status": "READY_FOR_REVIEW", "bootstrap": bootstrap, "clients_checked": len(data["clients"]), "clients": sorted(data["clients"]),
             "compatibility_sha256": document_identity(data), "current": current,
             "candidate": candidate, "install_authorized": False, "limitations": LIMIT}
+    if runtime_plan is not None: result['runtime'] = runtime_plan
+    return result
 
 
 def identity_file(path):
@@ -320,11 +324,11 @@ def delivery_check(source, delivery, observed):
             'install_authorized': False, 'limitations': LIMIT + ' Original release/redirect/observation authenticity is checked by the native executor, not by JSON.'}
 
 
-def archive_files(raw):
+def archive_files(raw, *, max_bytes=64 * 1024 * 1024, binary=False):
     """Read bounded plain Git tar files as data; never extract links or run package code."""
     payload, names, total = {}, set(), 0
     try:
-        with tarfile.open(fileobj=io.BytesIO(raw), mode='r:') as archive:
+        with tarfile.open(fileobj=io.BytesIO(raw), mode='r:*' if binary else 'r:') as archive:
             for index, member in enumerate(archive):
                 name = member.name.rstrip('/') if member.isdir() else member.name
                 parts = name.split('/')
@@ -337,9 +341,10 @@ def archive_files(raw):
                 require(key not in names, 'archive_collision'); names.add(key)
                 if member.isdir(): continue
                 total += member.size
-                require(member.size >= 0 and total <= 64 * 1024 * 1024, 'archive_size')
+                require(member.size >= 0 and total <= max_bytes, 'archive_size')
                 data = archive.extractfile(member).read()
-                require(len(data) == member.size and not sensitive(data.decode('utf-8')), 'archive_content')
+                require(len(data) == member.size, 'archive_content')
+                if not binary: require(not sensitive(data.decode('utf-8')), 'archive_content')
                 payload[name] = data
     except (tarfile.TarError, UnicodeError, EOFError):
         raise ContractError('archive_unreadable') from None
@@ -379,6 +384,25 @@ def stage_candidate(source, delivery, observed, downloads, output, protected_roo
             'paths': {name: str(output / name) for name in PACKAGES}, 'install_authorized': False, 'limitations': LIMIT}
 
 
+
+def stage_runtime_candidate(source, delivery, observed, runtime_record, runtime_observed, downloads, output, target, layers, protected_roots):
+    """Same original release check as setup/update; runtime is an agent-release asset, never main."""
+    delivery_check(source, delivery, observed)
+    fields(runtime_record, {'schema_version', 'runtime_id', 'platform', 'assets'}, 'runtime_delivery')
+    expected = set(layers); require(set(runtime_observed) == expected, 'runtime_observations')
+    repo = source['agent_repository']; tag = delivery['assets']['report-kit-agent']['tag']
+    commit = delivery['assets']['report-kit-agent']['commit']
+    for layer in layers:
+        asset = runtime_record['assets'][layer]; proof = runtime_observed[layer]
+        fields(proof, {'repository', 'tag', 'commit', 'asset_url', 'published', 'draft', 'source_kind', 'source_locator'}, 'runtime_origin')
+        require(proof['repository'] == repo and proof['tag'] == tag and proof['commit'] == commit
+                and proof['asset_url'] == repo + '/releases/download/' + tag + '/' + asset['filename']
+                and proof['published'] is True and proof['draft'] is False and proof['source_kind'] == 'native_tool_result'
+                and isinstance(proof['source_locator'], str) and proof['source_locator'].strip(), 'runtime_origin')
+    from runtime import stage
+    return stage(runtime_record, downloads, output, target, layers, protected_roots)
+
+
 def setup_status(online, verified_installed):
     require(type(online) is bool and type(verified_installed) is bool, 'setup_connection_status')
     status = 'CHECK_RELEASES' if online else 'KEEP_VERIFIED_CURRENT' if verified_installed else 'NEEDS_CONNECTION'
@@ -416,10 +440,11 @@ def installation_plan(plan, compatibility, candidate_skills, host, now):
             'candidate': plan['candidate'], 'install_authorized': False, 'limitations': LIMIT}
 
 
-def activation_result(plan, saved, loaded, health_passed):
+def activation_result(plan, saved, loaded, health_passed, *, loaded_runtime=None):
     """Choose native recovery action only; never restore a client-data snapshot."""
     require(plan['status'] == 'READY_FOR_REVIEW', 'preflight_required')
     expected = {'packages', 'verified', 'source_locator'}
+    if 'runtime' in plan: expected.add('runtime_selection')
     fields(saved, expected | ({'absent_packages'} if 'absent_packages' in saved else set()), 'saved_pair')
     pair_check(saved['packages'])
     require(saved['packages'] == plan['current'] and saved['verified'] is True
@@ -429,10 +454,16 @@ def activation_result(plan, saved, loaded, health_passed):
     require(absent == [] or (absent == ['report-kit-skills'] and plan.get('bootstrap') is True), 'saved_absent_packages')
     if loaded is not None: pair_check(loaded)
     passed = loaded == plan['candidate'] and health_passed
-    return {'status':'VERIFY_CLIENT_REFRESH' if passed else 'ROLLBACK_REQUIRED',
+    if 'runtime' in plan:
+        require(saved['runtime_selection'] == plan['runtime']['previous'], 'rollback_runtime_not_ready')
+        passed = passed and loaded_runtime == plan['runtime']['candidate']
+    result = {'status':'VERIFY_CLIENT_REFRESH' if passed else 'ROLLBACK_REQUIRED',
             'selected': plan['candidate'] if passed else saved['packages'], 'client_data_writes': [],
             'restore_absence': absent if not passed else [],
             'limitations': LIMIT + ' A directive is not proof of native activation or rollback; verify reloaded identities and health.'}
+    if 'runtime' in plan:
+        result['selected_runtime'] = plan['runtime']['candidate'] if passed else saved['runtime_selection']
+    return result
 
 
 if __name__ == "__main__":
@@ -453,6 +484,7 @@ if __name__ == "__main__":
     finish = sub.add_parser('activation-result')
     for key in ['plan','saved','loaded']: finish.add_argument(key, type=Path)
     finish.add_argument('--health-passed', action='store_true')
+    finish.add_argument('--loaded-runtime', type=Path)
     refresh = sub.add_parser("rollout"); refresh.add_argument("plan", type=Path); refresh.add_argument("compatibility", type=Path); refresh.add_argument("receipts", type=Path); refresh.add_argument("loaded", type=Path)
     undo = sub.add_parser("rollback"); undo.add_argument("workspace", type=Path); undo.add_argument("snapshot", type=Path); undo.add_argument("old", type=Path); undo.add_argument("actual_new", type=Path)
     policy = sub.add_parser("policy")
@@ -465,7 +497,8 @@ if __name__ == "__main__":
         elif args.mode == 'delivery': result = delivery_check(read_json(args.source),read_json(args.delivery),read_json(args.observed))
         elif args.mode == 'stage': result = stage_candidate(read_json(args.source),read_json(args.delivery),read_json(args.observed),read_json(args.downloads),args.output,args.protect_root)
         elif args.mode == 'installation-plan': result = installation_plan(read_json(args.plan),read_json(args.compatibility),args.candidate_skills,read_json(args.host),now)
-        elif args.mode == 'activation-result': result = activation_result(read_json(args.plan),read_json(args.saved),read_json(args.loaded),args.health_passed)
+        elif args.mode == 'activation-result': result = activation_result(read_json(args.plan),read_json(args.saved),read_json(args.loaded),args.health_passed,
+                                                                         loaded_runtime=read_json(args.loaded_runtime) if args.loaded_runtime else None)
         elif args.mode == "rollout": result = rollout(read_json(args.plan), read_json(args.compatibility), read_json(args.receipts), read_json(args.loaded))
         elif args.mode == "rollback": result = rollback_preflight(args.workspace, read_json(args.snapshot), read_json(args.old), read_json(args.actual_new))
         elif args.mode == "policy": result = activation_decision(read_json(args.policy), read_json(args.source), read_json(args.plan), read_json(args.compatibility), args.host_approval)

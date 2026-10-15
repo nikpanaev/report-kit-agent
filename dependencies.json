@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "report-kit-skills": {
-    "version": "0.1.0-dev.15",
-    "package_sha256": "f55ed370ed1cd4a3f35b2a30112137d2e6d907ce79f7d96c326aba960cfa2bda",
+    "version": "0.1.0-dev.16",
+    "package_sha256": "510bf1d873020819dea1d4306a02ce2f2a29213987bb3f88689a674534267902",
     "source": {
       "kind": "local-sibling",
       "path": "../report-kit-skills",
@@ -14,5 +14,10 @@
   "external_capabilities": {
     "google": "Connected official native tools/skills, employee authorization at use; not vendored",
     "computer_use": "Available approved host integration, not copied or installed by this preparation"
+  },
+  "runtime": {
+    "recipe": "assets/runtime-recipe.json",
+    "runtime_id": "python312-20261013-v1",
+    "delivery": "agent release assets only; native origin/permission and all-client checks required"
   }
 }

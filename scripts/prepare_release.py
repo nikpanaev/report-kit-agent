@@ -5,6 +5,7 @@ import io
 import json
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import tarfile
 
@@ -41,7 +42,7 @@ def verify_archive(raw, inventory):
     return observed
 
 
-def prepare(agent, skills, output, commits, channel, source=None):
+def prepare(agent, skills, output, commits, channel, source=None, runtime_assets=None):
     agent=Path(agent).resolve();skills=Path(skills).resolve();output=Path(output).resolve()
     roots={"report-kit-agent":agent,"report-kit-skills":skills}
     if set(commits)!=set(roots) or channel not in {"working","preview"}:raise ValueError("release_inputs")
@@ -97,7 +98,37 @@ def prepare(agent, skills, output, commits, channel, source=None):
     path=output/"build-record.json"
     with path.open("x",encoding="utf-8") as stream:stream.write(json.dumps(record,indent=2)+"\n")
     path.chmod(0o600)
+    if runtime_assets is not None:
+        append_runtime_assets(agent, Path(runtime_assets), output, record)
     return record
+
+
+def append_runtime_assets(agent, assets_root, output, record):
+    """Same local release; large reviewed artifacts remain outside source Git history."""
+    from maintenance import read_json, require
+    from updates import identity_file
+    runtime = read_json(assets_root / 'runtime-build.json')
+    recipe = read_json(agent / 'assets/runtime-recipe.json')
+    require(runtime['runtime_id'] == recipe['runtime_id'] and runtime['installation_performed'] is False, 'runtime_build_identity')
+    for platform in runtime['platforms'].values():
+        for asset in platform['assets'].values():
+            name = asset['filename']; require(Path(name).name == name, 'runtime_asset_name')
+            src = assets_root / name; dest = output / name
+            require(not src.is_symlink() and src.stat().st_size == asset['size'] and identity_file(src) == asset['sha256'], 'runtime_asset_changed')
+            with src.open('rb') as source, dest.open('xb') as target: shutil.copyfileobj(source, target)
+            dest.chmod(0o600)
+            require(identity_file(dest) == asset['sha256'], 'runtime_copy_changed')
+            record['artifacts'][name] = asset['sha256']
+    delivery = {'schema_version': 1, 'published': False, 'packages': record['release']['packages'],
+                'runtime_id': runtime['runtime_id'], 'platforms': runtime['platforms'], 'license_review': runtime['license_review']}
+    path = output / 'draft-runtime-delivery.json'
+    with path.open('x', encoding='utf-8') as stream: json.dump(delivery, stream, indent=2); stream.write('\n')
+    path.chmod(0o600); record['artifacts'][path.name] = identity_file(path)
+    hashes = output / 'SHA256SUMS'
+    hashes.write_text(''.join(f'{sha}  {name}\n' for name, sha in sorted(record['artifacts'].items()) if name != 'SHA256SUMS'), encoding='utf-8')
+    record['artifacts']['SHA256SUMS'] = identity_file(hashes)
+    record['runtime'] = {'runtime_id': runtime['runtime_id'], 'platforms': sorted(runtime['platforms']), 'license_review': runtime['license_review'], 'native_windows': 'NOT_RUN'}
+    (output / 'build-record.json').write_text(json.dumps(record, indent=2) + '\n', encoding='utf-8')
 
 
 if __name__=="__main__":
@@ -106,11 +137,12 @@ if __name__=="__main__":
     for key in ["agent-commit","skills-commit"]:parser.add_argument("--"+key,required=True)
     parser.add_argument("--channel",choices=["working","preview"],default="working")
     parser.add_argument('--source',type=Path,help='Approved repository source record; no network or publication')
+    parser.add_argument('--runtime-assets',type=Path,help='Prepared inert runtime assets; no installation')
     args=parser.parse_args()
     try:
         result=prepare(args.agent_root,args.skills_root,args.output,
             {"report-kit-agent":args.agent_commit,"report-kit-skills":args.skills_commit},args.channel,
-            json.loads(args.source.read_text(encoding='utf-8')) if args.source else None)
+            json.loads(args.source.read_text(encoding='utf-8')) if args.source else None, args.runtime_assets)
         result={"status":result["status"],"artifacts":result["artifacts"],"publication_authorized":False,"blockers":result["blockers"]}
     except (ValueError,AssertionError,OSError,KeyError,subprocess.CalledProcessError):
         result={"status":"BLOCKED","issue":"invalid_or_changed_package_or_output","publication_authorized":False}

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "package": "report-kit-agent",
-  "package_version": "0.1.0-dev.24",
+  "package_version": "0.1.0-dev.25",
   "interfaces": {
     "workspace": 2,
     "maintenance": 1,
@@ -9,7 +9,8 @@
     "profile": 1,
     "template_registry_sheets": 1,
     "template_copy_sheets": 1,
-    "support_events": 1
+    "support_events": 1,
+    "runtime_environment": 1
   },
   "host_capabilities": [
     "native-plugin-update",

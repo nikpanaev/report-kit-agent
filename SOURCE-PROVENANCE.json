@@ -26,18 +26,18 @@
     },
     {
       "sourceRelative": "skills/_shared/support_events.py",
-      "sourceSHA256": "d788b5c820c8027f1b1c6013d570562d66dc0df95c238dc995b353e0c921a962",
+      "sourceSHA256": "6ef82d0dd6785f6bfbf37c24a646a8f840ac025c1416425b46a5ff114a378fc3",
       "destination": "scripts/support_bundle.py",
-      "outputSHA256": "d788b5c820c8027f1b1c6013d570562d66dc0df95c238dc995b353e0c921a962",
+      "outputSHA256": "6ef82d0dd6785f6bfbf37c24a646a8f840ac025c1416425b46a5ff114a378fc3",
       "changes": [
         "Exact owned-source mirror for standalone offline fallback; no raw/runtime/client data"
       ]
     },
     {
       "sourceRelative": "skills/_shared/support-policy.json",
-      "sourceSHA256": "4a41ab05469d598f64528e40158e45cdd9412b592ecd8b549fdad4f2afbca9d3",
+      "sourceSHA256": "adebe41ff69a422715d542601ba9af8edbe3c31082485c59bb10310602945106",
       "destination": "scripts/support-policy.json",
-      "outputSHA256": "4a41ab05469d598f64528e40158e45cdd9412b592ecd8b549fdad4f2afbca9d3",
+      "outputSHA256": "adebe41ff69a422715d542601ba9af8edbe3c31082485c59bb10310602945106",
       "changes": [
         "Exact owned-source mirror for standalone offline fallback; no raw/runtime/client data"
       ]

@@ -1,6 +1,11 @@
 @echo off
 chcp 65001 >nul
 cd /d "%~dp0"
+if not exist "%~dp0runtime-python.txt" goto system
+set /p RK_SUPPORT_PYTHON=<"%~dp0runtime-python.txt"
+"%RK_SUPPORT_PYTHON%" -B "%~dp0scripts\support_bundle.py" --saved-state --open-folder
+goto end
+:system
 where py >nul 2>nul
 if errorlevel 1 goto python
 py -3 "%~dp0scripts\support_bundle.py" --saved-state --open-folder

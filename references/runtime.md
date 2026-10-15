@@ -1,0 +1,43 @@
+# Подготовленная среда Report Kit
+
+Сотрудник не устанавливает Python, библиотеки или Node.js вручную и не вводит команды. Агент получает проверенные компоненты из приложений к опубликованному выпуску и выполняет доступные действия после нужного согласия. Это не изменение системных программ. Сейчас пакеты только подготовлены; установка, публикация и настоящая Windows ещё не проверены.
+
+## Состав и получение
+
+Source of truth — assets/runtime-recipe.json: exact CPython distribution, platform wheels, все transitive Python packages и optional Node. Файлы поставки собираются prepare_runtime.py из уже скачанных проверенных upstream files, без pip, lifecycle scripts и исполнения скачанного кода. Отдельные assets: core (Python + tzdata), capture (Playwright + pyee + greenlet + typing_extensions), images (Pillow + NumPy), livedune-node (Node с его штатными файлами). NumPy/Pillow native libraries и Playwright driver остаются внутри exact wheels. Профили macos-arm64 и windows-x64 выбираются по actual OS/CPU; другие устройства пока не поддержаны этим рецептом. Номер библиотеки не доказывает совместимость всей среды.
+
+Нативный исполнитель читает original опубликованный agent release и парную delivery запись. Тот же updates.delivery_check и stage_runtime_candidate проверяют источник, tag/full commit, опубликованность, exact asset URL/size/hash; runtime.stage повторно проверяет архив, manifests, inventory и платформу. Не брать main/latest, случайный URL или self-reported checksum как trusted source. Первичное получение не исполняет файлы. Установку/исполнение выполняет native executor только после согласия и actual host permission. В исходный Git бинарные файлы не попадают. Строгий UTF-8/no-private-data source package guard сохраняется; binary archive mode используется только после separate runtime asset checks.
+
+## Если на устройстве нет Python
+
+Сначала штатно обнаружить готовую среду приложения; использовать её только для разрешённого шага и после проверки нужных возможностей. Не менять её, не копировать developer paths и не полагаться на системный python из PATH.
+
+Если Python отсутствует, агент нативными инструментами скачивает выбранный exact **core** asset, сверяет источник и SHA256 и использует scripts/bootstrap_runtime.sh (macOS) или bootstrap_runtime.ps1 (Windows) только после согласия. Сотрудник эти команды не вводит. Native helper требует уже существующую выбранную внешнюю parent folder, создаёт новый private каталог, сверяет архив и отказывает links/traversal/чужим слоям; не запускает Python и не меняет PATH/global config. Core содержит собственный runtime-receipt.json; его SHA256 дан отдельно в asset record. После разрешения исполнения агент разрешает запуск только известных executable paths, выполняет runtime.verify/probe подготовленным core Python и сохраняет original tool readback. Shell/PowerShell security policy и macOS protection не отключать. При запрете — сохранить этап и объяснить одно действие либо необходимость ИТ-службы. Windows helper/ACL должен пройти настоящую пользовательскую проверку.
+
+Полный runtime.stage создаёт новый inert каталог из core и только нужных layers. Для рабочего запуска runtime.execution_plan даёт argv с exact interpreter/private site и проверенным package script; global/user site не используется. Native permissions, UI queue, account/source/budget scope остаются прежними. Runtime receipt hash хранится отдельно в private selection; сверять его перед проверкой всех files. Сам receipt не является доказательством своего доверенного происхождения.
+
+## Браузер по необходимости
+
+Сначала проверить выбранный Chrome на конкретном скилле, с отдельным profile, без доступа к повседневному профилю пользователя. Shared browser_zoom принимает REPORT_KIT_BROWSER_CHANNEL=chrome/chromium; unset сохраняет прежнее поведение. Stories/messages имеют свой --channel. Не менять scale/light-theme/video/queue rules. Одно наличие Chrome не означает успешную проверку capture.
+
+Если требуемого Playwright Chromium нет, спросить: **«Для этой задачи нужен отдельный браузер. Разрешите подготовить его? Ваш обычный Chrome и его настройки не изменятся»**. После отдельного согласия агент запускает штатный playwright install chromium из проверенной capture-среды, с private browser cache, проверяет версию/запуск и снимок. До согласия browser_plan возвращает ASK_BROWSER_CONSENT и не запускает установку. Chrome update/enterprise restriction не обходить переключением браузера: при policy_denied сначала ИТ-служба. Браузеры сейчас в подготовку не установлены; native install остаётся отдельным этапом. Системные браузеры не обновлять через playwright install chrome.
+
+## Продолжение настройки
+
+onboarding.next_step вызывается агентом при первом обычном обращении к активному Report Kit, без специального пользовательского запроса «настрой». Начни с приветствия и проверки инструментов. Сохраняй этапы discovery → workspace → runtime → packages → support → ready в private setup-progress.json через onboarding.record. Записывать только настоящие наблюдения с original locator, PASS/FAIL/UNKNOWN и выбранные несекретные ответы. Скрипт проверяет структуру, не истинность инструмента/согласия. Только координатор пишет setup. При незавершённой работе продолжать первый непройденный этап; изменившийся runtime/tool/permission инвалидирует соответствующий этап. Services подключать через отдельные observations только когда понадобились, не заранее. Passwords/keys в ответы не включать.
+
+Запись атомарна: сбой сохраняет прежнюю запись; ревизия и exclusive lock препятствуют перезаписи конкурентом. При аварии native executor проверяет recorded lock PID и снимает lock только после доказанного завершения владельца и exact lock hash через recover_lock; неизвестного/живого владельца не снимать. При повреждённом progress сохранить его для восстановления, не сбрасывать ответы молча.
+
+onboardingSkill уже указывает на packaged setup. Реальный native setup action запускает мастер; доказанного приветствия сразу при открытии ссылки или до любого действия пользователя нет. Не обещать такого автозапуска и не добавлять обходной hook. На выбранной версии Codex проверить fresh/existing conversation отдельно после разрешения установки.
+
+## Обновление и возврат
+
+Использовать общий coordinator/preflight всех зарегистрированных клиентов. runtime-selection.json хранит runtime_id/root/receipt_sha256. Новую среду готовить отдельно, runtime-candidate.json — proposal, не активация; client_preflight проверяет её по candidate recipe и полному required_skills всех клиентов. Active runs по прежнему блокируют preflight. Ни старые настройки, ни клиентские файлы не переписываются этим планом.
+
+Native rollout сохраняет exact previous package pair **и previous runtime selection**, активирует между отчётами, проверяет исходную задачу и при неудаче возвращает их вместе. Не откатывать данные клиента. Не удалять старую среду до успешного replay и пока на её interpreter ссылается запасной collector. Для fallback при setup передать prepare_fallback(..., python=<verified selected interpreter>); запуск двойным нажатием использует его, не требует manual Python install. Новые host rights/permissions не покрываются согласием на совместимые обновления. Настоящая установка/update/rollback ещё не подтверждены.
+
+LiveDune Node layer не равен настроенному backend: по существующему exact dependencies/livedune/recipe.json агент сам подготавливает frozen backend в private каталоге после разрешения. У сотрудника не просить npm/pnpm/команды. Ключ и API checks — после готовности среды. Это по-прежнему отдельная native capability check, не вывод из наличия Node.
+
+## Выпуск
+
+prepare_release --runtime-assets добавляет проверенные готовые файлы в тот же local draft и SHA256SUMS, без remote/publish/install. Поставляемый draft-runtime-delivery связан с exact pair; published=false. Перед публикацией проверить все license/NOTICE files CPython, wheels, Node/npm/driver/native libraries; собственная MIT этого не заменяет. При новой OS/CPU/runtime пересобрать exact inventory, проверить native libraries, подпись/доверие и восстановление. Windows проверяет сотрудник после отдельного разрешения выпуска. Independent QA/security/license decisions не подменять self-tests.

@@ -97,3 +97,7 @@ Compatible действует только для рабочего канала 
 При restore_absence исполнитель отключает только собственный новый пакет с подтверждёнными loaded identity/namespace и соответствующим разрешением. Никогда не удалять навык только по совпадению имени: foreign bytes/namespace остаются нетронутыми.
 
 Диагностика обновлений ведётся по [support](support.md). CLI сохраняет только безопасную структурную отметку; она не доказывает native install/rollback. После действительных действий агент пишет точный result/code. При обновлении не чистить API/recovery/maintenance журналы; общий support-v1 остаётся вне пары. Автономный fallback collector с schema1 сохранять до проверки нового: при поддержке того же schema он остаётся пригоден; замена локальной вспомогательной копии — только по известному inventory без чужих файлов.
+
+## Среда вместе с пакетами
+
+Проверять runtime по [единому порядку](runtime.md): тот же published agent release и native source observation, separate runtime assets. Общий preflight включает client_preflight для всех клиентов; candidate selection не меняет current. Native activation/rollback сохраняют previous pair и previous runtime, не данные клиента. Нельзя удалять runtime, нужный fallback. Новые native scripts/права требуют separate permission.
