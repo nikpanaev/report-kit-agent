@@ -10,6 +10,25 @@ from check_workspace import check
 
 
 class Boundaries(unittest.TestCase):
+    def test_distribution_icons_are_packaged_square_svg(self):
+        from test_prepare_release import Releases
+        fixture = Releases('runTest'); fixture.setUp()
+        self.addCleanup(fixture.doCleanups)
+        root = fixture.skills; path = root / 'plugin.json'
+        original = json.loads(path.read_text(encoding='utf-8'))
+        for name in ['', './assets/missing.svg', '../other.svg', './assets/../VERSION']:
+            manifest = json.loads(json.dumps(original)); manifest['extensions']['com.openai']['interface']['logo'] = name
+            path.write_text(json.dumps(manifest), encoding='utf-8')
+            with self.subTest(name=name), self.assertRaisesRegex(ValueError, 'plugin_icon_'): package_check(root)
+        path.write_text(json.dumps(original), encoding='utf-8')
+        icon = root / 'assets/icon.svg'; icon.write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 49"/>', encoding='utf-8')
+        with self.assertRaisesRegex(ValueError, 'plugin_icon_dimensions'): package_check(root)
+        icon.write_text('<svg broken', encoding='utf-8')
+        with self.assertRaisesRegex(ValueError, 'plugin_icon_xml'): package_check(root)
+        for value in [None, [], 'invalid']:
+            manifest = dict(original, extensions=value); path.write_text(json.dumps(manifest), encoding='utf-8')
+            with self.subTest(value=value), self.assertRaisesRegex(ValueError, 'plugin_extensions'): package_check(root)
+
     def test_known_secret_shapes_and_email(self):
         samples = ["/" + "Users/operator/private/file", "-----BEGIN " + "PRIVATE KEY-----",
                    "sk-" + "a" * 30, "person@" + "company.invalid",
@@ -49,7 +68,8 @@ class Boundaries(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
             (root / "VERSION").write_text("0.1.0-dev.0\n", encoding="utf-8")
-            (root / "plugin.json").write_text(json.dumps({"name": "fixture", "version": "0.1.0-dev.0"}), encoding="utf-8")
+            (root / "plugin.json").write_text(json.dumps({"name": "fixture", "version": "0.1.0-dev.0", "extensions": {"com.openai": {"interface": {"logo": "./assets/icon.svg", "composerIcon": "./assets/icon.svg"}}}}), encoding="utf-8")
+            (root / "assets").mkdir(); (root / "assets/icon.svg").write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"/>', encoding="utf-8")
             skill = root / "skills/fixture"
             skill.mkdir(parents=True)
             (skill / "SKILL.md").write_text('---\nname: fixture\ndescription: "Synthetic test only"\n---\n', encoding="utf-8")

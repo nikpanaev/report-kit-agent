@@ -37,7 +37,7 @@ class Releases(unittest.TestCase):
         self.git(root, "init", "-b", "main")
         self.git(root, "config", "user.name", "Synthetic maintainer")
         self.git(root, "config", "user.email", "maintainer@example.invalid")
-        files = {"VERSION": "0.1.0-dev.0\n", "plugin.json": json.dumps({"name":name,"version":"0.1.0-dev.0"}),
+        files = {"assets/icon.svg": '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"/>', "VERSION": "0.1.0-dev.0\n", "plugin.json": json.dumps({"name":name,"version":"0.1.0-dev.0", "extensions": {"com.openai": {"interface": {"logo":"./assets/icon.svg","composerIcon":"./assets/icon.svg"}}}}),
             ".agents/plugins/marketplace.json": json.dumps({"plugins":[{"name":name,"source":{"source":"local","path":"./"}}]}),
             "skills/livedune/SKILL.md": '---\nname: livedune\ndescription: "Synthetic fixture only"\n---\n',
             ".gitignore": ".token-optimizer/\n", "CHANGELOG.md": "# Synthetic changes\nTested fixture only\n"}

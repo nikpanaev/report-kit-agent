@@ -107,14 +107,21 @@ def append_runtime_assets(agent, assets_root, output, record):
     """Same local release; large reviewed artifacts remain outside source Git history."""
     from maintenance import read_json, require
     from updates import identity_file
+    from runtime import manifest_recipe_match
     runtime = read_json(assets_root / 'runtime-build.json')
     recipe = read_json(agent / 'assets/runtime-recipe.json')
     require(runtime['runtime_id'] == recipe['runtime_id'] and runtime['installation_performed'] is False, 'runtime_build_identity')
     for platform in runtime['platforms'].values():
-        for asset in platform['assets'].values():
+        for layer, asset in platform['assets'].items():
             name = asset['filename']; require(Path(name).name == name, 'runtime_asset_name')
             src = assets_root / name; dest = output / name
             require(not src.is_symlink() and src.stat().st_size == asset['size'] and identity_file(src) == asset['sha256'], 'runtime_asset_changed')
+            with tarfile.open(src, 'r:*') as archive:
+                members = [m for m in archive.getmembers() if m.name == 'manifests/' + layer + '.json']
+                require(len(members) == 1 and members[0].isfile() and members[0].size <= 8 * 1024 * 1024, 'runtime_manifest_missing')
+                manifest = json.loads(archive.extractfile(members[0]).read())
+                require(manifest['layer'] == layer and manifest['platform'] == platform['platform'], 'runtime_manifest_identity')
+                manifest_recipe_match(manifest, recipe)
             with src.open('rb') as source, dest.open('xb') as target: shutil.copyfileobj(source, target)
             dest.chmod(0o600)
             require(identity_file(dest) == asset['sha256'], 'runtime_copy_changed')

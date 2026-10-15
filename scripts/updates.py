@@ -104,10 +104,10 @@ def actual_pair(agent, skills):
         manifest = read_json(root / "plugin.json")
         require(manifest["name"] == name and manifest["version"] == pair[name]["version"], "package_manifest")
     dependency = agent / "dependencies.json"
-    if dependency.exists():
-        needed = read_json(dependency)["report-kit-skills"]
-        require(needed["version"] == pair["report-kit-skills"]["version"]
-                and needed["package_sha256"] == pair["report-kit-skills"]["package_sha256"], "dependency_identity")
+    require(dependency.is_file(), "dependency_missing")
+    needed = read_json(dependency)["report-kit-skills"]
+    require(needed["version"] == pair["report-kit-skills"]["version"]
+            and needed["package_sha256"] == pair["report-kit-skills"]["package_sha256"], "dependency_identity")
     return pair
 
 
@@ -126,6 +126,14 @@ def contracts(root, name, package_version):
 def execution_surface(root):
     manifest = read_json(root / 'plugin.json')
     controls = {k: v for k, v in manifest.items() if k not in {'version', 'description', 'interface', 'license'}}
+    require(isinstance(controls.get('extensions', {}), dict), 'execution_manifest')
+    extensions = dict(controls.get('extensions', {}))
+    require(isinstance(extensions.get('com.openai', {}), dict), 'execution_manifest')
+    openai = {k: v for k, v in extensions.get('com.openai', {}).items() if k != 'interface'}
+    if openai: extensions['com.openai'] = openai
+    else: extensions.pop('com.openai', None)
+    if extensions: controls['extensions'] = extensions
+    else: controls.pop('extensions', None)
     control_files = {name: sha for name, sha in files(root).items()
                      if (Path(name).name in {'.mcp.json','mcp.json','.app.json','marketplace.json','plugin.json'}
                          and name != 'plugin.json') or 'hooks' in Path(name).parts}

@@ -30,9 +30,10 @@ class PortableRuntime(unittest.TestCase):
         self.addCleanup(receipt)
         self.workspace = self.root / 'workspace'; self.workspace.mkdir()
         self.data = {'python/bin/python3': b'not executable; synthetic', 'NOTICE': b'Synthetic notice'}
+        self.recipe = {'runtime_id': 'fixture-v1', 'python_version': '3.12.15', 'node_version': '24.21.0', 'packages': {}}
         self.manifest = {'runtime_id': 'fixture-v1', 'platform': 'macos-arm64', 'layer': 'core',
             'files': {n: hashlib.sha256(v).hexdigest() for n, v in self.data.items()},
-            'executables': ['python/bin/python3'], 'versions': {'python': '3.12.15'}}
+            'executables': ['python/bin/python3'], 'versions': {'python': '3.12.15', 'node': '24.21.0'}}
         self.data['manifests/core.json'] = json.dumps(self.manifest).encode()
         self.archive = self.root / 'core.tar'; self.archive.write_bytes(prepare_runtime.tar_bytes(self.data))
         self.delivery = {'schema_version': 1, 'runtime_id': 'fixture-v1', 'platform': 'macos-arm64',
@@ -86,7 +87,7 @@ class PortableRuntime(unittest.TestCase):
         self.assertEqual(runtime.needed_layers(['google']), ['core'])
         self.assertEqual(runtime.needed_layers(['vk-post-screenshot', 'telegram-post-screenshot', 'livedune']), ['capture', 'core', 'images', 'livedune-node'])
         r = self.stage(); candidate = self.root / 'candidate'; (candidate / 'assets').mkdir(parents=True)
-        (candidate / 'assets/runtime-recipe.json').write_text(json.dumps({'runtime_id': 'fixture-v1'}))
+        (candidate / 'assets/runtime-recipe.json').write_text(json.dumps(self.recipe))
         (self.workspace / 'runtime-selection.json').write_text(json.dumps({'runtime_id': 'fixture-v1', 'root': str(self.root / 'stage'), 'receipt_sha256': r['receipt_sha256']}))
         with patch.object(runtime, 'host_requirements', return_value='macos-arm64'):
             runtime.client_preflight(self.workspace, candidate, {})
@@ -98,6 +99,29 @@ class PortableRuntime(unittest.TestCase):
         self.assertEqual(runtime.browser_plan('chromium', 'missing', install_consent=True)['command_for_agent_only'], ['-m', 'playwright', 'install', 'chromium'])
         self.assertEqual(runtime.browser_plan('chrome', 'working')['action'], 'USE_VERIFIED_BROWSER')
         self.assertEqual(runtime.browser_plan('chrome', 'policy_denied', install_consent=True)['action'], 'CONTACT_IT')
+
+    def test_recipe_drift_is_blocked_before_probe_or_execution(self):
+        staged = self.stage(); output = self.root / 'stage'
+        candidate = self.root / 'candidate'; (candidate / 'assets').mkdir(parents=True)
+        path = candidate / 'assets/runtime-recipe.json'
+        (self.workspace / 'runtime-selection.json').write_text(json.dumps({
+            'runtime_id': 'fixture-v1', 'root': str(output), 'receipt_sha256': staged['receipt_sha256']}), encoding='utf-8')
+        for key, value in [('python_version', '3.99.99'), ('node_version', '99.0.0'), ('packages', {'tzdata': '9999.1'})]:
+            recipe = dict(self.recipe, **{key: value}); path.write_text(json.dumps(recipe), encoding='utf-8')
+            with self.subTest(key=key), patch.object(runtime, 'ROOT', candidate), patch.object(runtime, 'host_requirements', return_value='macos-arm64'):
+                with self.assertRaisesRegex(ValueError, 'runtime_recipe_versions'): runtime.client_preflight(self.workspace, candidate, {})
+                with patch.object(runtime.subprocess, 'run') as run:
+                    with self.assertRaisesRegex(ValueError, 'runtime_recipe_versions'): runtime.probe(output, staged['receipt_sha256'], execution_authorized=True)
+                    with self.assertRaisesRegex(ValueError, 'runtime_recipe_versions'): runtime.execution_plan(output, staged['receipt_sha256'], candidate, '0'*64, path, [])
+                    run.assert_not_called()
+                self.assertEqual((output / 'python/bin/python3').stat().st_mode & 0o111, 0)
+        runtime.recipe_match(output, staged, self.recipe)
+
+    def test_recipe_checks_every_staged_layer(self):
+        staged = self.stage(); output = self.root / 'stage'
+        other = output / 'manifests/capture.json'; other.write_text(json.dumps({'runtime_id': 'fixture-v1', 'versions': {'python': 'old'}}), encoding='utf-8')
+        with self.assertRaisesRegex(ValueError, 'runtime_recipe_versions'):
+            runtime.recipe_match(output, dict(staged, layers=['core', 'capture']), self.recipe)
 
     def test_old_os_is_not_accepted_by_cpu_name_alone(self):
         with patch.object(runtime, 'host_platform', return_value='macos-arm64'), patch.object(runtime.platform, 'mac_ver', return_value=('13.7', (), '')):
@@ -155,7 +179,7 @@ class PortableRuntime(unittest.TestCase):
 
     def test_runtime_proposal_does_not_replace_current_selection(self):
         r = self.stage(); candidate = self.root / 'candidate'; (candidate / 'assets').mkdir(parents=True)
-        (candidate / 'assets/runtime-recipe.json').write_text(json.dumps({'runtime_id': 'fixture-v1'}))
+        (candidate / 'assets/runtime-recipe.json').write_text(json.dumps(self.recipe))
         current = self.workspace / 'runtime-selection.json'; current.write_text(json.dumps({'runtime_id': 'old', 'root': 'unchanged', 'receipt_sha256': '0' * 64}))
         before = current.read_bytes()
         (self.workspace / 'runtime-candidate.json').write_text(json.dumps({'runtime_id': 'fixture-v1', 'root': str(self.root / 'stage'), 'receipt_sha256': r['receipt_sha256']}))
@@ -183,7 +207,7 @@ class PortableRuntime(unittest.TestCase):
     def test_release_includes_runtime_assets_and_keeps_publication_false(self):
         from prepare_release import append_runtime_assets
         agent = self.root / 'agent'; (agent / 'assets').mkdir(parents=True)
-        (agent / 'assets/runtime-recipe.json').write_text(json.dumps({'runtime_id': 'fixture-v1'}))
+        (agent / 'assets/runtime-recipe.json').write_text(json.dumps(self.recipe))
         assets = self.root / 'assets'; assets.mkdir(); (assets / 'core.tar').write_bytes(self.archive.read_bytes())
         (assets / 'runtime-build.json').write_text(json.dumps({'runtime_id': 'fixture-v1', 'installation_performed': False,
             'platforms': {'macos-arm64': self.delivery}, 'license_review': 'PENDING'}))
@@ -193,6 +217,11 @@ class PortableRuntime(unittest.TestCase):
         self.assertFalse(json.loads((output / 'draft-runtime-delivery.json').read_text())['published'])
         self.assertEqual((output / 'core.tar').read_bytes(), self.archive.read_bytes())
         self.assertIn('core.tar', (output / 'SHA256SUMS').read_text())
+        (agent / 'assets/runtime-recipe.json').write_text(json.dumps(dict(self.recipe, python_version='3.99.99')), encoding='utf-8')
+        wrong = self.root / 'wrong-release'; wrong.mkdir()
+        with self.assertRaisesRegex(ValueError, 'runtime_recipe_versions'):
+            append_runtime_assets(agent, assets, wrong, {'release': record['release'], 'artifacts': {}})
+        self.assertFalse((wrong / 'core.tar').exists())
 
     def test_killed_setup_writer_retains_previous_answers_and_can_resume(self):
         onboarding.record(self.workspace, 'discovery', 'PASS', 'synthetic', expected_revision=0, answers={'update_mode': 'ask_each'})

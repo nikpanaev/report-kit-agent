@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import re
 import subprocess
+import xml.etree.ElementTree as ET
 
 IGNORED = {".git", ".token-optimizer", "__pycache__", ".pytest_cache", ".DS_Store"}
 PRIVATE = {".auth", ".env", ".venv", "node_modules", "local", "work", "private"}
@@ -66,6 +67,24 @@ def check(root, skills_root=None, *, history=False):
     manifest = json.loads((root / "plugin.json").read_text(encoding="utf-8"))
     _require(manifest["version"] == (root / "VERSION").read_text(encoding="utf-8").strip(), "version_drift")
     _require(re.fullmatch(r"[a-z0-9-]+", manifest["name"]), "plugin_name")
+    extensions = manifest.get('extensions', {})
+    _require(isinstance(extensions, dict) and isinstance(extensions.get('com.openai', {}), dict), 'plugin_extensions')
+    interface = extensions.get('com.openai', {}).get('interface', manifest.get('interface', {}))
+    _require(isinstance(interface, dict), 'plugin_interface')
+    for key in ['logo', 'composerIcon']:
+        name = interface.get(key, '')
+        _require(isinstance(name, str) and name.startswith('./assets/'), 'plugin_icon_path')
+        icon = (root / name).resolve()
+        _require(icon.is_relative_to(root / 'assets') and icon.is_file() and icon.suffix == '.svg'
+                 and icon.stat().st_size <= 5 * 1024 * 1024, 'plugin_icon_file')
+        raw = icon.read_text(encoding='utf-8')
+        _require('<!DOCTYPE' not in raw.upper() and '<!ENTITY' not in raw.upper(), 'plugin_icon_xml')
+        try:
+            svg = ET.fromstring(raw)
+            box = [float(v) for v in svg.attrib.get('viewBox', '').split()]
+        except (ET.ParseError, ValueError): raise ValueError('plugin_icon_xml') from None
+        _require(svg.tag == '{http://www.w3.org/2000/svg}svg' and len(box) == 4
+                 and box[2] == box[3] and 48 <= box[2] <= 4096, 'plugin_icon_dimensions')
     count = 0
     for path in sorted((root / "skills").glob("*/SKILL.md")):
         content = path.read_text(encoding="utf-8")

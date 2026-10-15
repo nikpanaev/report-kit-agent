@@ -1,11 +1,19 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "report-kit-agent",
-  "version": "0.1.0-dev.26",
+  "version": "0.1.0-dev.27",
   "description": "Подготовка клиентских отчётов с пошаговой настройкой",
   "extensions": {
     "com.openai": {
-      "onboardingSkill": "./skills/report-kit-setup/SKILL.md"
+      "onboardingSkill": "./skills/report-kit-setup/SKILL.md",
+      "interface": {
+        "displayName": "Report Kit",
+        "shortDescription": "Подготовка клиентских отчётов с пошаговой настройкой",
+        "developerName": "Report Kit",
+        "category": "Productivity",
+        "logo": "./assets/report-kit.svg",
+        "composerIcon": "./assets/report-kit.svg"
+      }
     }
   },
   "license": "MIT"

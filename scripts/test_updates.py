@@ -57,7 +57,8 @@ class Updates(unittest.TestCase):
     def package(self, folder, name, version):
         root = self.base / folder; root.mkdir()
         (root / "VERSION").write_text(version + "\n", encoding="utf-8")
-        (root / "plugin.json").write_text(json.dumps({"name": name, "version": version}), encoding="utf-8")
+        (root / 'assets').mkdir(); (root / 'assets/icon.svg').write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"/>', encoding='utf-8')
+        (root / "plugin.json").write_text(json.dumps({"name": name, "version": version, 'extensions': {'com.openai': {'interface': {'logo': './assets/icon.svg', 'composerIcon': './assets/icon.svg'}}}}), encoding="utf-8")
         contracts = {"schema_version": 1, "package": name, "package_version": version,
             "interfaces": {"workspace": 2, "maintenance": 1, "template_registry": 3, "profile": 1},
             "host_capabilities": ["native-plugin-update"], "permissions": []}
@@ -69,12 +70,18 @@ class Updates(unittest.TestCase):
                 "shared": ["skills/_shared/ui_queue.py"]}
             (root / "capabilities.json").write_text(json.dumps(catalog), encoding="utf-8")
         (root / "contracts.json").write_text(json.dumps(contracts), encoding="utf-8")
-        names = sorted(p.name for p in root.iterdir()); names.append("PUBLIC-FILES.json")
+        names = sorted(p.relative_to(root).as_posix() for p in root.rglob("*") if p.is_file()); names.append("PUBLIC-FILES.json")
         (root / "PUBLIC-FILES.json").write_text(json.dumps({"schema_version": 1, "files": names}), encoding="utf-8")
         return root
 
     @staticmethod
     def pair(agent, skills):
+        # Build a valid fixture pair; negative dependency cases change it explicitly afterwards.
+        (agent / 'dependencies.json').write_text(json.dumps({'report-kit-skills': {
+            'version': (skills / 'VERSION').read_text(encoding='utf-8').strip(), 'package_sha256': identity(skills)}}), encoding='utf-8')
+        names = json.loads((agent / 'PUBLIC-FILES.json').read_text(encoding='utf-8'))
+        names['files'] = sorted(set(names['files']) | {'dependencies.json'})
+        (agent / 'PUBLIC-FILES.json').write_text(json.dumps(names), encoding='utf-8')
         return {name: {"version": (root / "VERSION").read_text(encoding="utf-8").strip(), "package_sha256": identity(root)}
                 for name, root in [("report-kit-agent", agent), ("report-kit-skills", skills)]}
 
@@ -83,6 +90,30 @@ class Updates(unittest.TestCase):
         return preflight(self.workspace, self.current_agent, self.current_skills,
                          self.candidate_agent, self.candidate_skills, self.release, self.compat,
                          "2026-10-14T10:05:00Z")
+
+    def test_missing_or_wrong_exact_dependency_blocks_direct_preflight(self):
+        dep = self.candidate_agent / 'dependencies.json'
+        dep.unlink()
+        public = self.candidate_agent / 'PUBLIC-FILES.json'
+        names = json.loads(public.read_text(encoding='utf-8')); names['files'].remove('dependencies.json')
+        public.write_text(json.dumps(names), encoding='utf-8')
+        with self.assertRaisesRegex(ContractError, 'dependency_missing'): self.preflight()
+        self.pair(self.candidate_agent, self.candidate_skills)
+        dep.write_text(json.dumps({'report-kit-skills': {'version': '0.1.0-dev.2', 'package_sha256': '0'*64}}), encoding='utf-8')
+        with self.assertRaisesRegex(ContractError, 'dependency_identity'): self.preflight()
+
+    def test_portable_presentation_does_not_hide_execution_controls(self):
+        from updates import execution_surface
+        path = self.candidate_agent / 'plugin.json'; manifest = json.loads(path.read_text(encoding='utf-8'))
+        before = execution_surface(self.candidate_agent)
+        manifest['extensions'] = {'com.openai': {'interface': {'displayName': 'Renamed', 'logo': './assets/icon.svg'}}}
+        path.write_text(json.dumps(manifest), encoding='utf-8')
+        self.assertEqual(before, execution_surface(self.candidate_agent))
+        for key in ['onboardingSkill', 'hooks', 'unknown-control']:
+            manifest['extensions']['com.openai'][key] = 'changed'
+            path.write_text(json.dumps(manifest), encoding='utf-8')
+            self.assertNotEqual(before, execution_surface(self.candidate_agent))
+            del manifest['extensions']['com.openai'][key]
 
     def test_missing_skill_permission_declaration_blocks(self):
         path = self.candidate_skills / "contracts.json"

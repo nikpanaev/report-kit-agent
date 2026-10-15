@@ -130,12 +130,26 @@ def verify(root, required=(), expected_receipt_sha256=None):
     return receipt
 
 
+def manifest_recipe_match(manifest, recipe):
+    expected = {'python': recipe['python_version'], 'node': recipe['node_version'], **recipe['packages']}
+    require(manifest['runtime_id'] == recipe['runtime_id'], 'runtime_recipe_identity')
+    require(manifest['versions'] == expected, 'runtime_recipe_versions')
+
+
+def recipe_match(root, receipt, recipe):
+    require(receipt['runtime_id'] == recipe['runtime_id'], 'runtime_recipe_identity')
+    for layer in receipt['layers']:
+        manifest = inventory_json(Path(root) / 'manifests' / (layer + '.json'))
+        manifest_recipe_match(manifest, recipe)
+
+
 def probe(root, expected_receipt_sha256, *, execution_authorized=False):
     require(execution_authorized is True, 'runtime_execution_permission')
     operation = str(uuid.uuid4()); support_event('setup', 'validation', 'started', operation=operation)
     require(isinstance(expected_receipt_sha256, str) and re.fullmatch('[0-9a-f]{64}', expected_receipt_sha256), 'runtime_trusted_receipt')
     root = Path(root).resolve(); receipt = verify(root, expected_receipt_sha256=expected_receipt_sha256)
     require(receipt['platform'] == host_requirements(), 'runtime_wrong_host')
+    recipe_match(root, receipt, read_json(ROOT / 'assets/runtime-recipe.json'))
     python = root / ('python/python.exe' if receipt['platform'] == 'windows-x64' else 'python/bin/python3')
     for name in receipt['executables']: (root / name).chmod(0o700)
     modules = sorted({'tzdata', *{m for layer in receipt['layers'] for m in IMPORTS.get(layer, [])}})
@@ -163,6 +177,7 @@ def execution_plan(root, receipt_hash, source_root, source_identity, script, arg
     from check_package import identity
     root = Path(root).resolve(); receipt = verify(root, expected_receipt_sha256=receipt_hash)
     require(receipt['platform'] == host_requirements(), 'runtime_wrong_host')
+    recipe_match(root, receipt, read_json(ROOT / 'assets/runtime-recipe.json'))
     source_root = Path(source_root).resolve(); script = Path(script).resolve()
     require(identity(source_root) == source_identity and script.is_relative_to(source_root)
             and script.is_file() and script.suffix == '.py', 'runtime_script_identity')
@@ -196,10 +211,12 @@ def client_preflight(workspace, candidate_agent, clients):
     proposed = Path(workspace) / 'runtime-candidate.json'
     chosen = read_json(proposed if proposed.exists() else selection)
     fields(chosen, {'runtime_id', 'root', 'receipt_sha256'}, 'runtime_selection')
-    require(chosen['runtime_id'] == read_json(recipe)['runtime_id'], 'runtime_candidate_incompatible')
+    recipe = read_json(recipe)
+    require(chosen['runtime_id'] == recipe['runtime_id'], 'runtime_candidate_incompatible')
     required = set(needed_layers([skill for client in clients.values() for skill in client['required_skills']]))
     receipt = verify(chosen['root'], required, chosen['receipt_sha256'])
     require(receipt['runtime_id'] == chosen['runtime_id'] and receipt['platform'] == host_requirements(), 'runtime_selection_identity')
+    recipe_match(chosen['root'], receipt, recipe)
     return {'candidate': chosen, 'previous': read_json(selection) if selection.exists() else None,
             'selection_changed': False, 'limits': 'Native activation must preserve previous selection until package and runtime checks pass; rollback excludes client data.'}
 

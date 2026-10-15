@@ -88,6 +88,27 @@ class SupportBundle(unittest.TestCase):
         self.assertIn('Служебные сведения не сохранились',data['ПРОЧИТАЙТЕ.txt'])
         self.assertIn('не гарантирует полноту',data['ПРОЧИТАЙТЕ.txt'])
 
+    def test_returned_bundle_survives_clock_correction_and_keeps_limit(self):
+        future = (datetime.now(timezone.utc) + timedelta(days=30)).timestamp()
+        for _ in range(support.POLICY['bundle_limit']):
+            path = support.bundle(); os.utime(path, (future, future))
+        path = support.bundle()
+        self.contents(path)
+        self.assertEqual(len(support.owned_files(support.store(), 'bundles')), support.POLICY['bundle_limit'])
+
+    @unittest.skipIf(sys.platform == 'win32', 'Native macOS/POSIX launcher; Windows is a separate employee check')
+    def test_fallback_ignores_unrelated_python_environment(self):
+        destination = support.prepare_fallback(self.base / 'fallback', self.state, python=Path(sys.executable))
+        stub = self.base / 'bin'; stub.mkdir()
+        (stub / 'open').write_text('#!/bin/sh\nexit 0\n', encoding='utf-8'); (stub / 'open').chmod(0o700)
+        environment = os.environ.copy(); environment.update(PYTHONHOME=str(self.base / 'missing-home'),
+            PYTHONPATH=str(self.base / 'unrelated'), PATH=str(stub)+os.pathsep+environment['PATH'])
+        run = subprocess.run(['/bin/sh', str(destination / 'Подготовить файл поддержки.command')],
+            env=environment, capture_output=True, text=True)
+        self.assertEqual(run.returncode, 0, 'Isolated collector must start without the unrelated Python configuration')
+        archives = support.owned_files(support.store(), 'bundles'); self.assertEqual(len(archives), 1)
+        self.contents(archives[0])
+
     def test_retention_count_age_bytes_and_bundles_only_own_files(self):
         root=support.store();now=datetime.now(timezone.utc)
         raw=root/'events/requests.jsonl';raw.write_bytes(b'private API accounting must stay')

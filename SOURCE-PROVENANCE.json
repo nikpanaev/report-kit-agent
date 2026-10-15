@@ -28,9 +28,10 @@
       "sourceRelative": "skills/_shared/support_events.py",
       "sourceSHA256": "6ef82d0dd6785f6bfbf37c24a646a8f840ac025c1416425b46a5ff114a378fc3",
       "destination": "scripts/support_bundle.py",
-      "outputSHA256": "6ef82d0dd6785f6bfbf37c24a646a8f840ac025c1416425b46a5ff114a378fc3",
+      "outputSHA256": "b2026f1c9289b37fcc14ebb7469597256d9e465a475cfd5791050df5c577e33a",
       "changes": [
-        "Exact owned-source mirror for standalone offline fallback; no raw/runtime/client data"
+        "Exact owned-source mirror for standalone offline fallback; no raw/runtime/client data",
+        "Full portable audit: bounded dependency/runtime checks, support recovery and exact LiveDune response contract; donor and installed copies unchanged"
       ]
     },
     {
