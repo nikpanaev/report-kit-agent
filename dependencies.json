@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "report-kit-skills": {
-    "version": "0.1.0-dev.10",
-    "package_sha256": "f16dd8296b7e423e09d2f50f091fdf99d2008606b733cf6b9b5a026046fef50d",
+    "version": "0.1.0-dev.11",
+    "package_sha256": "d86cdb4de09a55f4aa3f732849f66257e806b2a8310ca5b3b1133a099c23a983",
     "source": {
       "kind": "local-sibling",
       "path": "../report-kit-skills",

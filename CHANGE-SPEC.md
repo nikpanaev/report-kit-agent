@@ -84,3 +84,10 @@ Owner novice requirement applies to visible commands too. Change display_name/sh
 ## Bounded source diagnostics adoption — dev.9
 
 Exact reviewed source-skills dev.7 dependency and maintainer guidance only. No workflow execution/API/permission/interface or model service change; source diagnostic observation is not original failure closure. Preserve source/employee/independent/privacy/lifecycle limitations.
+
+
+## Separate bounded Google read — 2026-10-15
+
+Owner explicitly authorized reading the structure of an already accepted synthetic QA spreadsheet and at most20 test cells on the selected work connection, without writing or creating a file. Six actual read-only calls covered profile, before/after file metadata, full/chart-only structural metadata and one20-cell read. This narrow exception does not authorize further cell collection, client sources, copies, writes, new authentication, installation or publication. The observed connector0.1.20 lacks required native metadata; full template transfer remains incomplete. Earlier local-only scope statements describe the default and are not a new request to repeat this completed probe.
+
+Owner also clarified that the old VK failure belongs to an earlier state and the updated skill works. Retain historical records, remove the fixed historical issue from current release reminders, and reopen only on new reproduction against an identified current version. Source/capture code and protected tests remain unchanged; all other release controls remain.

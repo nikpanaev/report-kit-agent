@@ -1,0 +1,37 @@
+{
+  "observation_date": "2026-10-15",
+  "status": "PASS_LIMITED",
+  "export_count": 42,
+  "canonical_matches_recorded_origin": 42,
+  "installed_matches_recorded_origin": 42,
+  "portable_matches_recorded_adapted_output": 42,
+  "capabilities": 12,
+  "skill_entrypoints_canonical_installed_match": 12,
+  "existing_yaml_canonical_installed_match": 8,
+  "entrypoints_missing_in_both_sources": 4,
+  "owner_resolution": {
+    "historical_vk_failure": "Historical only; owner confirms updated skill works. Reopen only on new reproduction against an identified current version.",
+    "old_records_preserved": true,
+    "historical_test_patch_applied": false
+  },
+  "limits": "Read-only file identity comparison, not new live capture, employee support, complete secret detection, independent review or release approval.",
+  "packaging_boundary_checks": {
+    "test_count": 11,
+    "exit_code": 0,
+    "test_methods_changed": false,
+    "stdout_sha256": "98fe9603c3163c9c4a21f520ef795eb3471099eb460d6ace42dca07da32ab4fe",
+    "stderr_sha256": "f9a50b4b6cb70147f9fbbd9674ff74773665641e800de24e3ec44196749bb91d",
+    "scope": "Local synthetic archives only; no install or publication."
+  },
+  "observed_connector": {
+    "plugin_version": "0.1.20",
+    "read_only_calls": 6,
+    "cell_read_calls": 1,
+    "cells_requested_and_returned": 20,
+    "tabs": 4,
+    "native_File_version_available": false,
+    "full_chart_spec_available": false,
+    "full_template_route_ready": false,
+    "scope": "Owner-authorized synthetic workbook probe; no writes/copies or full workbook review."
+  }
+}

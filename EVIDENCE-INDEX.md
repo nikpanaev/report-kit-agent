@@ -1,6 +1,6 @@
 # Evidence Index — report-agent
 
-Current state2026-10-15: VERSION0.1.0-dev.16, prototype/development, no stable release, no remote. Authorized result: device-independent local source preparation only. Existing client agents/installed skills unchanged by this task; preservation receipt outside public package. Publication/installation/service access not performed.
+Current state2026-10-15: VERSION0.1.0-dev.17, prototype/development, no stable release, no remote. Authorized result: device-independent local source preparation only. Existing client agents/installed skills unchanged by this task; preservation receipt outside public package. Publication/installation not performed; a separately authorized read-only synthetic Google probe is recorded below.
 
 Process Profile and authority: [CHANGE-SPEC](CHANGE-SPEC.md). Baseline and scoped branch actual Git; package content identity/private exact run records retained locally. [Offline checks](evidence/offline-checks.json) contain only sanitized source/test identities, no donor paths or private data. [Source provenance](SOURCE-PROVENANCE.json), [selection](OPEN-SOURCE-SELECTION.md) and [license status](LICENSE-STATUS.md).
 
@@ -18,7 +18,7 @@ Process Profile and authority: [CHANGE-SPEC](CHANGE-SPEC.md). Baseline and scope
 |---|---|---|
 | Local preparation scope, two repositories | Authorized | Direct owner decision14Oct2026; not G6 |
 | Source/package/unit/regression observations | PASS_LIMITED | Exact run scope; recorded cold rate-limit failure still retained |
-| Rate-limit fixture stability | OPEN | Diagnose first cold failure before release; no assertion/timeout relaxation |
+| Historical VK fixture failure | HISTORICAL | Owner15Oct confirms updated skill works; reopen only on new current-version reproduction; old results retained |
 | Whole independent QA/security review | PENDING | Named separate reviewer; no self-approval |
 | Own code / third-party notices | MIT / PENDING | Own rights and Report Kit holder selected; independent third-party review remains |
 | Host plugin install/update/rollback | NOT_RUN | Chosen employee runtime and approved install scope |
@@ -27,7 +27,7 @@ Process Profile and authority: [CHANGE-SPEC](CHANGE-SPEC.md). Baseline and scope
 
 AI claim ledger uses legacy default; pending human acceptance is intentionally preserved, not a product pass. No prospective policy or automatic claim acceptance activated. Framework v3.4.0/63f4faee40598bd3d6e75d49777fa00982c20811 exact-tag checkers used privately; mutable framework working HEAD is not authority.
 
-Local preparation identity/provenance/relocation checks and commits are complete; their private receipts retain exact committed identities and limitations. Next product work: license/source review and rate-limit fixture diagnosis, then target-device installation and new-client control report after inputs/permission. No existing client migration or publication.
+Local preparation identity/provenance/relocation checks and commits are complete; their private receipts retain exact committed identities and limitations. Next product work: license/source review and current connector limitations, then target-device installation and new-client control report after inputs/permission. No existing client migration or publication.
 
 Actual exact-tag lifecycle: IN_DEVELOPMENT, exit0/issues[]. Initial VERSION_POLICY_BLOCKED preserved privately; canonical existing version contract fields corrected, no criteria weakened. Legacy claim gate remains FAIL only material human acceptance; source observations not accepted product release.
 
@@ -134,3 +134,12 @@ Agent14 source-only AI security scan is a historical observation at its exact co
 [Scoped results](evidence/interface-conflict-checks.json): two negative cases reproduced false acceptance of conflicting candidate versions before the fix, then all5 interface methods and78 agent unittest methods passed. Added three cases for core conflict, source conflict and valid equal overlap. Shared preflight rejects disagreements before merging candidate contracts, retaining complete registered-client/optional-interface/version/permission/history checks. Original28 update tests, native guard/oracle and source-skills exact dev.10 unchanged. No interface/schema migration, source/installed/client changes, Google or external service work, publication or installation.
 
 Native Google connector route remains incomplete: current Google Drive0.1.20 tool schema requires bounded CellData ranges; the dev.15 guard's full-read-only branch cannot by itself prove operation through that tool. A small read-only technical shape probe has been prepared and separately requested; until owner answers, no Google call. Do not infer host support from synthetic native JSON or fabricate missing native fields. Supplemental Sheets assets, original cold VK cause, remaining license/applicability/independent review and employee/release controls stay open. Older source-only AI scan and old PASS/FAIL receipts retain their exact versions, not dev.16 acceptance.
+
+
+## Current sources and historical VK finding — 2026-10-15
+
+Owner clarified that the skill was updated after the old failure and works in its current version. The old failure is retained as historical evidence, not a current blocker or a requirement for repeated diagnosis. Reopen only on new reproduction against an identified current version. No old FAIL was rewritten as PASS and the private test proposal was not applied.
+
+[Read-only source comparison](evidence/current-source-checks.json): all42 recorded origin hashes match both canonical and installed sources; all42 adapted outputs match provenance. Twelve SKILL entrypoints and eight existing YAML metadata files match canonical/installed copies; four YAML files are absent in both originals. This identifies the selected sources, not a new live test of the portable copy or employee acceptance. No installed/client/source donor file changed.
+
+A separately authorized Google Drive0.1.20 probe read four-tab metadata and exactly20 cells. Typed cells included formulas, values and formatting, but requested native File.version/owners/trashed were absent; full metadata omitted a chart that chart-only metadata listed with ID/title only. Read permission is no longer pending. Full snapshot/concurrency/chart-source and supplemental-object routes remain incomplete; do not fabricate fields, empty chart inventory or a successful copy. See [current connector limits](references/sheet-templates.md#наблюдаемое-ограничение-подключения).

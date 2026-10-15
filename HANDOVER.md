@@ -37,7 +37,7 @@
 ## До публикации
 
 - MIT собственного кода и имя Report Kit согласованы; проверить сторонние лицензионные тексты и обязательные уведомления.
-- Разобрать нестабильную синтетическую проверку VK rate limit: cold full run failed, isolated pass не отменяет failure. Не ослаблять pacing/no-retry/partial-source oracle.
+- Старый сбой VK оставить в истории: владелец подтвердил работу обновлённого скилла. Новую ошибку разбирать только на указанной актуальной версии; текущие защитные проверки сохранять.
 - Independent QA/security, current plugin schema/host install, target-device/account/capability/permission checks, controlled update/rollback и cleanup drill.
 - Задать real public URLs/exact release identities; повторно проверить весь Git payload/history на личные данные, secrets и raw artifacts. Не публиковать эту preparation автоматически.
 

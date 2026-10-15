@@ -27,6 +27,7 @@
     "dependencies.json",
     "docs/HELP.md",
     "docs/USER-GUIDE.md",
+    "evidence/current-source-checks.json",
     "evidence/guided-setup-checks.json",
     "evidence/interface-checks.json",
     "evidence/interface-conflict-checks.json",
