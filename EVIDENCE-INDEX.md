@@ -1,6 +1,6 @@
 # Evidence Index — report-agent
 
-Current state2026-10-15: VERSION0.1.0-dev.18, prototype/development, no stable release, no remote. Authorized result: local source preparation plus the separately authorized synthetic Google copy/test described below. Existing client agents/installed skills unchanged by this task; preservation receipt outside public package. Publication/installation not performed; a separately authorized read-only synthetic Google probe is recorded below.
+Current state2026-10-15: VERSION0.1.0-dev.19, prototype/development, no stable release, no remote. Authorized result: local source preparation plus the separately authorized synthetic Google copy/test described below. Existing client agents/installed skills unchanged by this task; preservation receipt outside public package. Publication/installation not performed; a separately authorized read-only synthetic Google probe is recorded below.
 
 Process Profile and authority: [CHANGE-SPEC](CHANGE-SPEC.md). Baseline and scoped branch actual Git; package content identity/private exact run records retained locally. [Offline checks](evidence/offline-checks.json) contain only sanitized source/test identities, no donor paths or private data. [Source provenance](SOURCE-PROVENANCE.json), [selection](OPEN-SOURCE-SELECTION.md) and [license status](LICENSE-STATUS.md).
 
@@ -147,3 +147,7 @@ A separately authorized Google Drive0.1.20 probe read four-tab metadata and exac
 ## Native copy and direct checks — dev.18
 
 Owner approved the alternate route and explicitly selected the work account for one separate synthetic copy. See [scoped results](evidence/native-copy-checks.json). The whole workbook was copied with native Drive copy; four-tab full-grid bounded CellData requests returned354 records. All restored CellData match source, source modified_time is unchanged, and no source/client write was issued. Reversible inputs demonstrated daily/summary/chart recalculation. A wrong daily formula was recorded, blocked by the new guard, and restored; normal copy passes limited comparison. All four Google-rendered tabs and all24long-table records were viewed. Full source ChartSpec/File.version equality is not asserted. Original full-snapshot guard/test bytes remain unchanged. Current account only; no employee installation, independent acceptance or publication. Earlier read-only probe and failures retain their exact historical scope.
+
+## Claim-ledger field correction — dev.19
+
+[Scoped check](evidence/claim-ledger-format-checks.json): original C-010/C-011 evidence was rechecked before correcting two direct_support enum fields and their verification-method descriptions. Exact pinned checker changed from21errors to17errors: only E_DIRECT_SUPPORT/E_DIRECT_SUPPORT_FAILED disappeared; all17 E_MATERIAL_NOT_ACCEPTED controls remain. No material claim was accepted automatically. Runtime/skill/test bytes and exact source-skills dependency remain unchanged; no fresh runtime/security/employee pass inferred from this metadata correction.

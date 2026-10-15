@@ -27,6 +27,7 @@
     "dependencies.json",
     "docs/HELP.md",
     "docs/USER-GUIDE.md",
+    "evidence/claim-ledger-format-checks.json",
     "evidence/current-source-checks.json",
     "evidence/guided-setup-checks.json",
     "evidence/interface-checks.json",
