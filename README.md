@@ -1,52 +1,52 @@
 # Report Kit
 
-Windows: подготовлен вариант подключения LiveDune, настоящую проверку выполняет пользователь. Начать после разрешённой установки по [короткому порядку](docs/WINDOWS-CHECK.md); локальные тесты не подтверждают поддержку устройства.
+Report Kit помогает готовить клиентские отчёты по образцу: в Google Презентациях, Документах или Таблицах. Сотруднику передают одну ссылку на **report-kit-agent**. Нужные скиллы из report-kit-skills подбирает и подключает агент; разбираться в двух репозиториях, версиях и командах не требуется.
 
-Локальная подготовка переносимого комплекта для будущих отчётов. Версия: [VERSION](VERSION). Maturity: prototype; channel: development; stable release отсутствует.
+Начните с [руководства](docs/USER-GUIDE.md); типовые вопросы — в [справке](docs/HELP.md). После разрешённого подключения Report Kit можно сразу прислать образец и период. При первом запросе агент должен начать или продолжить настройку. Само открытие ссылки не запускает разговор и не устанавливает пакет.
 
-Публикация, установка и подключение аккаунтов не разрешены этим этапом. Существующие клиентские агенты и материалы не включены. Git remote: no remote. Собственный код: [MIT](LICENSE), правообладатель Report Kit; проверка сторонних лицензий и уведомлений остаётся отдельной. Публикация этим решением не разрешена.
+## Что готово сейчас
 
-## Использование
+Текущая версия указана в [VERSION](VERSION); точная зависимость на скиллы — в [dependencies.json](dependencies.json). Это версия для проверки, стабильного публичного выпуска пока нет. Адреса опубликованных выпусков не настроены, установка и публикация не выполнялись.
 
-Для сотрудника: [краткое руководство](docs/USER-GUIDE.md) и [помощь](docs/HELP.md). При первом обычном обращении к активному Report Kit агент сам начинает или продолжает настройку. Штатное действие настройки в приложении ведёт в тот же мастер; отдельный запрос «помоги настроить» не требуется. Агент по шагам выясняет образец, формат, период, источники и место сохранения; проверки и разрешённые настройки выполняет сам. [Опрос и помощь](references/onboarding.md). Технический план — [передача сотруднику](HANDOVER.md), настройка — [setup skill](skills/report-kit-setup/SKILL.md). Пакет подготавливает будущих клиентов; существующие runtime/chats/profiles не импортируются. Источники отчётных данных и настройки сотрудника — отдельная private workspace вне обеих package folders.
-
-Восемь workflows: локальный черновик выпуска, помощь, setup, подключение клиента, сборка периода, QA, update/context refresh, [сопровождение](skills/report-kit-maintenance/SKILL.md). [Общий процесс](references/workflow.md); [принятый scope и ограничения](CHANGE-SPEC.md); [проверки/оставшиеся gates](EVIDENCE-INDEX.md). Пример workspace не рабочая конфигурация.
-
-Local manifest `plugin.json` и `.agents/plugins/marketplace.json` подготовлены, но не установлены и не проверены actual host install. Вторая зависимость — exact pair в dependencies.json; source skills отдельно. Native connected Google/Docs/Sheets/Slides capabilities подключаются сотрудником, third-party plugin code не поставляется.
-
-Проверки сопровождающего, не команды для сотрудника: `python3 scripts/check_package.py . --skills-root ../report-kit-skills`, `python3 scripts/test_package_boundaries.py`, `python3 scripts/check_report_templates_selftest.py`. Source checks only; no accounts/keys/Google writes. Для workspace отдельный check_workspace.py.
-
-Для основ Google Таблиц: [маршрут проверки](references/sheet-templates.md), `python3 scripts/test_sheet_templates.py` и `python3 scripts/test_update_interfaces.py`. Это локальные примеры без доступа к Google; полнота источников, формулы на настоящих данных и устройство сотрудника проверяются отдельно.
-
-Privacy: никаких реальных API keys, сессий, cookies, браузерных профилей, личных аккаунтов, клиентских IDs или сырой истории. Проверяются candidate files и reachable Git history; ignored tool caches не часть distribution. Pattern scan не полная независимая security проверка.
-
-## Product Versioning + Maturity/Channel Contract
-
-- **Maturity phase:** prototype
-- **Release channel:** development
-- **Public compatibility promise:** none; no employee-device/account/runtime support validated yet
-- **1.0.0 entry criteria:** actual supported-device/account install and control report; reviewed license/dependencies; independent QA/security; packaged acceptance and separate owner G6
-- **Rebaseline policy:** only explicit owner decision before external distribution; never rename old artifacts or silently migrate private workspaces
-- **Release destination:** local-only
-- **External AI/model API:** not applicable; no new model API client or SDK/key provisioning; employee Codex provider/data-use terms must be checked before live work
-
-VERSION is the sole development-version source; plugin manifest is a checked mirror. Package content identity and private workspace schema are separate. Public GitHub release/URLs require later explicit authority.
-
-Подготовка локального черновика: [release workflow](references/releases.md). [Изменения для пользователя](CHANGELOG.md). Публикация и расписание не активированы.
-
-
-## Report Kit naming and legacy compatibility
-
-New client chat: `Report Kit / <client name>`; new portable reporting agent identifier: `report-kit-<client_id>`. Workflow IDs also use report-kit-. Package IDs are report-kit-agent/report-kit-skills; workspace schema2 is required. Legacy configurations and installed copies are not silently switched by a display rename. VK/LiveDune source skill IDs, REPORT_SKILLS_STATE_DIR and existing queue/state path names remain stable; their old report-skills label does not identify a second package or store. Setup must check the actual selected bytes and one UI queue before installation.
-
-Google Таблицы: для новых клиентов доступно обычное копирование с проверкой копии перед заполнением (`scripts/check_sheet_copy.py`). Порядок и предел проверки — [здесь](references/sheet-templates.md). Отдельная синтетическая копия проверена на текущем рабочем подключении; это не установка у сотрудника и не приёмка клиентского отчёта.
-
-Проверка истории для сопровождающего: добавить `--history` к check_package.py в исходном репозитории. Скачанный архив проверяется без этого флага и не требует Git; происхождение и хеши релиза сверяются отдельно.
+- **Реализовано и проверено локально:** проверка состава и совместимости пары; сохранение этапов настройки; подготовка архивов среды без запуска при скачивании; обезличенный архив поддержки. Среда проверена отдельными запусками на macOS; точные результаты и версии — в [журнале проверок](EVIDENCE-INDEX.md).
+- **Подготовлено, требует проверки:** первый запуск мастера в приложении, получение настоящего выпуска GitHub, установка, обновление и возврат через средства приложения, работа на компьютере сотрудника. Проверка Windows поручена сотруднику; [порядок](docs/WINDOWS-CHECK.md).
+- **Пока не поддерживается подготовленной средой:** Linux, macOS на Intel, Windows ARM и Windows Server. Первый тестовый профиль — macOS 14+ на Apple Silicon или Windows 11+ x64; профиль не означает, что всё устройство уже проверено.
 
 ## Одна ссылка для сотрудника
 
-Сотруднику передают только ссылку на этот репозиторий, **report-kit-agent**. Агент сам организует получение совместимого опубликованного report-kit-skills, проверку и штатное подключение; версии и команды остаются его задачей. [Что подготовить и как начать](docs/USER-GUIDE.md#одна-ссылка-и-первая-настройка). Получение и обновление используют один [порядок](references/updates.md#единый-порядок-получения-комплекта).
+Нужны Codex с разрешёнными инструментами работы с файлами и интернет для первой загрузки. Аккаунты подключаются только для нужной задачи. Сотрудник входит в сервисы сам; пароли, ключи и коды входа в чат не передаёт. Chrome можно установить при необходимости. Самостоятельная установка Python, библиотек и Node.js не нужна: агент готовит проверенную отдельную среду после необходимых разрешений. Если нужен отдельный браузер Playwright, агент сначала предложит его подготовить.
 
-Локально реализованы проверка delivery, инертная подготовка архивов и планы настройки/возврата. Source URLs пока не опубликованы. Настоящее скачивание GitHub Release, native install/update/rollback и устройство сотрудника остаются отдельными проверками; текущая подготовка их не выполняет.
+В обычном текстовом чате автономная сборка файлов недоступна. Если приложение или организация запрещают действие, агент сохраняет выполненные шаги и объясняет, что требуется; отключать защиту не предлагает. [Порядок первоначальной настройки](references/setup.md) предназначен агенту, а не сотруднику.
 
-[Файл для поддержки](docs/HELP.md#не-работает--нужен-файл-для-поддержки): по фразе «Не работает. Подготовь файл для поддержки» агент готовит один local ZIP без автоматической отправки. Запасной способ двойным нажатием использует тот же collector. Исходные журналы и клиентские данные не упаковываются.
+## Материалы для агента и сопровождающего
+
+- [Общий порядок отчётов](references/workflow.md), [опрос клиента](references/onboarding.md), [переносимая среда](references/runtime.md).
+- [Обновления и возврат](references/updates.md), [сопровождение](references/maintenance.md), [архив поддержки](references/support.md).
+- [Подготовка выпуска](references/releases.md), [текущий план передачи](HANDOVER.md), [границы изменений](CHANGE-SPEC.md), [история версий](CHANGELOG.md).
+- [Правило обновлять документацию вместе с продуктом](MAINTENANCE.md#пользовательская-документация), [проверка основ Google Таблиц](references/sheet-templates.md).
+
+В комплекте восемь скиллов: настройка, помощь, подключение клиента, отчёт за период, проверка отчёта, обновление, сопровождение и подготовка выпуска. plugin.json и локальный каталог плагинов подготовлены; их фактическая установка в приложении ещё не проверена. Google и управление интерфейсом предоставляются доступными подключениями приложения, их код не поставляется.
+
+Новые клиентские чаты называются `Report Kit / <название клиента>`, идентификаторы — `report-kit-<client_id>`. Используется внешняя рабочая папка со схемой settings 2. Переименование не переносит старых клиентов или установленный код. Имена source skills, REPORT_SKILLS_STATE_DIR и прежнее имя каталога report-skills сохраняются для совместимости; это не второй пакет или вторая очередь.
+
+Клиентские данные, ключи, сессии и результаты находятся вне обоих пакетов. Собственный код — [MIT](LICENSE), правообладатель Report Kit. Сторонние лицензии, независимые проверки безопасности и решение о выпуске остаются отдельными условиями. [Статус лицензий](LICENSE-STATUS.md).
+
+## Проверки сопровождающего
+
+Команды ниже выполняет сопровождающий в своей проверенной среде, не сотрудник:
+
+```sh
+python3 scripts/check_package.py . --skills-root ../report-kit-skills --history
+python3 scripts/test_package_boundaries.py
+python3 scripts/test_portable_runtime.py
+python3 scripts/test_sheet_templates.py
+python3 scripts/test_update_interfaces.py
+```
+
+Для скачанного архива проверка выполняется без `--history` и не требует Git. Успех этих команд не подтверждает доступ к сервисам, независимую проверку безопасности или установку у сотрудника. Публичные пакеты не включают существующих клиентских агентов и их материалы.
+
+## Версии и выпуск
+
+VERSION — единственный источник номера; plugin.json и contracts.json — проверяемые копии. Стадия — prototype, канал разработки — development; локальные черновики используют канал working или preview. Это разные поля. Публичного обещания совместимости и стабильной версии нет. Для 1.0.0 нужны проверка целевого устройства и аккаунтов, контрольный отчёт, лицензии, независимые QA/security, проверка поставки и отдельное решение владельца. Старые версии и архивы не переименовываются; данные клиентов не мигрируются автоматически.
+
+Отдельный клиент внешней модели не реализован. Условия использования модели и обработки данных в Codex проверяются до реальной клиентской работы. Git remote не задан; публикация и фоновое расписание не активированы.
