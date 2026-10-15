@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "package_version": "0.1.0-dev.18",
+  "scope": "Explicit native-copy route; current work connection and synthetic workbook only. No client writes, install or publication.",
+  "tests": [
+    {
+      "name": "new-copy-tests",
+      "exit_code": 0,
+      "stdout_sha256": "6be03cdb997aea5395b40ec918c20f280c3100c9905cbb87e89747c17bced43d",
+      "stderr_sha256": "d6f2675fc5cc47f8e1e35daa98aa084646649bbd8ef9a95483ade59cad2ebf51"
+    },
+    {
+      "name": "full-agent-tests",
+      "exit_code": 0,
+      "stdout_sha256": "d5b5574cab103f0d76c584bbb4ffa0f7ce0f65591044b457c7bd983b4b2d3345",
+      "stderr_sha256": "2293b29f239e8ae212003760df14548135e773659cc1cd808b2e753a5744075e"
+    },
+    {
+      "name": "original-template-selftest",
+      "exit_code": 0,
+      "stdout_sha256": "c2f425951a468570a929058de8ab3e26b78dd6fba407e2debbf338aea78e42ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "new_tests": 13,
+  "full_suite_tests": 91,
+  "live_copy": {
+    "native_copy_created": true,
+    "worksheets": 4,
+    "grid_cells_requested": 52560,
+    "returned_cell_records": 354,
+    "restored_cell_data_equal": true,
+    "source_modified_time_preserved": true,
+    "wrong_daily_formula": "BLOCKED",
+    "restored_copy": "PASS_LIMITED",
+    "summary_recalculation": "6.75 -> 7.25 -> 6.75",
+    "chart_mean_recalculation": "48.5 -> 301/6 -> 48.5",
+    "visual_tab_reviews": 4,
+    "long_table_records_viewed": 24
+  },
+  "original_guard_and_tests_preserved": {
+    "scripts/check_report_templates.py": true,
+    "scripts/check_report_templates_selftest.py": true,
+    "scripts/test_sheet_templates.py": true,
+    "scripts/test_updates.py": true,
+    "scripts/test_update_interfaces.py": true
+  },
+  "implementation_sha256": {
+    "scripts/check_sheet_copy.py": "24ae524a71e771518271d74b439336d0039c3ad6af449459f17a5370710ffbd9",
+    "scripts/test_sheet_copy.py": "51a5c662e24b05f7eb863ffe970f38238388bb12419d9296bb2611a045977b88"
+  },
+  "limitations": [
+    "Supplied local evidence checker, not evidence authenticity or permissions enforcement.",
+    "No native File.version or exact full source ChartSpec equality asserted; source/copy chart setup and rendered result compared.",
+    "Only synthetic source on current device/account; no employee installation, client report run or independent acceptance.",
+    "Full-snapshot route and all earlier failures retained with their original scope."
+  ]
+}

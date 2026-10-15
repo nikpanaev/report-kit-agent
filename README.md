@@ -36,3 +36,5 @@ VERSION is the sole development-version source; plugin manifest is a checked mir
 ## Report Kit naming and legacy compatibility
 
 New client chat: `Report Kit / <client name>`; new portable reporting agent identifier: `report-kit-<client_id>`. Workflow IDs also use report-kit-. Package IDs are report-kit-agent/report-kit-skills; workspace schema2 is required. Legacy configurations and installed copies are not silently switched by a display rename. VK/LiveDune source skill IDs, REPORT_SKILLS_STATE_DIR and existing queue/state path names remain stable; their old report-skills label does not identify a second package or store. Setup must check the actual selected bytes and one UI queue before installation.
+
+Google Таблицы: для новых клиентов доступно обычное копирование с проверкой копии перед заполнением (`scripts/check_sheet_copy.py`). Порядок и предел проверки — [здесь](references/sheet-templates.md). Отдельная синтетическая копия проверена на текущем рабочем подключении; это не установка у сотрудника и не приёмка клиентского отчёта.

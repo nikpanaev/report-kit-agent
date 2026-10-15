@@ -17,7 +17,7 @@
 
 Выбранные folder/account, required roles, registry schema3, exact owner-approved neutral templates/cumulative bases и copied backing Sheet policy. Pilot acceptance и template approval отдельны.
 
-Основы Google Таблиц: роли sheets_monthly/sheets_cumulative, требования совместимости template_registry_sheets1 и полный маршрут references/sheet-templates.md. Эти требования сохранять при проверке обновления; недоступные данные и дополнительные объекты не пропускать.
+Основы Google Таблиц: роли sheets_monthly/sheets_cumulative; явно выбранный template_check_mode и порядок references/sheet-templates.md. Новый обычный способ native_copy требует template_copy_sheets1; прежний full_snapshot — template_registry_sheets1. Сохранять выбранный способ при проверке обновления; недоступные данные и дополнительные объекты не пропускать.
 
 ## Показатели и даты
 

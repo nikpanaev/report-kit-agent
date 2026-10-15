@@ -72,3 +72,5 @@ Compatible действует только для рабочего канала 
 ### Версия перед совместимостью — dev.7
 
 Прямой вызов preflight тоже требует, чтобы версия agent candidate была строго новее текущей по SemVer. Та же версия, изменение только build metadata или старая версия блокируются candidate_version_not_newer до READY_FOR_REVIEW. Новая source-skills правка требует нового reviewed agent release, как определено в MAINTENANCE; source версии могут различаться в exact совместимой паре. Откат — отдельный rollback route с проверкой protected history/последующих owner edits, не обход через update preflight. Caller не должен менять VERSION, release metadata или current identity ради прохождения отказа. Actual source/native authority и host approval остаются обязательны.
+
+Для выбранного обычного копирования Google Таблиц проверять дополнительный интерфейс `template_copy_sheets: 1`. Он не заменяет `template_registry_sheets: 1` у клиента, выбравшего полный снимок. Старые клиентские реестры автоматически не мигрировать.
