@@ -1,6 +1,6 @@
 {
-  "status": "INVENTORIED_AND_PRESERVED_NOT_INDEPENDENT_LEGAL_APPROVAL",
-  "runtime_id": "python312-20261013-v1",
+  "status": "EXACT_FILE_INVENTORY_NOT_LEGAL_ACCEPTANCE",
+  "runtime_id": "python312-20261013-v2",
   "platforms": {
     "macos-arm64": [
       {
@@ -1244,6 +1244,11 @@
         "path": "node/lib/node_modules/npm/node_modules/yallist/LICENSE.md",
         "size": 1764,
         "sha256": "a49c9ba464796f65b59fca3f1e6ca40912df1e859f575383223f7ec6c5baae09"
+      },
+      {
+        "layer": "core",
+        "path": "python/REPORT-KIT-NOTICES.zip",
+        "sha256": "9eb7fca9eb00d0ebbf182bd11e1119f21a4d14f42cdfb2af2194df630aed56f8"
       }
     ],
     "windows-x64": [
@@ -2500,8 +2505,13 @@
         "path": "node/node_modules/npm/node_modules/yallist/LICENSE.md",
         "size": 1827,
         "sha256": "a638a0768dbec922fd821d0b6cce6275231c4b57cfcddf584defce530fbfbbf5"
+      },
+      {
+        "layer": "core",
+        "path": "python/REPORT-KIT-NOTICES.zip",
+        "sha256": "9eb7fca9eb00d0ebbf182bd11e1119f21a4d14f42cdfb2af2194df630aed56f8"
       }
     ]
   },
-  "limits": "Original license/notice bytes remain in exact runtime assets. Full semantic/legal and redistribution obligations review remains required before publication; own-code MIT does not license these components."
+  "limits": "Original notice-name inventory retained plus pinned supplemental ZIP; license.js names may be program source. Redistribution applicability and Microsoft/NumPy obligations require separate closure."
 }

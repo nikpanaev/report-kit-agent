@@ -111,6 +111,8 @@ def append_runtime_assets(agent, assets_root, output, record):
     runtime = read_json(assets_root / 'runtime-build.json')
     recipe = read_json(agent / 'assets/runtime-recipe.json')
     require(runtime['runtime_id'] == recipe['runtime_id'] and runtime['installation_performed'] is False, 'runtime_build_identity')
+    require(bool(runtime['platforms']) and set(runtime['platforms']) == set(recipe['platforms']), 'runtime_platform_inventory')
+    require(all('core' in p['assets'] for p in runtime['platforms'].values()), 'runtime_core_missing')
     for platform in runtime['platforms'].values():
         for layer, asset in platform['assets'].items():
             name = asset['filename']; require(Path(name).name == name, 'runtime_asset_name')
@@ -122,6 +124,12 @@ def append_runtime_assets(agent, assets_root, output, record):
                 manifest = json.loads(archive.extractfile(members[0]).read())
                 require(manifest['layer'] == layer and manifest['platform'] == platform['platform'], 'runtime_manifest_identity')
                 manifest_recipe_match(manifest, recipe)
+                if layer == 'core' and 'notice_package' in recipe:
+                    key = 'python/REPORT-KIT-NOTICES.zip'; notice = recipe['notice_package']
+                    items = [m for m in archive.getmembers() if m.name == key]
+                    require(len(items) == 1 and items[0].isfile() and items[0].size == notice['size']
+                            and hashlib.sha256(archive.extractfile(items[0]).read()).hexdigest() == notice['sha256']
+                            and manifest['files'].get(key) == notice['sha256'], 'runtime_notice_missing_or_changed')
             with src.open('rb') as source, dest.open('xb') as target: shutil.copyfileobj(source, target)
             dest.chmod(0o600)
             require(identity_file(dest) == asset['sha256'], 'runtime_copy_changed')

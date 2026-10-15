@@ -50,6 +50,7 @@
     "evidence/runtime-checks.json",
     "evidence/sheet-template-checks.json",
     "evidence/single-entry-checks.json",
+    "evidence/supply-chain-checks.json",
     "evidence/support-checks.json",
     "evidence/update-help-checks.json",
     "evidence/update-version-checks.json",
@@ -106,7 +107,7 @@
     "skills/report-kit-release-prep/agents/openai.yaml",
     "skills/report-kit-setup/SKILL.md",
     "skills/report-kit-setup/agents/openai.yaml",
-    "Подготовить файл поддержки.cmd",
-    "Подготовить файл поддержки.command"
+    "\u041f\u043e\u0434\u0433\u043e\u0442\u043e\u0432\u0438\u0442\u044c \u0444\u0430\u0439\u043b \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u043a\u0438.cmd",
+    "\u041f\u043e\u0434\u0433\u043e\u0442\u043e\u0432\u0438\u0442\u044c \u0444\u0430\u0439\u043b \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u043a\u0438.command"
   ]
 }

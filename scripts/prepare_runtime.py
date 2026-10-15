@@ -64,6 +64,14 @@ def tar_bytes(payload, executables=(), *, compress=False):
     return out.getvalue()
 
 
+def notice_bytes(downloads, item):
+    path = Path(downloads) / item['filename']
+    require(Path(item['filename']).name == item['filename'] and not path.is_symlink()
+            and path.is_file() and 0 < item['size'] <= 4 * 1024 * 1024
+            and path.stat().st_size == item['size'] and identity_file(path) == item['sha256'], 'runtime_notice_identity')
+    return path.read_bytes()
+
+
 def prepare(recipe_path, downloads, output):
     recipe = read_json(recipe_path); output = boundary(output)
     require(not output.exists(), 'runtime_output_exists'); output.mkdir(parents=True, mode=0o700)
@@ -71,6 +79,10 @@ def prepare(recipe_path, downloads, output):
               'installation_performed': False, 'browsers_included': False, 'upstream': {}, 'limits': 'Inert assembly; not native Windows or independent license/security approval.'}
     for target, config in recipe['platforms'].items():
         layers = {'core': ({}, set()), 'capture': ({}, set()), 'images': ({}, set()), 'livedune-node': ({}, set())}
+        if 'notice_package' in recipe:
+            item = recipe['notice_package']
+            layers['core'][0]['python/REPORT-KIT-NOTICES.zip'] = notice_bytes(downloads, item)
+            result['upstream'][item['filename']] = {'sha256': item['sha256'], 'url': item['url']}
         for label, item in [('python', config['python']), *config['wheels'].items(), ('node', config['node'])]:
             raw, executable = vendor_files(Path(downloads) / item['filename'], item)
             result['upstream'][item['filename']] = {'sha256': item['sha256'], 'url': item['url']}

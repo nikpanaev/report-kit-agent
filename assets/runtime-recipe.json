@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "runtime_id": "python312-20261013-v1",
+  "runtime_id": "python312-20261013-v2",
   "python_version": "3.12.15",
   "playwright_version": "1.63.0",
   "packages": {
@@ -130,7 +130,13 @@
       }
     }
   },
-  "license_review": "PENDING; exact redistributed notices must be reviewed before release",
+  "license_review": "NOTICES_REPAIRED; external distribution blocked pending Microsoft redistribution/end-user terms and NumPy macOS libquadmath applicability/source obligations",
   "browsers_included": false,
-  "node_version": "24.21.0"
+  "node_version": "24.21.0",
+  "notice_package": {
+    "filename": "report-kit-runtime-notices-v2.zip",
+    "sha256": "9eb7fca9eb00d0ebbf182bd11e1119f21a4d14f42cdfb2af2194df630aed56f8",
+    "size": 420386,
+    "url": null
+  }
 }

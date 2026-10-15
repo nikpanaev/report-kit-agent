@@ -42,6 +42,17 @@ class PortableRuntime(unittest.TestCase):
     def stage(self, name='stage'):
         return runtime.stage(self.delivery, {'core': self.archive}, self.root / name, 'macos-arm64', ['core'])
 
+    def test_supplemental_notices_are_pinned_inert_inputs(self):
+        path = self.root / 'notices.zip'; path.write_bytes(b'synthetic notice input; not executed')
+        item = {'filename': path.name, 'size': path.stat().st_size, 'sha256': updates.identity_file(path)}
+        self.assertEqual(prepare_runtime.notice_bytes(self.root, item), path.read_bytes())
+        path.write_bytes(b'changed')
+        with self.assertRaisesRegex(ValueError, 'runtime_notice_identity'):
+            prepare_runtime.notice_bytes(self.root, item)
+        item['filename'] = '../notices.zip'
+        with self.assertRaisesRegex(ValueError, 'runtime_notice_identity'):
+            prepare_runtime.notice_bytes(self.root, item)
+
     def test_stage_is_inert_and_original_source_guard_stays_text_only(self):
         r = self.stage(); self.assertEqual(r['status'], 'STAGED_NOT_INSTALLED')
         self.assertEqual((self.root / 'stage/python/bin/python3').stat().st_mode & 0o111, 0)
@@ -206,6 +217,7 @@ class PortableRuntime(unittest.TestCase):
 
     def test_release_includes_runtime_assets_and_keeps_publication_false(self):
         from prepare_release import append_runtime_assets
+        self.recipe['platforms'] = {'macos-arm64': {}}
         agent = self.root / 'agent'; (agent / 'assets').mkdir(parents=True)
         (agent / 'assets/runtime-recipe.json').write_text(json.dumps(self.recipe))
         assets = self.root / 'assets'; assets.mkdir(); (assets / 'core.tar').write_bytes(self.archive.read_bytes())
@@ -222,6 +234,42 @@ class PortableRuntime(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'runtime_recipe_versions'):
             append_runtime_assets(agent, assets, wrong, {'release': record['release'], 'artifacts': {}})
         self.assertFalse((wrong / 'core.tar').exists())
+        notice = {'filename': 'notices.zip', 'size': 4, 'sha256': hashlib.sha256(b'text').hexdigest(), 'url': None}
+        (agent / 'assets/runtime-recipe.json').write_text(json.dumps(dict(self.recipe, notice_package=notice)))
+        missing = self.root / 'missing-notice'; missing.mkdir()
+        with self.assertRaisesRegex(ValueError, 'runtime_notice_missing_or_changed'):
+            append_runtime_assets(agent, assets, missing, {'release': record['release'], 'artifacts': {}})
+        self.assertFalse((missing / 'core.tar').exists())
+        for value in [{}, {'macos-arm64': dict(self.delivery, assets={})}]:
+            data = {'runtime_id': 'fixture-v1', 'installation_performed': False, 'platforms': value, 'license_review': 'PENDING'}
+            (assets / 'runtime-build.json').write_text(json.dumps(data))
+            with self.assertRaisesRegex(ValueError, 'runtime_platform_inventory|runtime_core_missing'):
+                append_runtime_assets(agent, assets, missing, {'release': record['release'], 'artifacts': {}})
+
+    def test_prepare_and_release_retain_notice_bytes_and_bootstrap_hash(self):
+        from prepare_release import append_runtime_assets
+        downloads = self.root / 'downloads'; downloads.mkdir()
+        def item(name, payload):
+            path = downloads / name; path.write_bytes(payload)
+            return {'filename': name, 'size': len(payload), 'sha256': updates.identity_file(path), 'url': None}
+        python = item('python.tar.gz', prepare_runtime.tar_bytes({'python/bin/python3': b'synthetic'}, compress=True))
+        node = item('node.tar.gz', prepare_runtime.tar_bytes({'vendor/bin/node': b'synthetic'}, compress=True))
+        notice = item('notice.zip', b'synthetic notice; never executed')
+        recipe = dict(self.recipe, notice_package=notice, platforms={'macos-arm64': {'python': python, 'wheels': {}, 'node': node}})
+        agent = self.root / 'agent'; (agent / 'assets').mkdir(parents=True)
+        path = agent / 'assets/runtime-recipe.json'; path.write_text(json.dumps(recipe))
+        assets = self.root / 'prepared'; result = prepare_runtime.prepare(path, downloads, assets)
+        asset = result['platforms']['macos-arm64']['assets']['core']
+        with tarfile.open(assets / asset['filename']) as archive:
+            key = 'python/REPORT-KIT-NOTICES.zip'; self.assertEqual(archive.extractfile(key).read(), b'synthetic notice; never executed')
+            manifest = json.load(archive.extractfile('manifests/core.json'))
+            bootstrap = archive.extractfile('runtime-receipt.json').read()
+            self.assertEqual(manifest['files'][key], notice['sha256'])
+            self.assertEqual(json.loads(bootstrap)['files'][key], notice['sha256'])
+            self.assertEqual(hashlib.sha256(bootstrap).hexdigest(), asset['bootstrap_receipt_sha256'])
+        output = self.root / 'release'; output.mkdir()
+        append_runtime_assets(agent, assets, output, {'release': {'packages': {}}, 'artifacts': {}})
+        self.assertEqual((output / asset['filename']).read_bytes(), (assets / asset['filename']).read_bytes())
 
     def test_killed_setup_writer_retains_previous_answers_and_can_resume(self):
         onboarding.record(self.workspace, 'discovery', 'PASS', 'synthetic', expected_revision=0, answers={'update_mode': 'ask_each'})
