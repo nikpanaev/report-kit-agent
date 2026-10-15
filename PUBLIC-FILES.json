@@ -46,6 +46,8 @@
     "evidence/package-route-checks.json",
     "evidence/package-route-decision.json",
     "evidence/pillow-runtime-checks.json",
+    "evidence/preview-release-checks.json",
+    "evidence/preview-release-decision.json",
     "evidence/release-prep-checks.json",
     "evidence/report-kit-checks.json",
     "evidence/review-fix-checks.json",
