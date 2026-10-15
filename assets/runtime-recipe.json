@@ -1,12 +1,11 @@
 {
   "schema_version": 1,
-  "runtime_id": "python312-20261013-v2",
+  "runtime_id": "python312-20261013-v3",
   "python_version": "3.12.15",
   "playwright_version": "1.63.0",
   "packages": {
     "playwright": "1.63.0",
     "Pillow": "12.3.0",
-    "numpy": "2.3.5",
     "pyee": "13.0.1",
     "greenlet": "3.5.6",
     "typing_extensions": "4.16.0",
@@ -32,12 +31,6 @@
           "url": "https://files.pythonhosted.org/packages/d8/66/9a386a92561f402389a4fc70c18838bf6d35eb5eb5c6850b4b2dc64f5048/pillow-12.3.0-cp312-cp312-macosx_11_0_arm64.whl",
           "sha256": "ffd0c5368496f41b0944be820fcb7a838aa6e623d250b01acf2643939c3f99d7",
           "size": 4780323
-        },
-        "numpy": {
-          "filename": "numpy-2.3.5-cp312-cp312-macosx_11_0_arm64.whl",
-          "url": "https://files.pythonhosted.org/packages/c5/65/df0db6c097892c9380851ab9e44b52d4f7ba576b833996e0080181c0c439/numpy-2.3.5-cp312-cp312-macosx_11_0_arm64.whl",
-          "sha256": "ee3888d9ff7c14604052b2ca5535a30216aa0a58e948cdd3eeb8d3415f638769",
-          "size": 12259838
         },
         "pyee": {
           "filename": "pyee-13.0.1-py3-none-any.whl",
@@ -91,12 +84,6 @@
           "sha256": "a2b55dd6b2a4c4b7d87ffa56bdb33fdc5fdb9a462173861a7bc097f17d91cb09",
           "size": 7227137
         },
-        "numpy": {
-          "filename": "numpy-2.3.5-cp312-cp312-win_amd64.whl",
-          "url": "https://files.pythonhosted.org/packages/2d/57/8aeaf160312f7f489dea47ab61e430b5cb051f59a98ae68b7133ce8fa06a/numpy-2.3.5-cp312-cp312-win_amd64.whl",
-          "sha256": "86945f2ee6d10cdfd67bcb4069c1662dd711f7e2a4343db5cecec06b87cf31aa",
-          "size": 12782922
-        },
         "pyee": {
           "filename": "pyee-13.0.1-py3-none-any.whl",
           "url": "https://files.pythonhosted.org/packages/a0/c4/b4d4827c93ef43c01f599ef31453ccc1c132b353284fc6c87d535c233129/pyee-13.0.1-py3-none-any.whl",
@@ -130,13 +117,13 @@
       }
     }
   },
-  "license_review": "NOTICES_REPAIRED; external distribution blocked pending Microsoft redistribution/end-user terms and NumPy macOS libquadmath applicability/source obligations",
+  "license_review": "NUMPY_OMITTED; Python Windows downstream Microsoft terms retained; exact distributor/recipient terms review pending before external distribution",
   "browsers_included": false,
   "node_version": "24.21.0",
   "notice_package": {
-    "filename": "report-kit-runtime-notices-v2.zip",
-    "sha256": "9eb7fca9eb00d0ebbf182bd11e1119f21a4d14f42cdfb2af2194df630aed56f8",
-    "size": 420386,
+    "filename": "report-kit-runtime-notices-v3.zip",
+    "sha256": "e090f07600753ba00fc674ab497438a49e5c9b4c0994c29a2edde8089fc5c2b3",
+    "size": 372506,
     "url": null
   }
 }

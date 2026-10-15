@@ -17,7 +17,7 @@ from support_bundle import emit as support_event
 ROOT = Path(__file__).resolve().parents[1]
 LAYERS = {'core', 'capture', 'images', 'livedune-node'}
 PLATFORMS = {'macos-arm64', 'windows-x64'}
-IMPORTS = {'capture': ['playwright', 'pyee', 'greenlet', 'typing_extensions'], 'images': ['PIL', 'numpy']}
+IMPORTS = {'capture': ['playwright', 'pyee', 'greenlet', 'typing_extensions'], 'images': ['PIL']}
 
 
 def inventory_json(path):

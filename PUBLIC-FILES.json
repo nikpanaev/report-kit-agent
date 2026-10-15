@@ -45,6 +45,7 @@
     "evidence/offline-checks.json",
     "evidence/package-route-checks.json",
     "evidence/package-route-decision.json",
+    "evidence/pillow-runtime-checks.json",
     "evidence/release-prep-checks.json",
     "evidence/report-kit-checks.json",
     "evidence/runtime-checks.json",
@@ -107,7 +108,7 @@
     "skills/report-kit-release-prep/agents/openai.yaml",
     "skills/report-kit-setup/SKILL.md",
     "skills/report-kit-setup/agents/openai.yaml",
-    "\u041f\u043e\u0434\u0433\u043e\u0442\u043e\u0432\u0438\u0442\u044c \u0444\u0430\u0439\u043b \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u043a\u0438.cmd",
-    "\u041f\u043e\u0434\u0433\u043e\u0442\u043e\u0432\u0438\u0442\u044c \u0444\u0430\u0439\u043b \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u043a\u0438.command"
+    "Подготовить файл поддержки.cmd",
+    "Подготовить файл поддержки.command"
   ]
 }

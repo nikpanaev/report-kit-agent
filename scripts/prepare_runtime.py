@@ -86,7 +86,7 @@ def prepare(recipe_path, downloads, output):
         for label, item in [('python', config['python']), *config['wheels'].items(), ('node', config['node'])]:
             raw, executable = vendor_files(Path(downloads) / item['filename'], item)
             result['upstream'][item['filename']] = {'sha256': item['sha256'], 'url': item['url']}
-            layer = 'core' if label in {'python', 'tzdata'} else 'livedune-node' if label == 'node' else 'images' if label in {'Pillow', 'numpy'} else 'capture'
+            layer = 'core' if label in {'python', 'tzdata'} else 'livedune-node' if label == 'node' else 'images' if label == 'Pillow' else 'capture'
             if label == 'python': mapped = raw; execute = executable
             elif label == 'node':
                 mapped = {'node/' + n.split('/', 1)[1]: v for n, v in raw.items()}

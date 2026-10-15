@@ -1,6 +1,6 @@
 {
   "status": "EXACT_FILE_INVENTORY_NOT_LEGAL_ACCEPTANCE",
-  "runtime_id": "python312-20261013-v2",
+  "runtime_id": "python312-20261013-v3",
   "platforms": {
     "macos-arm64": [
       {
@@ -314,30 +314,6 @@
         "path": "site/typing_extensions-4.16.0.dist-info/licenses/LICENSE",
         "size": 13936,
         "sha256": "3b2f81fe21d181c499c59a256c8e1968455d6689d269aa85373bfb6af41da3bf"
-      },
-      {
-        "layer": "images",
-        "path": "site/numpy-2.3.5.dist-info/LICENSE.txt",
-        "size": 47800,
-        "sha256": "d84715000c6b3fd8719b2027238b6f6457cb853b2eb7023821a585949387f7bf"
-      },
-      {
-        "layer": "images",
-        "path": "site/numpy/_core/include/numpy/random/LICENSE.txt",
-        "size": 1018,
-        "sha256": "fbc539f47d0cf83bc61378080fb873d5c14630126cacbfe754035c3926daa5ec"
-      },
-      {
-        "layer": "images",
-        "path": "site/numpy/ma/LICENSE",
-        "size": 1593,
-        "sha256": "05f3b88351988ecfad10abe92c0c50e5875c6452d5009a0084cc291551ffcca6"
-      },
-      {
-        "layer": "images",
-        "path": "site/numpy/random/LICENSE.md",
-        "size": 3511,
-        "sha256": "103166b62b80443afb9eb3488e052ea06be0cff566b908f199e561fde49af19f"
       },
       {
         "layer": "images",
@@ -1248,7 +1224,8 @@
       {
         "layer": "core",
         "path": "python/REPORT-KIT-NOTICES.zip",
-        "sha256": "9eb7fca9eb00d0ebbf182bd11e1119f21a4d14f42cdfb2af2194df630aed56f8"
+        "sha256": "e090f07600753ba00fc674ab497438a49e5c9b4c0994c29a2edde8089fc5c2b3",
+        "size": 372506
       }
     ],
     "windows-x64": [
@@ -1575,30 +1552,6 @@
         "path": "site/typing_extensions-4.16.0.dist-info/licenses/LICENSE",
         "size": 13936,
         "sha256": "3b2f81fe21d181c499c59a256c8e1968455d6689d269aa85373bfb6af41da3bf"
-      },
-      {
-        "layer": "images",
-        "path": "site/numpy-2.3.5.dist-info/LICENSE.txt",
-        "size": 46841,
-        "sha256": "596b953e1dcbe829b32ae444387efa15003fc6abdeca8a2179f364a6364c286e"
-      },
-      {
-        "layer": "images",
-        "path": "site/numpy/_core/include/numpy/random/LICENSE.txt",
-        "size": 1039,
-        "sha256": "d544761558b510866c21f7e8a2d5716fca76e0b98117e3b6b86314db7244d150"
-      },
-      {
-        "layer": "images",
-        "path": "site/numpy/ma/LICENSE",
-        "size": 1616,
-        "sha256": "d78dbb208b80d92b4d333e41a4baae50d12444f46e53199fa7726a91de6e2da7"
-      },
-      {
-        "layer": "images",
-        "path": "site/numpy/random/LICENSE.md",
-        "size": 3582,
-        "sha256": "b4bc2f4fa1c95778f1ed3dd8f14706bece399475b978f9f34b5d3cd72521b48a"
       },
       {
         "layer": "images",
@@ -2509,9 +2462,10 @@
       {
         "layer": "core",
         "path": "python/REPORT-KIT-NOTICES.zip",
-        "sha256": "9eb7fca9eb00d0ebbf182bd11e1119f21a4d14f42cdfb2af2194df630aed56f8"
+        "sha256": "e090f07600753ba00fc674ab497438a49e5c9b4c0994c29a2edde8089fc5c2b3",
+        "size": 372506
       }
     ]
   },
-  "limits": "Original notice-name inventory retained plus pinned supplemental ZIP; license.js names may be program source. Redistribution applicability and Microsoft/NumPy obligations require separate closure."
+  "limits": "Current runtime v3 inventory excludes NumPy and its bundled native libraries. Original notice-name inventory plus pinned supplemental ZIP; not independent legal acceptance. Windows Python Microsoft distributor/recipient conditions require review."
 }
