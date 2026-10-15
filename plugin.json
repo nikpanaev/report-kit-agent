@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "report-kit-agent",
-  "version": "0.1.0-dev.34",
+  "version": "0.1.0-dev.35",
   "description": "Подготовка клиентских отчётов с пошаговой настройкой",
   "extensions": {
     "com.openai": {
