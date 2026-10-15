@@ -91,6 +91,10 @@ def check(root, skills_root=None, *, history=False):
         required = json.loads((root / "dependencies.json").read_text(encoding="utf-8"))["report-kit-skills"]
         _require((skills_root / "VERSION").read_text(encoding="utf-8").strip() == required["version"], "dependency_version")
         _require(identity(skills_root) == required["package_sha256"], "dependency_content_drift")
+        for source, target in [('support_events.py','support_bundle.py'),('support-policy.json','support-policy.json')]:
+            candidate = root / 'scripts' / target
+            if candidate.exists():
+                _require(candidate.read_bytes() == (skills_root / 'skills/_shared' / source).read_bytes(), 'support_collector_drift')
     history_result = check_history(root) if history else {"history_status": "NOT_CHECKED_ARCHIVE"}
     return {"status": "PASS_LIMITED", "files": len(inventory), "skills": count, **history_result, "package_sha256": identity(root),
             "limitations": "Pattern/inventory/source identity checks only; no complete secret detector, license review, enforced isolation, installation or live service proof."}

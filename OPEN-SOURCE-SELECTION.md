@@ -18,3 +18,7 @@ Tooling versions used are recorded in local evidence, not vendored. Owner-mainta
 ## Bootstrap и обновления по одной ссылке
 
 Повторно использовать scripts/updates.py, check_package.py, prepare_release.py и штатные native GitHub/HTTP/plugin tools. Python stdlib tarfile/hashlib нужны только для проверки и инертного staging по exact public inventory; downloaded code не запускается. Отдельный package manager/installer, daemon или сторонняя auto-update библиотека отклонены: они дублируют имеющийся native путь и добавляют границы доверия. Native шаг доступен не на каждой поверхности: подготовить минимальное подтверждение в приложении, не обходить его. Реальная совместимость штатной активации/возврата ещё требует device test.
+
+## Диагностика для поддержки
+
+Повторно используются существующие переходы request/retry/queue/maintenance/check. Их raw logs не пересылаются. Python stdlib json/uuid/zipfile/pathlib и Node fs/crypto достаточны для фиксированных полей и ZIP. Сторонняя telemetry/crash-reporting библиотека, сервер или универсальный сборщик компьютера не нужны и добавили бы передачу данных/зависимости. Два языка пишут один versioned allowlist; collector/policy экспортируются в agent побайтно, а не сопровождаются как две реализации. Запасной способ — тот же collector из новой выбранной private папки, без агента, сети или реальной установки.

@@ -1,5 +1,9 @@
 # Evidence Index — report-agent
 
+## Текущий срез: архив поддержки
+
+Agent dev.24 / skills dev.15. [Локальные проверки](evidence/support-checks.json): allowlisted служебные события, один ZIP без raw logs и отправки, тот же автономный collector для случая без агента. Начальные FAIL сохранены приватно; existing audit tests и request/recovery guards сохранены. Настоящие Windows launcher/ACL, employee usability и установка/публикация не подтверждены; предыдущие записи ниже исторические и относятся к своим exact версиям.
+
 ## Текущий срез: одна ссылка для сотрудника
 
 Версия0.1.0-dev.23; exact dependency skills0.1.0-dev.14 без изменений. [Проверки и ограничения](evidence/single-entry-checks.json). Единственный setup/update helper проверяет опубликованную пару, инертные архивы, всех клиентов и native host prerequisites. Отдельные original native metadata, consent, установка/readback и настоящий откат ещё обязательны. Это локальная реализация и synthetic проверки; actual GitHub download/native install/employee Windows НЕ ВЫПОЛНЯЛИСЬ. Предыдущие семь исправлений аудита сохранены; старые records ниже описывают свои версии, не текущий общий статус.

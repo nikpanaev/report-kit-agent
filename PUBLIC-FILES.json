@@ -44,6 +44,7 @@
     "evidence/report-kit-checks.json",
     "evidence/sheet-template-checks.json",
     "evidence/single-entry-checks.json",
+    "evidence/support-checks.json",
     "evidence/update-help-checks.json",
     "evidence/update-version-checks.json",
     "evidence/user-docs-checks.json",
@@ -53,6 +54,7 @@
     "references/releases.md",
     "references/setup.md",
     "references/sheet-templates.md",
+    "references/support.md",
     "references/updates.md",
     "references/workflow.md",
     "scripts/check_package.py",
@@ -62,6 +64,8 @@
     "scripts/check_workspace.py",
     "scripts/maintenance.py",
     "scripts/prepare_release.py",
+    "scripts/support-policy.json",
+    "scripts/support_bundle.py",
     "scripts/test_audit_regressions.py",
     "scripts/test_maintenance.py",
     "scripts/test_package_boundaries.py",
@@ -69,6 +73,7 @@
     "scripts/test_sheet_copy.py",
     "scripts/test_sheet_templates.py",
     "scripts/test_single_entry.py",
+    "scripts/test_support_bundle.py",
     "scripts/test_update_interfaces.py",
     "scripts/test_updates.py",
     "scripts/updates.py",
@@ -87,6 +92,8 @@
     "skills/report-kit-release-prep/SKILL.md",
     "skills/report-kit-release-prep/agents/openai.yaml",
     "skills/report-kit-setup/SKILL.md",
-    "skills/report-kit-setup/agents/openai.yaml"
+    "skills/report-kit-setup/agents/openai.yaml",
+    "Подготовить файл поддержки.cmd",
+    "Подготовить файл поддержки.command"
   ]
 }

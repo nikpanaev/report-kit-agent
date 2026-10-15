@@ -12,6 +12,7 @@ import unicodedata
 from check_package import identity, files, check as package_check, sensitive
 from check_workspace import check as check_workspace
 from maintenance import ContractError, require, fields, private_path, read_json, sealed_json, SHA
+from support_bundle import emit as support_event
 
 ROOT = Path(__file__).resolve().parents[1]
 PACKAGES = {"report-kit-agent", "report-kit-skills"}
@@ -472,4 +473,8 @@ if __name__ == "__main__":
                                 read_json(args.release), args.compatibility, now, bootstrap=args.bootstrap)
     except (ValueError, OSError, KeyError, TypeError, AssertionError) as error:
         result = {"status": "BLOCKED", "issue": str(error) if isinstance(error, ContractError) else "invalid_local_record"}
+    diagnostic_stage = {'due':'release','select':'release','stage':'stage','delivery':'download','preflight':'preflight',
+                        'installation-plan':'preflight','activation-result':'activation','policy':'preflight','rollout':'activation','rollback':'rollback'}[args.mode]
+    diagnostic_result = 'failure' if result.get('status') == 'BLOCKED' else 'success' if args.mode in {'preflight','delivery','stage'} else 'unknown'
+    support_event('updates',diagnostic_stage,'check',diagnostic_result,'UNKNOWN' if diagnostic_result == 'failure' else 'NONE')
     print(json.dumps(result)); raise SystemExit(result.get("status") == "BLOCKED")

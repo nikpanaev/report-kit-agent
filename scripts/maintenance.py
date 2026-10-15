@@ -7,6 +7,7 @@ import re
 
 from check_package import sensitive
 from check_workspace import check as check_workspace
+from support_bundle import emit as support_event
 
 ROOT = Path(__file__).resolve().parents[1]
 ADDRESS = {"thread_id", "host_id", "project_id"}
@@ -246,4 +247,6 @@ if __name__ == "__main__":
             result["roles"] = len(checked["endpoints"])
     except (ValueError, OSError, KeyError, TypeError) as error:
         result = {"status": "BLOCKED", "issue": str(error) if isinstance(error, ContractError) else "invalid_local_record"}
+    support_event('maintenance','validation','check','failure' if result.get('status') == 'BLOCKED' else 'success',
+                  'INVALID_INPUT' if result.get('status') == 'BLOCKED' else 'NONE')
     print(json.dumps(result)); raise SystemExit(result["status"] == "BLOCKED")
