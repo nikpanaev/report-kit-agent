@@ -72,7 +72,9 @@ def stage(delivery, downloads, output, target, layers, protected=()):
     fields(delivery, {'schema_version', 'runtime_id', 'platform', 'assets'}, 'runtime_delivery')
     require(delivery['schema_version'] == 1 and delivery['platform'] == target and target in PLATFORMS, 'runtime_platform')
     require(re.fullmatch(r'[a-z0-9][a-z0-9.-]{0,79}', delivery['runtime_id']) is not None, 'runtime_identity')
-    require(set(layers) <= LAYERS and 'core' in layers and set(downloads) == set(layers), 'runtime_layers')
+    require(isinstance(layers, list) and 1 <= len(layers) <= len(LAYERS)
+            and all(isinstance(x, str) for x in layers) and len(set(layers)) == len(layers)
+            and set(layers) <= LAYERS and 'core' in layers and set(downloads) == set(layers), 'runtime_layers')
     output = boundary(output, protected); require(not output.exists(), 'runtime_exists')
     payload, executables = {}, set()
     for layer in layers:
@@ -97,6 +99,7 @@ def stage(delivery, downloads, output, target, layers, protected=()):
         for name, data in entries.items():
             require(name not in payload or payload[name] == data, 'runtime_layer_collision')
             payload[name] = data
+        require(sum(map(len, payload.values())) <= 768 * 1024 * 1024, 'runtime_total_size')
         executables.update(manifest['executables'])
     require(sum(map(len, payload.values())) <= 768 * 1024 * 1024, 'runtime_total_size')
     output.mkdir(mode=0o700, parents=True)
@@ -181,7 +184,7 @@ def browser_plan(channel, observed, *, install_consent=False):
     if observed == 'policy_denied': return {'action': 'CONTACT_IT', 'message': 'Организация запрещает управление браузером. Нужна помощь вашей ИТ-службы.'}
     if channel == 'chrome': return {'action': 'OFFER_CHROME_OR_REQUIRED_CHROMIUM', 'message': 'Подходящий браузер пока недоступен. Можно установить Chrome или подготовить отдельный браузер для этой задачи.'}
     return {'action': 'NATIVE_INSTALL_PLAYWRIGHT_BROWSER' if install_consent else 'ASK_BROWSER_CONSENT',
-            'message': 'Для этого скилла нужен отдельный браузер Playwright Chromium. Разрешите подготовить его? Ваш обычный Chrome и его настройки не изменятся.',
+            'message': 'Для этой задачи нужен отдельный браузер Playwright Chromium. Разрешите подготовить его? Ваш обычный Chrome и его настройки не изменятся.',
             'command_for_agent_only': ['-m', 'playwright', 'install', 'chromium'] if install_consent else None}
 
 

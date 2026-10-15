@@ -57,6 +57,7 @@ class PortableRuntime(unittest.TestCase):
             self.assertFalse((self.root / 'stage').exists())
 
     def test_wrong_platform_existing_output_and_package_boundary(self):
+        with self.assertRaises(ValueError): runtime.stage(self.delivery, {'core': self.archive}, self.root / 'duplicates', 'macos-arm64', ['core', 'core'])
         with self.assertRaises(ValueError): runtime.stage(self.delivery, {'core': self.archive}, self.root / 'bad', 'windows-x64', ['core'])
         self.stage()
         with self.assertRaises(ValueError): self.stage()
