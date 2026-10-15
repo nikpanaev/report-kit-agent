@@ -1224,8 +1224,8 @@
       {
         "layer": "core",
         "path": "python/REPORT-KIT-NOTICES.zip",
-        "sha256": "e090f07600753ba00fc674ab497438a49e5c9b4c0994c29a2edde8089fc5c2b3",
-        "size": 372506
+        "sha256": "b18272a5face3ffd2af147865cdd9642ea5ee7f26409b55133ba88f69d729c75",
+        "size": 381483
       }
     ],
     "windows-x64": [
@@ -2462,8 +2462,8 @@
       {
         "layer": "core",
         "path": "python/REPORT-KIT-NOTICES.zip",
-        "sha256": "e090f07600753ba00fc674ab497438a49e5c9b4c0994c29a2edde8089fc5c2b3",
-        "size": 372506
+        "sha256": "b18272a5face3ffd2af147865cdd9642ea5ee7f26409b55133ba88f69d729c75",
+        "size": 381483
       }
     ]
   },

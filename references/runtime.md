@@ -6,7 +6,7 @@
 
 ## Состав и получение
 
-Core v3 также содержит python/REPORT-KIT-NOTICES.zip; точный supplemental input закреплён notice_package в рецепте. prepare_runtime проверяет его перед включением; prepare_release отказывает core с отсутствующим/изменённым комплектом. Программные binaries сохранены, но эта добавка сама по себе не разрешает внешнее распространение — см. [лицензии](../LICENSE-STATUS.md).
+Core v3 также содержит python/REPORT-KIT-NOTICES.zip; точный supplemental input закреплён notice_package в рецепте. prepare_runtime проверяет его перед включением; prepare_release отказывает core с отсутствующим/изменённым комплектом. Оба шага проверяют inventory.json внутри ZIP: каждый перечисленный текст должен присутствовать и совпадать по SHA256; повторяющиеся имена запрещены. Сверка рецепта перед запуском также отвергает прежний хеш комплекта уведомлений даже при совпадении версий среды. Программные binaries сохранены, но эта добавка сама по себе не разрешает внешнее распространение — см. [лицензии](../LICENSE-STATUS.md).
 
 Source of truth — assets/runtime-recipe.json: exact CPython distribution, platform wheels, все transitive Python packages и optional Node. Файлы поставки собираются prepare_runtime.py из уже скачанных проверенных upstream files, без pip, lifecycle scripts и исполнения скачанного кода. Отдельные assets: core (Python + tzdata), capture (Playwright + pyee + greenlet + typing_extensions), images (Pillow), livedune-node (Node с его штатными файлами). Pillow native libraries и Playwright driver остаются внутри exact wheels. Профили macos-arm64 и windows-x64 выбираются по actual OS/CPU; другие устройства пока не поддержаны этим рецептом. Номер библиотеки не доказывает совместимость всей среды.
 

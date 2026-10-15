@@ -2,7 +2,7 @@
   "schema_version": 1,
   "report-kit-skills": {
     "version": "0.1.0-dev.20",
-    "package_sha256": "6ba8284b8964895840887f1686d93c81fd41039713f037af3ac45944e377a795"
+    "package_sha256": "72b88ecb4dd5c266207776c06089bf8ac5236687a115a32b5cc457c54a9886a1"
   },
   "external_capabilities": {
     "google": "Connected official native tools/skills, employee authorization at use; not vendored",

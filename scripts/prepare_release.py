@@ -125,11 +125,13 @@ def append_runtime_assets(agent, assets_root, output, record):
                 require(manifest['layer'] == layer and manifest['platform'] == platform['platform'], 'runtime_manifest_identity')
                 manifest_recipe_match(manifest, recipe)
                 if layer == 'core' and 'notice_package' in recipe:
+                    from prepare_runtime import validate_notice_archive
                     key = 'python/REPORT-KIT-NOTICES.zip'; notice = recipe['notice_package']
                     items = [m for m in archive.getmembers() if m.name == key]
                     require(len(items) == 1 and items[0].isfile() and items[0].size == notice['size']
                             and hashlib.sha256(archive.extractfile(items[0]).read()).hexdigest() == notice['sha256']
                             and manifest['files'].get(key) == notice['sha256'], 'runtime_notice_missing_or_changed')
+                    validate_notice_archive(archive.extractfile(items[0]).read())
             with src.open('rb') as source, dest.open('xb') as target: shutil.copyfileobj(source, target)
             dest.chmod(0o600)
             require(identity_file(dest) == asset['sha256'], 'runtime_copy_changed')

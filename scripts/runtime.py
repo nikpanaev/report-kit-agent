@@ -134,6 +134,9 @@ def manifest_recipe_match(manifest, recipe):
     expected = {'python': recipe['python_version'], 'node': recipe['node_version'], **recipe['packages']}
     require(manifest['runtime_id'] == recipe['runtime_id'], 'runtime_recipe_identity')
     require(manifest['versions'] == expected, 'runtime_recipe_versions')
+    if manifest['layer'] == 'core' and 'notice_package' in recipe:
+        require(manifest['files'].get('python/REPORT-KIT-NOTICES.zip') == recipe['notice_package']['sha256'],
+                'runtime_notice_missing_or_changed')
 
 
 def recipe_match(root, receipt, recipe):

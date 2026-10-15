@@ -64,12 +64,28 @@ def tar_bytes(payload, executables=(), *, compress=False):
     return out.getvalue()
 
 
+def validate_notice_archive(raw):
+    try:
+        with zipfile.ZipFile(io.BytesIO(raw)) as archive:
+            members = archive.infolist(); names = [m.filename for m in members]
+            require(len(names) == len(set(names)) and len(names) <= 1000
+                    and sum(m.file_size for m in members) <= 32 * 1024 * 1024, 'runtime_notice_inventory')
+            entries = json.loads(archive.read('inventory.json'))['notice_sources']
+            require(isinstance(entries, list) and entries, 'runtime_notice_inventory')
+            for entry in entries:
+                require(hashlib.sha256(archive.read(entry['file'])).hexdigest() == entry['sha256'], 'runtime_notice_inventory')
+    except (zipfile.BadZipFile, KeyError, TypeError, UnicodeError) as error:
+        raise ValueError('runtime_notice_inventory') from error
+
+
 def notice_bytes(downloads, item):
     path = Path(downloads) / item['filename']
     require(Path(item['filename']).name == item['filename'] and not path.is_symlink()
             and path.is_file() and 0 < item['size'] <= 4 * 1024 * 1024
             and path.stat().st_size == item['size'] and identity_file(path) == item['sha256'], 'runtime_notice_identity')
-    return path.read_bytes()
+    raw = path.read_bytes()
+    validate_notice_archive(raw)
+    return raw
 
 
 def prepare(recipe_path, downloads, output):

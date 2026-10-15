@@ -9,6 +9,7 @@ import sys
 import tarfile
 import tempfile
 import unittest
+import zipfile
 from unittest.mock import patch
 
 import onboarding
@@ -16,6 +17,15 @@ import prepare_runtime
 import runtime
 import support_bundle
 import updates
+
+
+def notice_payload():
+    out = io.BytesIO()
+    with zipfile.ZipFile(out, 'w') as archive:
+        for name, raw in {'notice.txt': b'synthetic notice', 'inventory.json': json.dumps({'notice_sources': [
+                {'file': 'notice.txt', 'sha256': hashlib.sha256(b'synthetic notice').hexdigest()}]}).encode()}.items():
+            archive.writestr(zipfile.ZipInfo(name, (2026, 1, 1, 0, 0, 0)), raw)
+    return out.getvalue()
 
 
 class PortableRuntime(unittest.TestCase):
@@ -43,7 +53,7 @@ class PortableRuntime(unittest.TestCase):
         return runtime.stage(self.delivery, {'core': self.archive}, self.root / name, 'macos-arm64', ['core'])
 
     def test_supplemental_notices_are_pinned_inert_inputs(self):
-        path = self.root / 'notices.zip'; path.write_bytes(b'synthetic notice input; not executed')
+        path = self.root / 'notices.zip'; path.write_bytes(notice_payload())
         item = {'filename': path.name, 'size': path.stat().st_size, 'sha256': updates.identity_file(path)}
         self.assertEqual(prepare_runtime.notice_bytes(self.root, item), path.read_bytes())
         path.write_bytes(b'changed')
@@ -52,6 +62,25 @@ class PortableRuntime(unittest.TestCase):
         item['filename'] = '../notices.zip'
         with self.assertRaisesRegex(ValueError, 'runtime_notice_identity'):
             prepare_runtime.notice_bytes(self.root, item)
+
+    def test_notice_index_rejects_missing_changed_and_duplicate_text(self):
+        original = notice_payload()
+        with zipfile.ZipFile(io.BytesIO(original)) as archive:
+            entries = {name: archive.read(name) for name in archive.namelist()}
+        for mode in ['missing', 'changed', 'duplicate']:
+            out = io.BytesIO()
+            with zipfile.ZipFile(out, 'w') as archive:
+                archive.writestr('inventory.json', entries['inventory.json'])
+                if mode != 'missing': archive.writestr('notice.txt', b'changed' if mode == 'changed' else entries['notice.txt'])
+                if mode == 'duplicate':
+                    with self.assertWarns(UserWarning): archive.writestr('notice.txt', entries['notice.txt'])
+            with self.subTest(mode=mode), self.assertRaisesRegex(ValueError, 'runtime_notice_inventory'):
+                prepare_runtime.validate_notice_archive(out.getvalue())
+
+    def test_recipe_rejects_old_notice_even_with_same_runtime_versions(self):
+        recipe = dict(self.recipe, notice_package={'sha256': hashlib.sha256(b'new terms').hexdigest()})
+        with self.assertRaisesRegex(ValueError, 'runtime_notice_missing_or_changed'):
+            runtime.manifest_recipe_match(self.manifest, recipe)
 
     def test_stage_is_inert_and_original_source_guard_stays_text_only(self):
         r = self.stage(); self.assertEqual(r['status'], 'STAGED_NOT_INSTALLED')
@@ -254,14 +283,14 @@ class PortableRuntime(unittest.TestCase):
             return {'filename': name, 'size': len(payload), 'sha256': updates.identity_file(path), 'url': None}
         python = item('python.tar.gz', prepare_runtime.tar_bytes({'python/bin/python3': b'synthetic'}, compress=True))
         node = item('node.tar.gz', prepare_runtime.tar_bytes({'vendor/bin/node': b'synthetic'}, compress=True))
-        notice = item('notice.zip', b'synthetic notice; never executed')
+        notice = item('notice.zip', notice_payload())
         recipe = dict(self.recipe, notice_package=notice, platforms={'macos-arm64': {'python': python, 'wheels': {}, 'node': node}})
         agent = self.root / 'agent'; (agent / 'assets').mkdir(parents=True)
         path = agent / 'assets/runtime-recipe.json'; path.write_text(json.dumps(recipe))
         assets = self.root / 'prepared'; result = prepare_runtime.prepare(path, downloads, assets)
         asset = result['platforms']['macos-arm64']['assets']['core']
         with tarfile.open(assets / asset['filename']) as archive:
-            key = 'python/REPORT-KIT-NOTICES.zip'; self.assertEqual(archive.extractfile(key).read(), b'synthetic notice; never executed')
+            key = 'python/REPORT-KIT-NOTICES.zip'; self.assertEqual(archive.extractfile(key).read(), notice_payload())
             manifest = json.load(archive.extractfile('manifests/core.json'))
             bootstrap = archive.extractfile('runtime-receipt.json').read()
             self.assertEqual(manifest['files'][key], notice['sha256'])
