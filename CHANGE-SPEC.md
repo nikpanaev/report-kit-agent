@@ -1,5 +1,9 @@
 # Portable reporting preparation
 
+## Windows LiveDune preparation — 15 October 2026
+
+Owner instructed work by the plan and assigned actual Windows checks to the user because no Windows device is available here. Prepare a Windows credential/private-directory adapter using native Credential Manager and Windows PowerShell5.1/.NET, preserving the current macOS Keychain route and ready MCP backend. This is a bounded exception to the earlier no-new-credential-adapter scope. No new HTTP client, dependency installation, service, execution-policy changes, current credential reads, client work, publication or installation. Existing directories are checked, not silently repermissioned; only new task directories receive restrictive ACLs. Offline tests cover dispatch, denied/missing credential, sanitized errors, private-directory failure and existing request/budget guards. Native Credential Manager/ACL/browser/API/restart checks remain USER_CHECK_REQUIRED, never PASS from mocks. Update setup/help, compatible package identity and local archives; retain accepted snapshots and raw failures. This local change does not certify other source skills on Windows.
+
 ## Authority, discovery and scope
 
 Owner: repository owner. Decision 2026-10-14: two repositories accepted; prepare local repositories now, later public GitHub distribution; no publication and no changes to existing client agents. Earlier accepted requirements: another employee/device/account, simple questions, future clients only, independently maintained source skills and recurring agent updates.

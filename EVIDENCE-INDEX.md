@@ -1,6 +1,6 @@
 # Evidence Index — report-agent
 
-Current state2026-10-15: VERSION0.1.0-dev.20, prototype/development, no stable release, no remote. Authorized result: local source preparation plus the separately authorized synthetic Google copy/test described below. Existing client agents/installed skills unchanged by this task; preservation receipt outside public package. Publication/installation not performed; a separately authorized read-only synthetic Google probe is recorded below.
+Current state2026-10-15: VERSION0.1.0-dev.21, prototype/development, no stable release, no remote. Authorized result: local source preparation plus the separately authorized synthetic Google copy/test described below. Existing client agents/installed skills unchanged by this task; preservation receipt outside public package. Publication/installation not performed; a separately authorized read-only synthetic Google probe is recorded below.
 
 Process Profile and authority: [CHANGE-SPEC](CHANGE-SPEC.md). Baseline and scoped branch actual Git; package content identity/private exact run records retained locally. [Offline checks](evidence/offline-checks.json) contain only sanitized source/test identities, no donor paths or private data. [Source provenance](SOURCE-PROVENANCE.json), [selection](OPEN-SOURCE-SELECTION.md) and [license status](LICENSE-STATUS.md).
 
@@ -155,3 +155,9 @@ Owner approved the alternate route and explicitly selected the work account for 
 ## Final source-journal correction
 
 The accepted local pair dev19/dev11 remains sealed. Skills dev12 corrects two direct_support fields and one inaccurate historical method; agent dev20 selects its exact content identity. All executable/test/skill bytes remain unchanged. Prior observation and raw FAIL snapshots remain available privately; recorded local acceptance does not authorize employee installation, publication or Windows support. No new report, browser or provider test was run for this metadata-only correction.
+
+## Windows preparation; user native verification
+
+Current slice prepares Windows LiveDune credential/private-folder handling and user instructions. Existing macOS transport and request guards retained; no new dependency/runtime installed. Native Windows, Credential Manager, filesystem ACL, browser/API/restart are USER_CHECK_REQUIRED. Existing accepted local snapshots and raw failures preserved. This is not support certification or installation/publication authority.
+
+Windows native verification is assigned to the user, not a missing developer-machine task. Source preparation can finish with USER_CHECK_REQUIRED while actual device support/release remains unapproved. Official skill validation failed only because both existing Python environments lack PyYAML; its unchanged header and references are checked by the package validator. No dependency installed to conceal this environment limitation.
