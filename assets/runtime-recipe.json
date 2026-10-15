@@ -117,7 +117,7 @@
       }
     }
   },
-  "license_review": "NUMPY_OMITTED; Python Windows downstream Microsoft terms retained; exact distributor/recipient terms review pending before external distribution",
+  "license_review": "CONDITIONAL_PYTHON_DOWNSTREAM_ROUTE_PREPARED; exact recipient terms and notices pinned; owner legal/release acceptance and native Windows check pending",
   "browsers_included": false,
   "node_version": "24.21.0",
   "notice_package": {
@@ -125,5 +125,10 @@
     "sha256": "b18272a5face3ffd2af147865cdd9642ea5ee7f26409b55133ba88f69d729c75",
     "size": 381483,
     "url": null
+  },
+  "windows_terms": {
+    "path": "references/windows-terms.md",
+    "sha256": "92d20ac36344d09331b67d00b8214fbc5fba34dadd91899a33cbe03ca58c6ccf",
+    "python_license_sha256": "886a0ead2d89030ee62dbff52b04e47ab91998341295bb9c56fb952b4e081c7a"
   }
 }

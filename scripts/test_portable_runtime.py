@@ -12,6 +12,7 @@ import unittest
 import zipfile
 from unittest.mock import patch
 
+from check_package import identity
 import onboarding
 import prepare_runtime
 import runtime
@@ -117,6 +118,93 @@ class PortableRuntime(unittest.TestCase):
         with self.assertRaises(ValueError): runtime.probe(self.root / 'stage', r['receipt_sha256'])
         with patch.object(runtime, 'host_platform', return_value='windows-x64'):
             with self.assertRaises(ValueError): runtime.probe(self.root / 'stage', r['receipt_sha256'], execution_authorized=True)
+
+    def windows_fixture(self):
+        candidate = self.root / 'candidate'; (candidate / 'references').mkdir(parents=True)
+        (candidate / 'assets').mkdir()
+        terms = candidate / 'references/windows-terms.md'; terms.write_text('Synthetic terms only', encoding='utf-8')
+        consent = {'accepted': True, 'terms_sha256': updates.identity_file(terms), 'response_locator': 'synthetic-human-reply'}
+        recipe = dict(self.recipe, packages={'tzdata': '2026.5'}, windows_terms={
+            'path': 'references/windows-terms.md', 'sha256': consent['terms_sha256'],
+            'python_license_sha256': hashlib.sha256(b'synthetic Python license').hexdigest()})
+        data = {'python/python.exe': b'not executable; synthetic', 'python/LICENSE.txt': b'synthetic Python license'}
+        manifest = dict(self.manifest, platform='windows-x64', files={n: hashlib.sha256(v).hexdigest() for n, v in data.items()},
+                        executables=['python/python.exe'], versions={'python': '3.12.15', 'node': '24.21.0', 'tzdata': '2026.5'})
+        data['manifests/core.json'] = json.dumps(manifest).encode()
+        self.archive.write_bytes(prepare_runtime.tar_bytes(data))
+        delivery = dict(self.delivery, platform='windows-x64', assets={'core': {'filename': self.archive.name,
+            'size': self.archive.stat().st_size, 'sha256': updates.identity_file(self.archive)}})
+        staged = runtime.stage(delivery, {'core': self.archive}, self.root / 'win', 'windows-x64', ['core'])
+        (candidate / 'assets/runtime-recipe.json').write_text(json.dumps(recipe), encoding='utf-8')
+        script = candidate / 'check.py'; script.write_text('raise AssertionError("must not run")', encoding='utf-8')
+        (candidate / 'PUBLIC-FILES.json').write_text(json.dumps({'schema_version': 1, 'files': [
+            'PUBLIC-FILES.json', 'assets/runtime-recipe.json', 'check.py', 'references/windows-terms.md']}), encoding='utf-8')
+        return candidate, recipe, consent, staged, script
+
+    def test_windows_terms_require_explicit_current_receipt(self):
+        candidate, recipe, consent, _, _ = self.windows_fixture()
+        for value in [None, dict(consent, accepted=False), dict(consent, terms_sha256='0'*64),
+                      dict(consent, response_locator=' '), dict(consent, extra='forbidden')]:
+            with self.subTest(value=value), self.assertRaisesRegex(ValueError, 'runtime_windows_terms_consent'):
+                runtime.windows_terms_check('windows-x64', recipe, value, source_root=candidate)
+        runtime.windows_terms_check('windows-x64', recipe, consent, source_root=candidate)
+        runtime.windows_terms_check('macos-arm64', {}, None)
+        (candidate / 'references/windows-terms.md').write_text('changed', encoding='utf-8')
+        with self.assertRaisesRegex(ValueError, 'runtime_windows_terms_changed'):
+            runtime.windows_terms_check('windows-x64', recipe, consent, source_root=candidate)
+
+    def test_windows_terms_gate_probe_and_command_before_execution(self):
+        candidate, recipe, consent, staged, script = self.windows_fixture()
+        with patch.object(runtime, 'ROOT', candidate), patch.object(runtime, 'host_requirements', return_value='windows-x64'), \
+                patch.object(runtime.subprocess, 'run') as run:
+            for value in [None, dict(consent, terms_sha256='0'*64)]:
+                with self.assertRaisesRegex(ValueError, 'runtime_windows_terms_consent'):
+                    runtime.probe(self.root / 'win', staged['receipt_sha256'], execution_authorized=True, terms_acceptance=value)
+                with self.assertRaisesRegex(ValueError, 'runtime_windows_terms_consent'):
+                    runtime.execution_plan(self.root / 'win', staged['receipt_sha256'], candidate, identity(candidate), script, [], terms_acceptance=value)
+                run.assert_not_called()
+            run.return_value = subprocess.CompletedProcess([], 0, json.dumps({'python': '3.12.15', 'modules': ['tzdata'], 'versions': {'tzdata': '2026.5'}}))
+            self.assertEqual(runtime.probe(self.root / 'win', staged['receipt_sha256'], execution_authorized=True,
+                                          terms_acceptance=consent)['status'], 'LOCAL_RUNTIME_PROBE_PASS')
+            plan = runtime.execution_plan(self.root / 'win', staged['receipt_sha256'], candidate,
+                identity(candidate), script, [], terms_acceptance=consent)
+            self.assertFalse(plan['execution_authorized'])
+            self.assertEqual(run.call_count, 1)
+
+    def test_windows_client_update_preserves_selection_and_checks_new_terms(self):
+        candidate, recipe, consent, staged, _ = self.windows_fixture()
+        chosen = {'runtime_id': 'fixture-v1', 'root': str(self.root / 'win'), 'receipt_sha256': staged['receipt_sha256']}
+        selection = self.workspace / 'runtime-selection.json'; selection.write_text(json.dumps(chosen), encoding='utf-8')
+        before = selection.read_bytes(); record = self.workspace / 'windows-terms-consent.json'
+        with patch.object(runtime, 'host_requirements', return_value='windows-x64'):
+            with self.assertRaisesRegex(ValueError, 'runtime_windows_terms_consent'): runtime.client_preflight(self.workspace, candidate, {})
+            record.write_text(json.dumps(dict(consent, terms_sha256='0'*64)), encoding='utf-8')
+            with self.assertRaisesRegex(ValueError, 'runtime_windows_terms_consent'): runtime.client_preflight(self.workspace, candidate, {})
+            record.write_text(json.dumps(consent), encoding='utf-8')
+            runtime.client_preflight(self.workspace, candidate, {})
+        self.assertEqual(selection.read_bytes(), before)
+
+    def test_windows_python_license_and_bootstrap_contract(self):
+        candidate, recipe, _, _, _ = self.windows_fixture()
+        manifest = json.loads((self.root / 'win/manifests/core.json').read_text(encoding='utf-8'))
+        runtime.manifest_recipe_match(manifest, recipe)
+        manifest['files']['python/LICENSE.txt'] = '0'*64
+        with self.assertRaisesRegex(ValueError, 'runtime_windows_license_changed'): runtime.manifest_recipe_match(manifest, recipe)
+        script = (runtime.ROOT / 'scripts/bootstrap_runtime.ps1').read_text(encoding='utf-8')
+        self.assertLess(script.index('RUNTIME_WINDOWS_TERMS_CONSENT_REQUIRED'), script.index('Copy-Item'))
+        self.assertIn('$TermsResponseLocator', script)
+
+    def test_release_rejects_changed_windows_terms_before_copy(self):
+        from prepare_release import append_runtime_assets
+        candidate, recipe, _, _, _ = self.windows_fixture()
+        recipe['platforms'] = {'windows-x64': {}}
+        (candidate / 'assets/runtime-recipe.json').write_text(json.dumps(recipe), encoding='utf-8')
+        assets = self.root / 'assets'; assets.mkdir()
+        (assets / 'runtime-build.json').write_text(json.dumps({'runtime_id': 'fixture-v1', 'installation_performed': False}), encoding='utf-8')
+        (candidate / 'references/windows-terms.md').write_text('changed', encoding='utf-8')
+        with self.assertRaisesRegex(ValueError, 'runtime_windows_terms_changed'):
+            append_runtime_assets(candidate, assets, self.root / 'no-output', {})
+        self.assertFalse((self.root / 'no-output').exists())
 
     def test_archive_traversal_links_and_collision_are_still_blocked(self):
         for name in ['../escape', '/escape', 'dir/CON.txt']:

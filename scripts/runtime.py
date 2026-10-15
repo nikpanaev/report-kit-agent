@@ -137,6 +137,28 @@ def manifest_recipe_match(manifest, recipe):
     if manifest['layer'] == 'core' and 'notice_package' in recipe:
         require(manifest['files'].get('python/REPORT-KIT-NOTICES.zip') == recipe['notice_package']['sha256'],
                 'runtime_notice_missing_or_changed')
+    if manifest.get('platform') == 'windows-x64' and manifest['layer'] == 'core' and 'windows_terms' in recipe:
+        require(manifest['files'].get('python/LICENSE.txt') == recipe['windows_terms']['python_license_sha256'],
+                'runtime_windows_license_changed')
+
+
+def windows_terms_identity(recipe, *, source_root=None):
+    terms = recipe.get('windows_terms', {})
+    require(isinstance(terms, dict) and terms.get('path') == 'references/windows-terms.md', 'runtime_windows_terms_contract')
+    path = Path(source_root or ROOT) / terms['path']
+    require(not path.is_symlink() and path.is_file() and identity_file(path) == terms.get('sha256'),
+            'runtime_windows_terms_changed')
+    return terms['sha256']
+
+
+def windows_terms_check(target, recipe, acceptance=None, *, source_root=None):
+    """Validate the exact terms receipt; native executor must verify the referenced human reply."""
+    if target != 'windows-x64': return
+    digest = windows_terms_identity(recipe, source_root=source_root)
+    require(isinstance(acceptance, dict) and set(acceptance) == {'accepted', 'terms_sha256', 'response_locator'}
+            and acceptance['accepted'] is True and acceptance['terms_sha256'] == digest
+            and isinstance(acceptance['response_locator'], str) and 0 < len(acceptance['response_locator']) <= 1000
+            and bool(acceptance['response_locator'].strip()), 'runtime_windows_terms_consent')
 
 
 def recipe_match(root, receipt, recipe):
@@ -146,13 +168,15 @@ def recipe_match(root, receipt, recipe):
         manifest_recipe_match(manifest, recipe)
 
 
-def probe(root, expected_receipt_sha256, *, execution_authorized=False):
+def probe(root, expected_receipt_sha256, *, execution_authorized=False, terms_acceptance=None):
     require(execution_authorized is True, 'runtime_execution_permission')
     operation = str(uuid.uuid4()); support_event('setup', 'validation', 'started', operation=operation)
     require(isinstance(expected_receipt_sha256, str) and re.fullmatch('[0-9a-f]{64}', expected_receipt_sha256), 'runtime_trusted_receipt')
     root = Path(root).resolve(); receipt = verify(root, expected_receipt_sha256=expected_receipt_sha256)
     require(receipt['platform'] == host_requirements(), 'runtime_wrong_host')
-    recipe_match(root, receipt, read_json(ROOT / 'assets/runtime-recipe.json'))
+    recipe = read_json(ROOT / 'assets/runtime-recipe.json')
+    recipe_match(root, receipt, recipe)
+    windows_terms_check(receipt['platform'], recipe, terms_acceptance)
     python = root / ('python/python.exe' if receipt['platform'] == 'windows-x64' else 'python/bin/python3')
     for name in receipt['executables']: (root / name).chmod(0o700)
     modules = sorted({'tzdata', *{m for layer in receipt['layers'] for m in IMPORTS.get(layer, [])}})
@@ -175,12 +199,14 @@ def probe(root, expected_receipt_sha256, *, execution_authorized=False):
     return {'status': 'LOCAL_RUNTIME_PROBE_PASS', **value, 'native_windows': receipt['platform'] == 'windows-x64'}
 
 
-def execution_plan(root, receipt_hash, source_root, source_identity, script, arguments, *, browser=None):
+def execution_plan(root, receipt_hash, source_root, source_identity, script, arguments, *, browser=None, terms_acceptance=None):
     """Return argv for a verified package script; the native executor still checks authority."""
     from check_package import identity
     root = Path(root).resolve(); receipt = verify(root, expected_receipt_sha256=receipt_hash)
     require(receipt['platform'] == host_requirements(), 'runtime_wrong_host')
-    recipe_match(root, receipt, read_json(ROOT / 'assets/runtime-recipe.json'))
+    recipe = read_json(ROOT / 'assets/runtime-recipe.json')
+    recipe_match(root, receipt, recipe)
+    windows_terms_check(receipt['platform'], recipe, terms_acceptance)
     source_root = Path(source_root).resolve(); script = Path(script).resolve()
     require(identity(source_root) == source_identity and script.is_relative_to(source_root)
             and script.is_file() and script.suffix == '.py', 'runtime_script_identity')
@@ -220,6 +246,10 @@ def client_preflight(workspace, candidate_agent, clients):
     receipt = verify(chosen['root'], required, chosen['receipt_sha256'])
     require(receipt['runtime_id'] == chosen['runtime_id'] and receipt['platform'] == host_requirements(), 'runtime_selection_identity')
     recipe_match(chosen['root'], receipt, recipe)
+    if receipt['platform'] == 'windows-x64':
+        consent = Path(workspace) / 'windows-terms-consent.json'
+        require(not consent.is_symlink() and consent.is_file(), 'runtime_windows_terms_consent')
+        windows_terms_check(receipt['platform'], recipe, read_json(consent), source_root=candidate_agent)
     return {'candidate': chosen, 'previous': read_json(selection) if selection.exists() else None,
             'selection_changed': False, 'limits': 'Native activation must preserve previous selection until package and runtime checks pass; rollback excludes client data.'}
 

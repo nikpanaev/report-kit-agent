@@ -107,9 +107,10 @@ def append_runtime_assets(agent, assets_root, output, record):
     """Same local release; large reviewed artifacts remain outside source Git history."""
     from maintenance import read_json, require
     from updates import identity_file
-    from runtime import manifest_recipe_match
+    from runtime import manifest_recipe_match, windows_terms_identity
     runtime = read_json(assets_root / 'runtime-build.json')
     recipe = read_json(agent / 'assets/runtime-recipe.json')
+    if 'windows-x64' in recipe['platforms']: windows_terms_identity(recipe, source_root=agent)
     require(runtime['runtime_id'] == recipe['runtime_id'] and runtime['installation_performed'] is False, 'runtime_build_identity')
     require(bool(runtime['platforms']) and set(runtime['platforms']) == set(recipe['platforms']), 'runtime_platform_inventory')
     require(all('core' in p['assets'] for p in runtime['platforms'].values()), 'runtime_core_missing')

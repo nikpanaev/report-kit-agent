@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "package": "report-kit-agent",
-  "package_version": "0.1.0-dev.29",
+  "package_version": "0.1.0-dev.30",
   "interfaces": {
     "workspace": 2,
     "maintenance": 1,

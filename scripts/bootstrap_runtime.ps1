@@ -1,4 +1,5 @@
-param([switch]$Approved, [string]$Archive, [string]$Sha256, [string]$Destination)
+param([switch]$Approved, [string]$Archive, [string]$Sha256, [string]$Destination,
+      [string]$TermsAcceptedSha256, [string]$TermsResponseLocator)
 $ErrorActionPreference = 'Stop'
 $madeTemp = $false
 $temp = $null
@@ -6,6 +7,15 @@ $copy = $null
 # Agent-only native extraction; no execution-policy changes, runtime execution or global installation.
 try {
     if (-not $Approved) { throw 'RUNTIME_PERMISSION_REQUIRED' }
+    $recipe = Get-Content -Raw -LiteralPath (Join-Path $PSScriptRoot '../assets/runtime-recipe.json') | ConvertFrom-Json
+    $terms = Join-Path $PSScriptRoot '../references/windows-terms.md'
+    if ($recipe.windows_terms.path -cne 'references/windows-terms.md' -or
+        $TermsAcceptedSha256 -cnotmatch '^[0-9a-f]{64}$' -or
+        $TermsAcceptedSha256 -cne $recipe.windows_terms.sha256 -or
+        (Get-FileHash -LiteralPath $terms -Algorithm SHA256).Hash.ToLowerInvariant() -cne $TermsAcceptedSha256 -or
+        [string]::IsNullOrWhiteSpace($TermsResponseLocator) -or $TermsResponseLocator.Length -gt 1000) {
+        throw 'RUNTIME_WINDOWS_TERMS_CONSENT_REQUIRED'
+    }
     if ($Sha256 -cnotmatch '^[0-9a-f]{64}$') { throw 'RUNTIME_HASH_INVALID' }
     if (-not (Test-Path -LiteralPath $Archive -PathType Leaf) -or (Test-Path -LiteralPath $Destination)) { throw 'RUNTIME_INPUT' }
     if ((Get-Item -LiteralPath $Archive).Attributes -band [IO.FileAttributes]::ReparsePoint) { throw 'RUNTIME_LINK' }
