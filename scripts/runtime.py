@@ -161,6 +161,19 @@ def windows_terms_check(target, recipe, acceptance=None, *, source_root=None):
             and bool(acceptance['response_locator'].strip()), 'runtime_windows_terms_consent')
 
 
+def windows_terms_record(workspace, digest):
+    require(isinstance(digest, str) and re.fullmatch('[0-9a-f]{64}', digest), 'runtime_windows_terms_consent')
+    workspace = boundary(workspace)
+    history = workspace / 'windows-terms-consents'
+    require(not history.is_symlink() and (not history.exists() or history.is_dir()), 'runtime_windows_terms_consent')
+    record = history / (digest + '.json')
+    require(not record.is_symlink(), 'runtime_windows_terms_consent')
+    # Keep the old single receipt intact so a previously installed pair can still read it after rollback.
+    if not record.exists(): record = workspace / 'windows-terms-consent.json'
+    require(not record.is_symlink() and record.is_file(), 'runtime_windows_terms_consent')
+    return read_json(record)
+
+
 def recipe_match(root, receipt, recipe):
     require(receipt['runtime_id'] == recipe['runtime_id'], 'runtime_recipe_identity')
     for layer in receipt['layers']:
@@ -247,9 +260,9 @@ def client_preflight(workspace, candidate_agent, clients):
     require(receipt['runtime_id'] == chosen['runtime_id'] and receipt['platform'] == host_requirements(), 'runtime_selection_identity')
     recipe_match(chosen['root'], receipt, recipe)
     if receipt['platform'] == 'windows-x64':
-        consent = Path(workspace) / 'windows-terms-consent.json'
-        require(not consent.is_symlink() and consent.is_file(), 'runtime_windows_terms_consent')
-        windows_terms_check(receipt['platform'], recipe, read_json(consent), source_root=candidate_agent)
+        digest = windows_terms_identity(recipe, source_root=candidate_agent)
+        consent = windows_terms_record(workspace, digest)
+        windows_terms_check(receipt['platform'], recipe, consent, source_root=candidate_agent)
     return {'candidate': chosen, 'previous': read_json(selection) if selection.exists() else None,
             'selection_changed': False, 'limits': 'Native activation must preserve previous selection until package and runtime checks pass; rollback excludes client data.'}
 

@@ -128,7 +128,7 @@
   },
   "windows_terms": {
     "path": "references/windows-terms.md",
-    "sha256": "92d20ac36344d09331b67d00b8214fbc5fba34dadd91899a33cbe03ca58c6ccf",
+    "sha256": "15263b7437f41cb301385bd1b8b85d5ea48efa96bc787a7d29d46c217937a135",
     "python_license_sha256": "886a0ead2d89030ee62dbff52b04e47ab91998341295bb9c56fb952b4e081c7a"
   }
 }

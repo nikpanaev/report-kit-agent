@@ -4,6 +4,7 @@ import io
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tarfile
@@ -183,6 +184,98 @@ class PortableRuntime(unittest.TestCase):
             record.write_text(json.dumps(consent), encoding='utf-8')
             runtime.client_preflight(self.workspace, candidate, {})
         self.assertEqual(selection.read_bytes(), before)
+
+    def test_new_terms_and_failed_update_preserve_old_consent(self):
+        candidate, old_recipe, old_consent, staged, script = self.windows_fixture()
+        chosen = {'runtime_id': 'fixture-v1', 'root': str(self.root / 'win'), 'receipt_sha256': staged['receipt_sha256']}
+        selection = self.workspace / 'runtime-selection.json'; selection.write_text(json.dumps(chosen), encoding='utf-8')
+        legacy = self.workspace / 'windows-terms-consent.json'; legacy.write_text(json.dumps(old_consent), encoding='utf-8')
+        original = legacy.read_bytes(); terms = candidate / 'references/windows-terms.md'; old_terms = terms.read_bytes()
+        history = self.workspace / 'windows-terms-consents'; history.mkdir()
+        terms.write_bytes(b'Synthetic revised obligations')
+        new_consent = dict(old_consent, terms_sha256=updates.identity_file(terms))
+        new_record = history / (new_consent['terms_sha256'] + '.json')
+        new_record.write_text(json.dumps(new_consent), encoding='utf-8')
+        new_recipe = json.loads(json.dumps(old_recipe)); new_recipe['windows_terms']['sha256'] = new_consent['terms_sha256']
+        (candidate / 'assets/runtime-recipe.json').write_text(json.dumps(new_recipe), encoding='utf-8')
+        with patch.object(runtime, 'host_requirements', return_value='windows-x64'):
+            runtime_plan = runtime.client_preflight(self.workspace, candidate, {})
+            old_pair = {n: {'version': '0.1.0-dev.1', 'package_sha256': '0'*64} for n in ['report-kit-agent', 'report-kit-skills']}
+            new_pair = {n: {'version': '0.1.0-dev.2', 'package_sha256': '1'*64} for n in old_pair}
+            plan = {'status': 'READY_FOR_REVIEW', 'current': old_pair, 'candidate': new_pair, 'runtime': runtime_plan}
+            saved = {'packages': old_pair, 'verified': True, 'source_locator': 'synthetic-native-result', 'runtime_selection': chosen}
+            result = updates.activation_result(plan, saved, new_pair, False, loaded_runtime=chosen)
+            self.assertEqual(result['status'], 'ROLLBACK_REQUIRED')
+            self.assertEqual(result['selected_runtime'], chosen)
+            terms.write_bytes(old_terms)
+            (candidate / 'assets/runtime-recipe.json').write_text(json.dumps(old_recipe), encoding='utf-8')
+            runtime.client_preflight(self.workspace, candidate, {})
+            accepted = runtime.windows_terms_record(self.workspace, old_consent['terms_sha256'])
+            with patch.object(runtime, 'ROOT', candidate):
+                command = runtime.execution_plan(self.root / 'win', staged['receipt_sha256'], candidate,
+                    identity(candidate), script, [], terms_acceptance=accepted)
+            self.assertFalse(command['execution_authorized'])
+        self.assertEqual(legacy.read_bytes(), original)
+        self.assertEqual(json.loads(new_record.read_text(encoding='utf-8')), new_consent)
+
+    def test_consent_history_selects_exact_hash_and_does_not_hide_invalid_record(self):
+        candidate, recipe, consent, _, _ = self.windows_fixture()
+        legacy = self.workspace / 'windows-terms-consent.json'; legacy.write_text(json.dumps(consent), encoding='utf-8')
+        history = self.workspace / 'windows-terms-consents'; history.mkdir()
+        current = history / (consent['terms_sha256'] + '.json')
+        other = history / ('0'*64 + '.json'); other.write_text(json.dumps(dict(consent, terms_sha256='0'*64)), encoding='utf-8')
+        self.assertEqual(runtime.windows_terms_record(self.workspace, consent['terms_sha256']), consent)
+        current.write_text(json.dumps(dict(consent, accepted=False)), encoding='utf-8')
+        with self.assertRaisesRegex(ValueError, 'runtime_windows_terms_consent'):
+            runtime.windows_terms_check('windows-x64', recipe,
+                runtime.windows_terms_record(self.workspace, consent['terms_sha256']), source_root=candidate)
+        current.write_text('{broken', encoding='utf-8')
+        with self.assertRaises(ValueError): runtime.windows_terms_record(self.workspace, consent['terms_sha256'])
+        current.write_text(json.dumps(consent), encoding='utf-8')
+        self.assertEqual(runtime.windows_terms_record(self.workspace, consent['terms_sha256']), consent)
+        self.assertEqual(json.loads(legacy.read_text(encoding='utf-8')), consent)
+        with self.assertRaises(ValueError): runtime.windows_terms_record(self.workspace, '../escape')
+
+    def test_consent_history_refuses_links(self):
+        _, _, consent, _, _ = self.windows_fixture()
+        legacy = self.workspace / 'windows-terms-consent.json'; legacy.write_text(json.dumps(consent), encoding='utf-8')
+        history = self.workspace / 'windows-terms-consents'; history.write_text('broken directory', encoding='utf-8')
+        with self.assertRaises(ValueError): runtime.windows_terms_record(self.workspace, consent['terms_sha256'])
+        history.unlink()
+        try: history.symlink_to(self.root / 'outside', target_is_directory=True)
+        except OSError: self.skipTest('Native symbolic-link permission unavailable')
+        with self.assertRaises(ValueError): runtime.windows_terms_record(self.workspace, consent['terms_sha256'])
+        history.unlink(); history.mkdir()
+        record = history / (consent['terms_sha256'] + '.json'); record.symlink_to(legacy)
+        with self.assertRaises(ValueError): runtime.windows_terms_record(self.workspace, consent['terms_sha256'])
+
+    def test_bootstrap_diagnostics_are_allowlisted_and_windows_source_is_utf8(self):
+        script = runtime.ROOT / 'scripts/bootstrap_runtime.ps1'
+        self.assertTrue(script.read_bytes().startswith(b'\xef\xbb\xbf'))
+        text = script.read_text(encoding='utf-8-sig'); catch = text.split('} catch {', 1)[1].split('} finally {', 1)[0]
+        self.assertIn("'RUNTIME_WINDOWS_TERMS_CONSENT_REQUIRED' =", catch)
+        self.assertIn("'RUNTIME_CHECKSUM_FAILED' =", catch)
+        self.assertIn('$messages.ContainsKey($code)', catch)
+        self.assertIn("$code = 'RUNTIME_BOOTSTRAP_FAILED'", catch)
+        self.assertIn("[Console]::Error.WriteLine(('{0}: {1}' -f $code, $messages[$code]))", catch)
+
+    @unittest.skipUnless(shutil.which('pwsh') or (os.name == 'nt' and shutil.which('powershell.exe')), 'Native PowerShell unavailable; Windows user check remains required')
+    def test_native_bootstrap_reports_safe_codes_without_system_changes(self):
+        executable = shutil.which('pwsh') or shutil.which('powershell.exe')
+        script = runtime.ROOT / 'scripts/bootstrap_runtime.ps1'
+        def invoke(path, args, code):
+            result = subprocess.run([executable, '-NoProfile', '-NonInteractive', '-File', str(path), *args], capture_output=True, timeout=20)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn(code.encode(), result.stderr)
+            self.assertNotIn(b'private-marker-', result.stderr)
+        invoke(script, [], 'RUNTIME_PERMISSION_REQUIRED')
+        invoke(script, ['-Approved'], 'RUNTIME_WINDOWS_TERMS_CONSENT_REQUIRED')
+        recipe = json.loads((runtime.ROOT / 'assets/runtime-recipe.json').read_text(encoding='utf-8'))
+        invoke(script, ['-Approved', '-TermsAcceptedSha256', recipe['windows_terms']['sha256'],
+                       '-TermsResponseLocator', 'synthetic-user-reply'], 'RUNTIME_HASH_INVALID')
+        isolated = self.root / 'private-marker-missing-recipe'; isolated.mkdir()
+        copy = isolated / 'bootstrap.ps1'; copy.write_bytes(script.read_bytes())
+        invoke(copy, ['-Approved'], 'RUNTIME_BOOTSTRAP_FAILED')
 
     def test_windows_python_license_and_bootstrap_contract(self):
         candidate, recipe, _, _, _ = self.windows_fixture()

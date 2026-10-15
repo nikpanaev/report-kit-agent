@@ -1,4 +1,4 @@
-param([switch]$Approved, [string]$Archive, [string]$Sha256, [string]$Destination,
+﻿param([switch]$Approved, [string]$Archive, [string]$Sha256, [string]$Destination,
       [string]$TermsAcceptedSha256, [string]$TermsResponseLocator)
 $ErrorActionPreference = 'Stop'
 $madeTemp = $false
@@ -52,7 +52,16 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'RUNTIME_EXTRACTION' }
     Write-Output 'RUNTIME_CORE_EXTRACTED_NOT_ACTIVATED'
 } catch {
-    Write-Error 'Не удалось подготовить компонент Report Kit. Код RUNTIME_BOOTSTRAP_FAILED. Передайте этот код поддержке.'
+    $messages = @{
+        'RUNTIME_PERMISSION_REQUIRED' = 'Нужно разрешение на подготовку компонентов. Агент объяснит действие; защиту отключать не нужно.'
+        'RUNTIME_WINDOWS_TERMS_CONSENT_REQUIRED' = 'Нужно согласие с текущими условиями. Агент покажет их и дождётся вашего ответа. Достаточно ответить «да».'
+        'RUNTIME_HASH_INVALID' = 'Не хватает правильной контрольной суммы. Агент повторно проверит сведения о выпуске.'
+        'RUNTIME_CHECKSUM_FAILED' = 'Файл не совпал с проверенной копией. Агент повторит безопасное скачивание; прежняя среда сохранена.'
+        'RUNTIME_BOOTSTRAP_FAILED' = 'Не удалось подготовить компоненты. Попросите агента подготовить файл для поддержки.'
+    }
+    $code = $_.Exception.Message
+    if (-not $messages.ContainsKey($code)) { $code = 'RUNTIME_BOOTSTRAP_FAILED' }
+    [Console]::Error.WriteLine(('{0}: {1}' -f $code, $messages[$code]))
     exit 1
 } finally {
     if ($madeTemp -and $copy -and (Test-Path -LiteralPath $copy)) { Remove-Item -LiteralPath $copy }
