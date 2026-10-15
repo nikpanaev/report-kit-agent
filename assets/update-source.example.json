@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "agent_repository": null,
-  "skills_repository": null,
-  "channel": "working",
+  "agent_repository": "https://github.com/nikpanaev/report-kit-agent",
+  "skills_repository": "https://github.com/nikpanaev/report-kit-skills",
+  "channel": "preview",
   "interval_hours": 24
 }

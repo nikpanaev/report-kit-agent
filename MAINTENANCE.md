@@ -8,7 +8,7 @@ report-kit-agent — source of truth общих правил и orchestration н
 
 Сотруднику отдавать reviewed pair, не arbitrary main snapshots. Private workspaces/auth maps/sessions, owner client rules и completed reports остаются вне обновления. Не объявлять package hashes автоматическим invocation, подписью автора или live compatibility.
 
-До public release: проверка сторонних лицензий/уведомлений, независимый QA/security, реальные URLs и target-device install/update/rollback. Public Git author metadata тоже не содержит личный email; использовать согласованную публичную identity. При подготовке архивов/пакетов включать только exact source inventory, не .git, tool caches или ignored локальные данные.
+До выпуска готовой среды: закрыть применимые сторонние лицензии/уведомления и независимый QA/security. Публичные адреса исходников заданы; установка, обновление и возврат на устройстве остаются отдельной проверкой. Открытие исходников не объявляет эти проверки пройденными. Public Git author metadata тоже не содержит личный email; использовать согласованную публичную identity. При подготовке архивов/пакетов включать только exact source inventory, не .git, tool caches или ignored локальные данные.
 
 Сопровождение employee runtime: [contract](references/maintenance.md), report-kit-maintenance и scripts/maintenance.py. Единственный источник ролей/grants/incidents — private workspace; source repos не сохраняют bindings/callback историю. Компонент candidate исправляется в отдельной разрешённой branch, а installed/cache activation проходит compatible native update. SOURCE_FACT/JSON receipt/hash не независимое доказательство human authority или actual replay. Новый скилл включается в catalog, role registry и regression matrix без копирования старых адресов.
 

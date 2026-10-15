@@ -6,7 +6,7 @@
 
 Обновляются package инструкции и код, не клиентские данные/отчёты. Проверка наличия новых версий не разрешает установка, выполнение downloaded hooks или переход на main.
 
-- Между отчётами проверить утверждённый source/release, exact agent version и совместимую report-kit-skills identity. Пока public source не задан, использовать явно выбранные локальные копии; не придумывать URL, release signature или signer trust.
+- Между отчётами проверить утверждённый source/release, exact agent version и совместимую report-kit-skills identity. Официальные адреса заданы в assets/update-source.example.json; проверить исходный GitHub-источник и наличие опубликованной пары. Пока выпуска нет, не устанавливать main, не придумывать release signature или signer trust.
 - Показать diff, changed capabilities/permissions, известные ограничения, проверенные license/provenance и связанные версии. Secrets/auth/provider/updater изменения требуют отдельного review. Hash доказывает совпадение, не доверенность автора.
 - Проверить действующее разовое либо compatible согласие без повторного вопроса, сохранить old package identities и локальную возможность отката. Native plugin installation route предпочтительнее собственного updater. Не запускать update посередине активного run.
 - Package read-only; workspace path отделён. Не делать массовый search/replace профилей. Новый общий процесс не отменяет принятые клиентские правила и не мигрирует workspace schema автоматически.
@@ -18,7 +18,7 @@ Distribution URLs, release signing/hosting и live update/rollback на ново
 
 ## Обнаружение версии
 
-Читай approved source через доступный native GitHub/HTTP tool. assets/update-source.example.json не настроен: null URLs означают CONFIGURE_SOURCE, не догадку об upstream. Проверенные сопровождающим настоящие URLs и согласованный канал сохраняются только в private workspace. Общий release index как asset опубликованного report-kit-agent release содержит exact pair обоих packages; assets/release-index.example.json пустой. Пока публикации нет, локальные synthetic fixtures не считать published release.
+Читай approved source через доступный native GitHub/HTTP tool. assets/update-source.example.json содержит официальные адреса двух репозиториев и канал preview; используй его как предложенный источник при первой настройке. Подтверждённый источник и выбранный режим обновлений сохраняй в private workspace. Для другой организации или зеркала источник согласуется отдельно; null URLs по-прежнему означают CONFIGURE_SOURCE. Общий release index как asset опубликованного report-kit-agent release содержит exact pair обоих packages; assets/release-index.example.json пустой. Созданный репозиторий и его main не являются опубликованным выпуском. Если выпуска или его указателя нет, сохрани незавершённый шаг и сообщи: «Готовый выпуск ещё не опубликован. Сохраню настройку, чтобы продолжить позже». Локальные synthetic fixtures не считать published release.
 
 Проверка перед работой: scripts/updates.py due с локальными source/checked_at, не чаще24ч. USE_CACHE/отсутствие новой версии — без сообщения; KEEP_CURRENT_OFFLINE сохраняет текущий комплект. При отозванном текущем релизе, нарушенной identity или необходимом действии сообщить конкретную проблему. Нет daemon/фоновой проверки при закрытом приложении. Helper не загружает сеть, не запускает downloaded code и не записывает время: native результат проверки и timestamp сохраняет исполнитель приватно.
 
